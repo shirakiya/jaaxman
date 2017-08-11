@@ -42,6 +42,8 @@ if RUN_MODE == RUN_MODE_PRODUCTION:
     DEBUG = False
 elif RUN_MODE == RUN_MODE_DEVELOPMENT:
     DEBUG = True
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
