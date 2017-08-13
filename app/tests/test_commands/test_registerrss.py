@@ -4,7 +4,7 @@ from app.tests.base_testcase import BaseTestCase
 from app.models import RssFetchSubject
 
 
-class RegistRssTestCase(BaseTestCase):
+class RegisterRssTestCase(BaseTestCase):
 
     def test_handle_when_rss_fetch_subjects_are_empty(self):
         out = StringIO()

@@ -16,3 +16,10 @@ class RssFetchHistory(models.Model):
     date = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False)
+
+    @classmethod
+    def exists(cls, rss_fetch_subject_id, date):
+        return bool(cls.objects.filter(
+            rss_fetch_subject_id=rss_fetch_subject_id,
+            date=date,
+        ).first())

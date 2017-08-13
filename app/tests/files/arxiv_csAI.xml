@@ -1,0 +1,221 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/">
+<channel rdf:about="http://arxiv.org/">
+<title>cs.AI updates on arXiv.org</title>
+<link>http://arxiv.org/</link>
+<description rdf:parseType="Literal">
+Computer Science -- Artificial Intelligence (cs.AI) updates on the arXiv.org e-print archive
+</description>
+<dc:language>en-us</dc:language>
+<dc:date>2017-08-10T20:30:00-05:00</dc:date>
+<dc:publisher>help@arxiv.org</dc:publisher>
+<dc:subject>Computer Science -- Artificial Intelligence</dc:subject>
+<syn:updateBase>1901-01-01T00:00+00:00</syn:updateBase>
+<syn:updateFrequency>1</syn:updateFrequency>
+<syn:updatePeriod>daily</syn:updatePeriod>
+<items>
+<rdf:Seq>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.02940"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.02977"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03019"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03044"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03080"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03151"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03209"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03229"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03246"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03259"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03309"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1708.03310"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1412.1913"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1703.01720"/>
+<rdf:li rdf:resource="http://arxiv.org/abs/1705.00594"/>
+</rdf:Seq>
+</items>
+<image rdf:resource="http://arxiv.org/icons/sfx.gif"/>
+</channel>
+<image rdf:about="http://arxiv.org/icons/sfx.gif">
+<title>arXiv.org</title>
+<url>http://arxiv.org/icons/sfx.gif</url>
+<link>http://arxiv.org/</link>
+</image>
+<item rdf:about="http://arxiv.org/abs/1708.02940">
+<title>
+Role of Secondary Attributes to Boost the Prediction Accuracy of Students Employability Via Data Mining. (arXiv:1708.02940v1 [cs.CY])
+</title>
+<link>http://arxiv.org/abs/1708.02940</link>
+<description rdf:parseType="Literal">
+<p>Data Mining is best-known for its analytical and prediction capabilities. It is used in several areas such as fraud detection, predicting client behavior, money market behavior, bankruptcy prediction. It can also help in establishing an educational ecosystem, which discovers useful knowledge, and assist educators to take proactive decisions to boost student performance and employability. This paper presents an empirical study that compares varied classification algorithms on two datasets of MCA (Masters in Computer Applications) students collected from various affiliated colleges of a reputed state university in India. One dataset includes only primary attributes, whereas other dataset is feeded with secondary psychometric attributes in it. The results showcase that solely primary academic attributes do not lead to smart prediction accuracy of students employability, once they square measure within the initial year of their education. The study analyzes and stresses the role of secondary psychometric attributes for better prediction accuracy and analysis of students performance. Timely prediction and analysis of students performance can help Management, Teachers and Students to work on their gray areas for better results and employment opportunities. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Thakar_P/0/1/0/all/0/1">Pooja Thakar</a>, <a href="http://arxiv.org/find/cs/1/au:+Mehta_A/0/1/0/all/0/1">Anil Mehta</a>, <a href="http://arxiv.org/find/cs/1/au:+Manisha/0/1/0/all/0/1">Manisha</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.02977">
+<title>
+Hierarchically-Attentive RNN for Album Summarization and Storytelling. (arXiv:1708.02977v1 [cs.CL])
+</title>
+<link>http://arxiv.org/abs/1708.02977</link>
+<description rdf:parseType="Literal">
+<p>We address the problem of end-to-end visual storytelling. Given a photo album, our model first selects the most representative (summary) photos, and then composes a natural language story for the album. For this task, we make use of the Visual Storytelling dataset and a model composed of three hierarchically-attentive Recurrent Neural Nets (RNNs) to: encode the album photos, select representative (summary) photos, and compose the story. Automatic and human evaluations show our model achieves better performance on selection, generation, and retrieval than baselines. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Yu_L/0/1/0/all/0/1">Licheng Yu</a>, <a href="http://arxiv.org/find/cs/1/au:+Bansal_M/0/1/0/all/0/1">Mohit Bansal</a>, <a href="http://arxiv.org/find/cs/1/au:+Berg_T/0/1/0/all/0/1">Tamara L. Berg</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03019">
+<title>
+Addendum to: Summary Information for Reasoning About Hierarchical Plans. (arXiv:1708.03019v1 [cs.AI])
+</title>
+<link>http://arxiv.org/abs/1708.03019</link>
+<description rdf:parseType="Literal">
+<p>Hierarchically structured agent plans are important for efficient planning and acting, and they also serve (among other things) to produce "richer" classical plans, composed not just of a sequence of primitive actions, but also "abstract" ones representing the supplied hierarchies. A crucial step for this and other approaches is deriving precondition and effect "summaries" from a given plan hierarchy. This paper provides mechanisms to do this for more pragmatic and conventional hierarchies than in the past. To this end, we formally define the notion of a precondition and an effect for a hierarchical plan; we present data structures and algorithms for automatically deriving this information; and we analyse the properties of the presented algorithms. We conclude the paper by detailing how our algorithms may be used together with a classical planner in order to obtain abstract plans. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Silva_L/0/1/0/all/0/1">Lavindra de Silva</a>, <a href="http://arxiv.org/find/cs/1/au:+Sardina_S/0/1/0/all/0/1">Sebastian Sardina</a>, <a href="http://arxiv.org/find/cs/1/au:+Padgham_L/0/1/0/all/0/1">Lin Padgham</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03044">
+<title>
+"Is there anything else I can help you with?": Challenges in Deploying an On-Demand Crowd-Powered Conversational Agent. (arXiv:1708.03044v1 [cs.HC])
+</title>
+<link>http://arxiv.org/abs/1708.03044</link>
+<description rdf:parseType="Literal">
+<p>Intelligent conversational assistants, such as Apple's Siri, Microsoft's Cortana, and Amazon's Echo, have quickly become a part of our digital life. However, these assistants have major limitations, which prevents users from conversing with them as they would with human dialog partners. This limits our ability to observe how users really want to interact with the underlying system. To address this problem, we developed a crowd-powered conversational assistant, Chorus, and deployed it to see how users and workers would interact together when mediated by the system. Chorus sophisticatedly converses with end users over time by recruiting workers on demand, which in turn decide what might be the best response for each user sentence. Up to the first month of our deployment, 59 users have held conversations with Chorus during 320 conversational sessions. In this paper, we present an account of Chorus' deployment, with a focus on four challenges: (i) identifying when conversations are over, (ii) malicious users and workers, (iii) on-demand recruiting, and (iv) settings in which consensus is not enough. Our observations could assist the deployment of crowd-powered conversation systems and crowd-powered systems in general. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Huang_T/0/1/0/all/0/1">Ting-Hao Kenneth Huang</a>, <a href="http://arxiv.org/find/cs/1/au:+Lasecki_W/0/1/0/all/0/1">Walter S. Lasecki</a>, <a href="http://arxiv.org/find/cs/1/au:+Azaria_A/0/1/0/all/0/1">Amos Azaria</a>, <a href="http://arxiv.org/find/cs/1/au:+Bigham_J/0/1/0/all/0/1">Jeffrey P. Bigham</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03080">
+<title>
+A Simple and Realistic Pedestrian Model for Crowd Simulation and Application. (arXiv:1708.03080v1 [cs.MA])
+</title>
+<link>http://arxiv.org/abs/1708.03080</link>
+<description rdf:parseType="Literal">
+<p>The simulation of pedestrian crowd that reflects reality is a major challenge for researches. Several crowd simulation models have been proposed such as cellular automata model, agent-based model, fluid dynamic model, etc. It is important to note that agent-based model is able, over others approaches, to provide a natural description of the system and then to capture complex human behaviors. In this paper, we propose a multi-agent simulation model in which pedestrian positions are updated at discrete time intervals. It takes into account the major normal conditions of a simple pedestrian situated in a crowd such as preferences, realistic perception of environment, etc. Our objective is to simulate the pedestrian crowd realistically towards a simulation of believable pedestrian behaviors. Typical pedestrian phenomena, including the unidirectional and bidirectional movement in a corridor as well as the flow through bottleneck, are simulated. The conducted simulations show that our model is able to produce realistic pedestrian behaviors. The obtained fundamental diagram and flow rate at bottleneck agree very well with classic conclusions and empirical study results. It is hoped that the idea of this study may be helpful in promoting the modeling and simulation of pedestrian crowd in a simple way. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Kang_W/0/1/0/all/0/1">Wonho Kang</a>, <a href="http://arxiv.org/find/cs/1/au:+Han_Y/0/1/0/all/0/1">Youngnam Han</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03151">
+<title>
+The Static and Stochastic VRPTW with both random Customers and Reveal Times: algorithms and recourse strategies. (arXiv:1708.03151v1 [cs.AI])
+</title>
+<link>http://arxiv.org/abs/1708.03151</link>
+<description rdf:parseType="Literal">
+<p>Unlike its deterministic counterpart, static and stochastic vehicle routing problems (SS-VRP) aim at modeling and solving real-life operational problems by considering uncertainty on data. We consider the SS-VRPTW-CR introduced in Saint-Guillain et al. (2017). Like the SS-VRP introduced by Bertsimas (1992), we search for optimal first stage routes for a fleet of vehicles to handle a set of stochastic customer demands, i.e., demands are uncertain and we only know their probabilities. In addition to capacity constraints, customer demands are also constrained by time windows. Unlike all SS-VRP variants, the SS-VRPTW-CR does not make any assumption on the time at which a stochastic demand is revealed, i.e., the reveal time is stochastic as well. To handle this new problem, we introduce waiting locations: Each vehicle is assigned a sequence of waiting locations from which it may serve some associated demands, and the objective is to minimize the expected number of demands that cannot be satisfied in time. In this paper, we propose two new recourse strategies for the SS-VRPTW-CR, together with their closed-form expressions for efficiently computing their expectations: The first one allows us to take vehicle capacities into account; The second one allows us to optimize routes by avoiding some useless trips. We propose two algorithms for searching for routes with optimal expected costs: The first one is an extended branch-and-cut algorithm, based on a stochastic integer formulation, and the second one is a local search based heuristic method. We also introduce a new public benchmark for the SS-VRPTW-CR, based on real-world data coming from the city of Lyon. We evaluate our two algorithms on this benchmark and empirically demonstrate the expected superiority of the SS-VRPTW-CR anticipative actions over a basic "wait-and-serve" policy. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Saint_Guillain_M/0/1/0/all/0/1">Michael Saint-Guillain</a>, <a href="http://arxiv.org/find/cs/1/au:+Solnon_C/0/1/0/all/0/1">Christine Solnon</a>, <a href="http://arxiv.org/find/cs/1/au:+Deville_Y/0/1/0/all/0/1">Yves Deville</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03209">
+<title>
+Tosca: Operationalizing Commitments Over Information Protocols. (arXiv:1708.03209v1 [cs.AI])
+</title>
+<link>http://arxiv.org/abs/1708.03209</link>
+<description rdf:parseType="Literal">
+<p>The notion of commitment is widely studied as a high-level abstraction for modeling multiagent interaction. An important challenge is supporting flexible decentralized enactments of commitment specifications. In this paper, we combine recent advances on specifying commitments and information protocols. Specifically, we contribute Tosca, a technique for automatically synthesizing information protocols from commitment specifications. Our main result is that the synthesized protocols support commitment alignment, which is the idea that agents must make compatible inferences about their commitments despite decentralization. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+King_T/0/1/0/all/0/1">Thomas C. King</a>, <a href="http://arxiv.org/find/cs/1/au:+Gunay_A/0/1/0/all/0/1">Ak&#x131;n G&#xfc;nay</a>, <a href="http://arxiv.org/find/cs/1/au:+Chopra_A/0/1/0/all/0/1">Amit K. Chopra</a>, <a href="http://arxiv.org/find/cs/1/au:+Singh_M/0/1/0/all/0/1">Munindar P. Singh</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03229">
+<title>
+Automatic Selection of t-SNE Perplexity. (arXiv:1708.03229v1 [cs.AI])
+</title>
+<link>http://arxiv.org/abs/1708.03229</link>
+<description rdf:parseType="Literal">
+<p>t-Distributed Stochastic Neighbor Embedding (t-SNE) is one of the most widely used dimensionality reduction methods for data visualization, but it has a perplexity hyperparameter that requires manual selection. In practice, proper tuning of t-SNE perplexity requires users to understand the inner working of the method as well as to have hands-on experience. We propose a model selection objective for t-SNE perplexity that requires negligible extra computation beyond that of the t-SNE itself. We empirically validate that the perplexity settings found by our approach are consistent with preferences elicited from human experts across a number of datasets. The similarities of our approach to Bayesian information criteria (BIC) and minimum description length (MDL) are also analyzed. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Cao_Y/0/1/0/all/0/1">Yanshuai Cao</a>, <a href="http://arxiv.org/find/cs/1/au:+Wang_L/0/1/0/all/0/1">Luyu Wang</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03246">
+<title>
+SESA: Supervised Explicit Semantic Analysis. (arXiv:1708.03246v1 [cs.CL])
+</title>
+<link>http://arxiv.org/abs/1708.03246</link>
+<description rdf:parseType="Literal">
+<p>In recent years supervised representation learning has provided state of the art or close to the state of the art results in semantic analysis tasks including ranking and information retrieval. The core idea is to learn how to embed items into a latent space such that they optimize a supervised objective in that latent space. The dimensions of the latent space have no clear semantics, and this reduces the interpretability of the system. For example, in personalization models, it is hard to explain why a particular item is ranked high for a given user profile. We propose a novel model of representation learning called Supervised Explicit Semantic Analysis (SESA) that is trained in a supervised fashion to embed items to a set of dimensions with explicit semantics. The model learns to compare two objects by representing them in this explicit space, where each dimension corresponds to a concept from a knowledge base. This work extends Explicit Semantic Analysis (ESA) with a supervised model for ranking problems. We apply this model to the task of Job-Profile relevance in LinkedIn in which a set of skills defines our explicit dimensions of the space. Every profile and job are encoded to this set of skills their similarity is calculated in this space. We use RNNs to embed text input into this space. In addition to interpretability, our model makes use of the web-scale collaborative skills data that is provided by users for each LinkedIn profile. Our model provides state of the art result while it remains interpretable. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Bogdanova_D/0/1/0/all/0/1">Dasha Bogdanova</a>, <a href="http://arxiv.org/find/cs/1/au:+Yazdani_M/0/1/0/all/0/1">Majid Yazdani</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03259">
+<title>
+Preference fusion and Condorcet's Paradox under uncertainty. (arXiv:1708.03259v1 [cs.AI])
+</title>
+<link>http://arxiv.org/abs/1708.03259</link>
+<description rdf:parseType="Literal">
+<p>Facing an unknown situation, a person may not be able to firmly elicit his/her preferences over different alternatives, so he/she tends to express uncertain preferences. Given a community of different persons expressing their preferences over certain alternatives under uncertainty, to get a collective representative opinion of the whole community, a preference fusion process is required. The aim of this work is to propose a preference fusion method that copes with uncertainty and escape from the Condorcet paradox. To model preferences under uncertainty, we propose to develop a model of preferences based on belief function theory that accurately describes and captures the uncertainty associated with individual or collective preferences. This work improves and extends the previous results. This work improves and extends the contribution presented in a previous work. The benefits of our contribution are twofold. On the one hand, we propose a qualitative and expressive preference modeling strategy based on belief-function theory which scales better with the number of sources. On the other hand, we propose an incremental distance-based algorithm (using Jousselme distance) for the construction of the collective preference order to avoid the Condorcet Paradox. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Zhang_Y/0/1/0/all/0/1">Yiru Zhang</a> (1), <a href="http://arxiv.org/find/cs/1/au:+Bouadi_T/0/1/0/all/0/1">Tassadit Bouadi</a> (1), <a href="http://arxiv.org/find/cs/1/au:+Martin_A/0/1/0/all/0/1">Arnaud Martin</a> (1) ((1) DRUID, UR1)
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03309">
+<title>
+Systematic Testing of Convolutional Neural Networks for Autonomous Driving. (arXiv:1708.03309v1 [cs.CV])
+</title>
+<link>http://arxiv.org/abs/1708.03309</link>
+<description rdf:parseType="Literal">
+<p>We present a framework to systematically analyze convolutional neural networks (CNNs) used in classification of cars in autonomous vehicles. Our analysis procedure comprises an image generator that produces synthetic pictures by sampling in a lower dimension image modification subspace and a suite of visualization tools. The image generator produces images which can be used to test the CNN and hence expose its vulnerabilities. The presented framework can be used to extract insights of the CNN classifier, compare across classification models, or generate training and validation datasets. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Dreossi_T/0/1/0/all/0/1">Tommaso Dreossi</a>, <a href="http://arxiv.org/find/cs/1/au:+Ghosh_S/0/1/0/all/0/1">Shromona Ghosh</a>, <a href="http://arxiv.org/find/cs/1/au:+Sangiovanni_Vincentelli_A/0/1/0/all/0/1">Alberto Sangiovanni-Vincentelli</a>, <a href="http://arxiv.org/find/cs/1/au:+Seshia_S/0/1/0/all/0/1">Sanjit A. Seshia</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1708.03310">
+<title>
+Thinking Fast, Thinking Slow! Combining Knowledge Graphs and Vector Spaces. (arXiv:1708.03310v1 [cs.AI])
+</title>
+<link>http://arxiv.org/abs/1708.03310</link>
+<description rdf:parseType="Literal">
+<p>Knowledge graphs and vector space models are both robust knowledge representation techniques with their individual strengths and weaknesses. Vector space models excel at determining similarity between concepts, but they are severely constrained when evaluating complex dependency relations and other logic based operations that are a forte of knowledge graphs. In this paper, we propose the V-KG structure that helps us unify knowledge graphs and vector representation of entities, and allows us to develop powerful inference methods and search capabilities that combine their complementary strengths. We analogize this to thinking `fast' in vector space along with thinking `deeply' and `slowly' by reasoning over the knowledge graph. </p> <p>We have also created a query processing engine that takes complex queries and decomposes them into subqueries optimized to run on the respective knowledge graph part or the vector part of V-KG. We show that the V-KG structure can process specific queries that are not efficiently handled by vector spaces or knowledge graphs alone. </p> <p>We also demonstrate and evaluate the V-KG structure and the query processing engine by developing a system called Cyber-All-Intel for knowledge extraction, representation and querying in an end-to-end pipeline grounded in the cybersecurity informatics domain. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Mittal_S/0/1/0/all/0/1">Sudip Mittal</a>, <a href="http://arxiv.org/find/cs/1/au:+Joshi_A/0/1/0/all/0/1">Anupam Joshi</a>, <a href="http://arxiv.org/find/cs/1/au:+Finin_T/0/1/0/all/0/1">Tim Finin</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1412.1913">
+<title>
+A Portfolio Approach to Algorithm Selection for Discrete Time-Cost Trade-off Problem. (arXiv:1412.1913v2 [cs.AI] UPDATED)
+</title>
+<link>http://arxiv.org/abs/1412.1913</link>
+<description rdf:parseType="Literal">
+<p>It is a known fact that the performance of optimization algorithms for NP-Hard problems vary from instance to instance. We observed the same trend when we comprehensively studied multi-objective evolutionary algorithms (MOEAs) on a six benchmark instances of discrete time-cost trade-off problem (DTCTP) in a construction project. In this paper, instead of using a single algorithm to solve DTCTP, we use a portfolio approach that takes multiple algorithms as its constituent. We proposed portfolio comprising of four MOEAs, Non-dominated Sorting Genetic Algorithm II (NSGA-II), the strength Pareto Evolutionary Algorithm II (SPEA-II), Pareto archive evolutionary strategy (PAES) and Niched Pareto Genetic Algorithm II (NPGA-II) to solve DTCTP. The result shows that the portfolio approach is computationally fast and qualitatively superior to its constituent algorithms for all benchmark instances. Moreover, portfolio approach provides an insight in selecting the best algorithm for all benchmark instances of DTCTP. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Mungle_S/0/1/0/all/0/1">Santosh Mungle</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1703.01720">
+<title>
+Sound-Word2Vec: Learning Word Representations Grounded in Sounds. (arXiv:1703.01720v3 [cs.CL] UPDATED)
+</title>
+<link>http://arxiv.org/abs/1703.01720</link>
+<description rdf:parseType="Literal">
+<p>To be able to interact better with humans, it is crucial for machines to understand sound - a primary modality of human perception. Previous works have used sound to learn embeddings for improved generic textual similarity assessment. In this work, we treat sound as a first-class citizen, studying downstream textual tasks which require aural grounding. To this end, we propose sound-word2vec - a new embedding scheme that learns specialized word embeddings grounded in sounds. For example, we learn that two seemingly (semantically) unrelated concepts, like leaves and paper are similar due to the similar rustling sounds they make. Our embeddings prove useful in textual tasks requiring aural reasoning like text-based sound retrieval and discovering foley sound effects (used in movies). Moreover, our embedding space captures interesting dependencies between words and onomatopoeia and outperforms prior work on aurally-relevant word relatedness datasets such as AMEN and ASLex. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Vijayakumar_A/0/1/0/all/0/1">Ashwin K Vijayakumar</a>, <a href="http://arxiv.org/find/cs/1/au:+Vedantam_R/0/1/0/all/0/1">Ramakrishna Vedantam</a>, <a href="http://arxiv.org/find/cs/1/au:+Parikh_D/0/1/0/all/0/1">Devi Parikh</a>
+</dc:creator>
+</item>
+<item rdf:about="http://arxiv.org/abs/1705.00594">
+<title>
+A System for Accessible Artificial Intelligence. (arXiv:1705.00594v2 [cs.AI] UPDATED)
+</title>
+<link>http://arxiv.org/abs/1705.00594</link>
+<description rdf:parseType="Literal">
+<p>While artificial intelligence (AI) has become widespread, many commercial AI systems are not yet accessible to individual researchers nor the general public due to the deep knowledge of the systems required to use them. We believe that AI has matured to the point where it should be an accessible technology for everyone. We present an ongoing project whose ultimate goal is to deliver an open source, user-friendly AI system that is specialized for machine learning analysis of complex data in the biomedical and health care domains. We discuss how genetic programming can aid in this endeavor, and highlight specific examples where genetic programming has automated machine learning analyses in previous projects. </p>
+</description>
+<dc:creator>
+<a href="http://arxiv.org/find/cs/1/au:+Olson_R/0/1/0/all/0/1">Randal S. Olson</a>, <a href="http://arxiv.org/find/cs/1/au:+Sipper_M/0/1/0/all/0/1">Moshe Sipper</a>, <a href="http://arxiv.org/find/cs/1/au:+Cava_W/0/1/0/all/0/1">William La Cava</a>, <a href="http://arxiv.org/find/cs/1/au:+Tartarone_S/0/1/0/all/0/1">Sharon Tartarone</a>, <a href="http://arxiv.org/find/cs/1/au:+Vitale_S/0/1/0/all/0/1">Steven Vitale</a>, <a href="http://arxiv.org/find/cs/1/au:+Fu_W/0/1/0/all/0/1">Weixuan Fu</a>, <a href="http://arxiv.org/find/cs/1/au:+Orzechowski_P/0/1/0/all/0/1">Patryk Orzechowski</a>, <a href="http://arxiv.org/find/cs/1/au:+Urbanowicz_R/0/1/0/all/0/1">Ryan J. Urbanowicz</a>, <a href="http://arxiv.org/find/cs/1/au:+Holmes_J/0/1/0/all/0/1">John H. Holmes</a>, <a href="http://arxiv.org/find/cs/1/au:+Moore_J/0/1/0/all/0/1">Jason H. Moore</a>
+</dc:creator>
+</item>
+</rdf:RDF>
