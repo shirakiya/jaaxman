@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 import requests
 from app.tests.base_testcase import BaseTestCase
 from app.exceptions import RssFetchError, RssParseError
-from app.models import RssFetchHistory, Paper
+from app.models import RssFetchHistory
 from app.lib.rss.arxiv import ArxivRss
 
 
@@ -81,18 +81,24 @@ class ArxivRssTestCase(BaseTestCase):
 
     @patch('app.lib.xml.arxiv.ArxivXml.get_date')
     @patch('app.lib.xml.arxiv.ArxivXml.get_paper_items')
-    def test_fetch_and_save_papers(self, m_get_paper_items, m_get_date):
+    @patch('app.lib.google_translator.GoogleTranslator.translate')
+    def test_fetch_and_save_papers(self, m_translate, m_get_paper_items, m_get_date):
         m_get_date.return_value = '2017-08-01T20:30:00-05:00'
         m_get_paper_items.return_value = [
             {
-                'paper': Paper(title='TITLE_0([cs.AI])', abstract='ABSTRACT_0', link='LINK_0'),
+                'title': 'TITLE_0([cs.AI])',
+                'abstract': 'ABSTRACT_0',
+                'link': 'LINK_0',
                 'authors': [],
             },
             {
-                'paper': Paper(title='TITLE_1([stat.ML])', abstract='ABSTRACT_1', link='LINK_1'),
+                'title': 'TITLE_1([stat.ML])',
+                'abstract': 'ABSTRACT_1',
+                'link': 'LINK_1',
                 'authors': [],
             },
         ]
+        m_translate.return_value = ['タイトル', '要約']
 
         arxiv_rss = ArxivRss(self.rss_fetch_subject)
         arxiv_rss.fetch = Mock(return_value='<rdf:RDF></rdf:RDF>')
@@ -103,9 +109,17 @@ class ArxivRssTestCase(BaseTestCase):
         self.assertEqual(len(result), 2)
         self.assertEqual(len(papers), 2)
         self.assertEqual(result, list(papers))
+
         self.assertEqual(result[0].title, 'TITLE_0([cs.AI])')
+        self.assertEqual(result[0].title_ja, 'タイトル')
+        self.assertEqual(result[0].abstract, 'ABSTRACT_0')
+        self.assertEqual(result[0].abstract_ja, '要約')
+        self.assertEqual(result[0].link, 'LINK_0')
         self.assertEqual(result[0].subject, 'cs.AI')
-        self.assertEqual(bool(result[0].title_ja), True)
+
         self.assertEqual(result[1].title, 'TITLE_1([stat.ML])')
+        self.assertEqual(result[1].title_ja, 'タイトル')
+        self.assertEqual(result[1].abstract, 'ABSTRACT_1')
+        self.assertEqual(result[1].abstract_ja, '要約')
+        self.assertEqual(result[1].link, 'LINK_1')
         self.assertEqual(result[1].subject, 'stat.ML')
-        self.assertEqual(bool(result[1].title_ja), True)

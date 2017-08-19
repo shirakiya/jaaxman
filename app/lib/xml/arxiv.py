@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from app.models import Paper
 
 
 class ArxivXml(object):
@@ -45,16 +44,4 @@ class ArxivXml(object):
         }
 
     def get_paper_items(self):
-        paper_items = []
-        for item in self.root.find_all('item'):
-            item_dict = self._parse_paper_item(item)
-            paper = Paper(
-                title=item_dict['title'],
-                abstract=item_dict['abstract'],
-                link=item_dict['link'],
-            )
-            paper_items.append({
-                'paper': paper,
-                'authors': item_dict['authors'],
-            })
-        return paper_items
+        return [self._parse_paper_item(item) for item in self.root.find_all('item')]

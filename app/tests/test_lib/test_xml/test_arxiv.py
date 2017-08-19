@@ -84,11 +84,21 @@ TITLE_1
         result = arxiv_xml.get_paper_items()
 
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[0]['paper'].title, 'TITLE_0')
-        self.assertEqual(result[0]['paper'].abstract, 'DESCRIPTION_0')
-        self.assertEqual(result[0]['paper'].link, 'LINK_0')
-        self.assertEqual(result[0]['authors'], [{'name': 'CREATOR_0', 'link': 'CREATOR_LINK_0'}])
-        self.assertEqual(result[1]['paper'].title, 'TITLE_1')
-        self.assertEqual(result[1]['paper'].abstract, 'DESCRIPTION_1')
-        self.assertEqual(result[1]['paper'].link, 'LINK_1')
-        self.assertEqual(result[1]['authors'], [{'name': 'CREATOR_1', 'link': 'CREATOR_LINK_1'}])
+        self.assertEqual(result[0], {
+            'title': 'TITLE_0',
+            'abstract': 'DESCRIPTION_0',
+            'link': 'LINK_0',
+            'authors': [{
+                'name': 'CREATOR_0',
+                'link': 'CREATOR_LINK_0',
+            }],
+        })
+        self.assertEqual(result[1], {
+            'title': 'TITLE_1',
+            'abstract': 'DESCRIPTION_1',
+            'link': 'LINK_1',
+            'authors': [{
+                'name': 'CREATOR_1',
+                'link': 'CREATOR_LINK_1',
+            }],
+        })

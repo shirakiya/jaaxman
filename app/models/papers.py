@@ -2,6 +2,7 @@ import re
 from django.db import models
 from jaaxman.logger import Logger
 from app.models.rss_fetch_histories import RssFetchHistory
+from app.lib.google_translator import GoogleTranslator
 
 
 class Paper(models.Model):
@@ -24,7 +25,18 @@ class Paper(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False)
 
-    def set_subject(self):
+    @classmethod
+    def from_xml(cls, arxiv_paper_item):
+        self = cls(
+            title=arxiv_paper_item['title'],
+            abstract=arxiv_paper_item['abstract'],
+            link=arxiv_paper_item['link'],
+        )
+        self._set_subject()
+        self._set_translation()
+        return self
+
+    def _set_subject(self):
         match = re.search(r'\(.*\[(.+)\].*\)', self.title)
         if not match:
             Logger.warn(f"Could not extract paper's subject. title => {self.title}")
@@ -34,9 +46,17 @@ class Paper(models.Model):
             self.subject = match.groups()[0]
             return True
 
-    def set_translation(self):
-        self.title_ja = 'タイトル(仮)'
-        self.abstract_ja = '要約(仮)'
+    def _set_translation(self):
+        texts = [
+            self.title,
+            self.abstract,
+        ]
+        translated_texts = GoogleTranslator.translate(texts)
+        if len(translated_texts) != 2:
+            return False
+        self.title_ja = translated_texts[0]
+        self.abstract_ja = translated_texts[1]
+        return True
 
     def add_authors(self, authors_dict):
         pass
