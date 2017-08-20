@@ -37,7 +37,7 @@ jobs:
           name: Start test
           command: |
             . venv/bin/activate
-            sleep 10s
+            sleep 5s
             coverage run manage.py test
 
       - run:
