@@ -14,7 +14,7 @@ class RssFetchHistoryTestCase(BaseTestCase):
     def test_exists_when_empty_in_db(self):
         result = RssFetchHistory.exists(self.rss_fetch_subject_0.id, self.test_date_0)
 
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
     def test_exists_with_same_date(self):
         self.creation.rss_fetch_history(
@@ -25,7 +25,7 @@ class RssFetchHistoryTestCase(BaseTestCase):
             date=self.test_date_1)
         result = RssFetchHistory.exists(self.rss_fetch_subject_0.id, self.test_date_0)
 
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
     def test_exists_with_different_date(self):
         self.creation.rss_fetch_history(
@@ -36,7 +36,7 @@ class RssFetchHistoryTestCase(BaseTestCase):
             date=self.test_date_1)
         result = RssFetchHistory.exists(self.rss_fetch_subject_0.id, self.test_date_2)
 
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
     def test_exists_with_same_date_and_different_rfs_id(self):
         self.creation.rss_fetch_history(
@@ -44,4 +44,4 @@ class RssFetchHistoryTestCase(BaseTestCase):
             date=self.test_date_0)
         result = RssFetchHistory.exists(self.rss_fetch_subject_0.id, self.test_date_0)
 
-        self.assertEqual(result, False)
+        self.assertFalse(result)

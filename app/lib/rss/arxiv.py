@@ -37,11 +37,15 @@ class ArxivRss(object):
         date = arxiv_xml.get_date()
         if not date:
             raise RssParseError('Could not parse dc:date.')
+
         if RssFetchHistory.exists(self._subject.id, date):
+            rss_fetch_history = self._subject.rss_fetch_histories.create(
+                date=date,
+                is_duplicated=True,
+            )
             return []
 
         rss_fetch_history = self._subject.rss_fetch_histories.create(date=date)
-
         papers = []
         for paper_item in arxiv_xml.get_paper_items():
             paper = Paper.from_xml(paper_item)

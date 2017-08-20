@@ -64,7 +64,10 @@ class ArxivRssTestCase(BaseTestCase):
         arxiv_rss = ArxivRss(self.rss_fetch_subject)
         arxiv_rss.fetch = Mock(return_value='<rdf:RDF></rdf:RDF>')
         result = arxiv_rss.fetch_and_save()
+        rss_fetch_histories = RssFetchHistory.objects.all()
 
+        self.assertEqual(len(rss_fetch_histories), 2)
+        self.assertTrue(rss_fetch_histories[1].is_duplicated)
         self.assertEqual(result, [])
 
     @patch('app.lib.xml.arxiv.ArxivXml.get_date')
