@@ -44,7 +44,3 @@ jobs:
           command: |
             . venv/bin/activate
             coverage report
-
-      - store_artifacts:
-          path: .coverage
-          destination: coverage
