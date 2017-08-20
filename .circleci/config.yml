@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: /app
+    working_directory: ~/jaaxman
     docker:
       - image: circleci/python:3.6.2
         environment:
