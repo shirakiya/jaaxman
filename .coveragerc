@@ -2,5 +2,6 @@
 source =
     .
 omit =
+    venv/*
     manage.py
     app/tests/*
