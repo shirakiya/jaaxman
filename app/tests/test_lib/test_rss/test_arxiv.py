@@ -92,13 +92,31 @@ class ArxivRssTestCase(BaseTestCase):
                 'title': 'TITLE_0([cs.AI])',
                 'abstract': 'ABSTRACT_0',
                 'link': 'LINK_0',
-                'authors': [],
+                'authors': [
+                    {
+                        'name': 'AUTHOR_NAME_0',
+                        'link': 'AUTHOR_LINK_0',
+                    },
+                    {
+                        'name': 'AUTHOR_NAME_1',
+                        'link': 'AUTHOR_LINK_1',
+                    },
+                ],
             },
             {
                 'title': 'TITLE_1([stat.ML])',
                 'abstract': 'ABSTRACT_1',
                 'link': 'LINK_1',
-                'authors': [],
+                'authors': [
+                    {
+                        'name': 'AUTHOR_NAME_2',
+                        'link': 'AUTHOR_LINK_2',
+                    },
+                    {
+                        'name': 'AUTHOR_NAME_0',
+                        'link': 'AUTHOR_LINK_0',
+                    },
+                ],
             },
         ]
         m_translate.return_value = ['タイトル', '要約']
@@ -113,16 +131,30 @@ class ArxivRssTestCase(BaseTestCase):
         self.assertEqual(len(papers), 2)
         self.assertEqual(result, list(papers))
 
-        self.assertEqual(result[0].title, 'TITLE_0([cs.AI])')
-        self.assertEqual(result[0].title_ja, 'タイトル')
-        self.assertEqual(result[0].abstract, 'ABSTRACT_0')
-        self.assertEqual(result[0].abstract_ja, '要約')
-        self.assertEqual(result[0].link, 'LINK_0')
-        self.assertEqual(result[0].subject, 'cs.AI')
+        paper_0 = papers[0]
+        authors_0 = paper_0.authors.all()
+        self.assertEqual(paper_0.title, 'TITLE_0([cs.AI])')
+        self.assertEqual(paper_0.title_ja, 'タイトル')
+        self.assertEqual(paper_0.abstract, 'ABSTRACT_0')
+        self.assertEqual(paper_0.abstract_ja, '要約')
+        self.assertEqual(paper_0.link, 'LINK_0')
+        self.assertEqual(paper_0.subject, 'cs.AI')
+        self.assertEqual(len(authors_0), 2)
+        self.assertEqual(authors_0[0].name, 'AUTHOR_NAME_0')
+        self.assertEqual(authors_0[0].link, 'AUTHOR_LINK_0')
+        self.assertEqual(authors_0[1].name, 'AUTHOR_NAME_1')
+        self.assertEqual(authors_0[1].link, 'AUTHOR_LINK_1')
 
-        self.assertEqual(result[1].title, 'TITLE_1([stat.ML])')
-        self.assertEqual(result[1].title_ja, 'タイトル')
-        self.assertEqual(result[1].abstract, 'ABSTRACT_1')
-        self.assertEqual(result[1].abstract_ja, '要約')
-        self.assertEqual(result[1].link, 'LINK_1')
-        self.assertEqual(result[1].subject, 'stat.ML')
+        paper_1 = papers[1]
+        authors_1 = paper_1.authors.all()
+        self.assertEqual(paper_1.title, 'TITLE_1([stat.ML])')
+        self.assertEqual(paper_1.title_ja, 'タイトル')
+        self.assertEqual(paper_1.abstract, 'ABSTRACT_1')
+        self.assertEqual(paper_1.abstract_ja, '要約')
+        self.assertEqual(paper_1.link, 'LINK_1')
+        self.assertEqual(paper_1.subject, 'stat.ML')
+        self.assertEqual(len(authors_1), 2)
+        self.assertEqual(authors_1[0].name, 'AUTHOR_NAME_2')
+        self.assertEqual(authors_1[0].link, 'AUTHOR_LINK_2')
+        self.assertEqual(authors_1[1].name, 'AUTHOR_NAME_0')
+        self.assertEqual(authors_1[1].link, 'AUTHOR_LINK_0')

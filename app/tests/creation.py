@@ -2,6 +2,7 @@ from app.tests.creations import (
     CreationRssFetchHistory,
     CreationRssFetchSubject,
     CreationPaper,
+    CreationAuthor,
 )
 
 
@@ -11,3 +12,4 @@ class Creation(object):
         self.rss_fetch_history = CreationRssFetchHistory()
         self.rss_fetch_subject = CreationRssFetchSubject()
         self.paper = CreationPaper()
+        self.author = CreationAuthor()

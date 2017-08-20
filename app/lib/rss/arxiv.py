@@ -50,7 +50,7 @@ class ArxivRss(object):
         for paper_item in arxiv_xml.get_paper_items():
             paper = Paper.from_xml(paper_item)
             rss_fetch_history.papers.add(paper, bulk=False)
-            # paper.add_authors(paper_item['authors'])
+            paper.add_authors(paper_item['authors'])
             papers.append(paper)
 
         return papers

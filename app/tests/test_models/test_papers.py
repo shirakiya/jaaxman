@@ -42,3 +42,32 @@ class PaperTestCase(BaseTestCase):
         m_translate.assert_called_with(['TITLE', 'ABSTRACT'])
         self.assertEqual(paper.title_ja, 'タイトル')
         self.assertEqual(paper.abstract_ja, '要約')
+
+    def test_add_authors_when_given_empty_list(self):
+        authors_from_xml = []
+        paper = self.creation.paper(rss_fetch_history_id=self.rss_fetch_history.id)
+        result = paper.add_authors(authors_from_xml)
+
+        self.assertFalse(result)
+
+    def test_add_authors(self):
+        authors_from_xml = [
+            {
+                'name': 'AUTHOR_NAME_0',
+                'link': 'AUTHOR_LINK_0',
+            },
+            {
+                'name': 'AUTHOR_NAME_1',
+                'link': 'AUTHOR_LINK_1',
+            },
+        ]
+        paper = self.creation.paper(rss_fetch_history_id=self.rss_fetch_history.id)
+        result = paper.add_authors(authors_from_xml)
+        authors = paper.authors.all()
+
+        self.assertTrue(result)
+        self.assertEqual(len(authors), 2)
+        self.assertEqual(authors[0].name, 'AUTHOR_NAME_0')
+        self.assertEqual(authors[0].link, 'AUTHOR_LINK_0')
+        self.assertEqual(authors[1].name, 'AUTHOR_NAME_1')
+        self.assertEqual(authors[1].link, 'AUTHOR_LINK_1')

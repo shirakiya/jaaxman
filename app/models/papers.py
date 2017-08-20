@@ -2,6 +2,7 @@ import re
 from django.db import models
 from jaaxman.logger import Logger
 from app.models.rss_fetch_histories import RssFetchHistory
+from app.models.authors import Author
 from app.lib.google_translator import GoogleTranslator
 
 
@@ -15,6 +16,11 @@ class Paper(models.Model):
         related_name='papers',
         related_query_name='paper',
         on_delete=models.CASCADE,
+    )
+    authors = models.ManyToManyField(
+        Author,
+        related_name='papers',
+        related_query_name='paper',
     )
     title = models.CharField(max_length=255, null=False)
     title_ja = models.CharField(max_length=255, null=False)
@@ -58,5 +64,15 @@ class Paper(models.Model):
         self.abstract_ja = translated_texts[1]
         return True
 
-    def add_authors(self, authors_dict):
-        pass
+    def add_authors(self, authors_from_xml):
+        authors = []
+        for author_dict in authors_from_xml:
+            author = Author.objects.create(
+                name=author_dict['name'],
+                link=author_dict['link'],
+            )
+            authors.append(author)
+        if not authors:
+            return False
+        self.authors.add(*authors)
+        return True
