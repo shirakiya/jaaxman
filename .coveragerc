@@ -1,0 +1,6 @@
+[run]
+source =
+    .
+omit =
+    manage.py
+    app/tests/*

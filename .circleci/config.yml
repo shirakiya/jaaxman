@@ -37,11 +37,14 @@ jobs:
           name: Start test
           command: |
             . venv/bin/activate
-            python manage.py test
+            coverage run manage.py test
+
+      - run:
+          name: Report coverage
+          command: |
+            . venv/bin/activate
+            coverage report
 
       - store_artifacts:
-          path: test-reports/
-          destination: tr1
-
-      - store_test_results:
-          path: test-reports/
+          path: .coverage
+          destination: coverage
