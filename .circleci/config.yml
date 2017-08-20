@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  build:
+    working_directory: /app
+    docker:
+      - image: circleci/python:3.6.2
+        environment:
+          RUN_MODE: test
+          MYSQL_USER: root
+          MYSQL_PASSWORD: ""
+          MYSQL_HOST: 127.0.0.1
+          GOOGLE_API_KEY: ""
+
+      - image: mysql:5.6
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+
+      - run:
+        name: Install Python deps in a venv
+        command: |
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install -r requirements.txt
+
+      - save_cache:
+          keys: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+
+      - run:
+        name: Start test
+        command: |
+          . venv/bin/activate
+          python manage.py test
+
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1
+
+      - store_test_results:
+          path: test-reports/
