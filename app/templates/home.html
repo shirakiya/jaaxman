@@ -1,11 +1,8 @@
 {% extends "base.html" %}
-{% load static %}
 {% load original_tags %}
 {% block content %}
-<div>
-    <h3>test</h3>
-</div>
-<div id="hoge">
+<div id="content">
+    <app></app>
 </div>
 <script src="{% webpack_js "index.js" %}"></script>
 {% endblock %}

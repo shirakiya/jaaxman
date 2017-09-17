@@ -28,18 +28,29 @@ module.exports = {
         loader: 'eslint-loader',
       },
       {
+        test: /\.vue$/,
+        exclude: /node_modules/,
+        loader: 'vue-loader',
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         exclude: /node_modules/,
         use: [
           'style-loader',
           'css-loader',
+          'sass-loader',
         ],
       },
     ],
+  },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+    }
   },
 };

@@ -1,7 +1,9 @@
-function component() {
-  const element = document.getElementById('hoge');
-  element.textContent = 'Hello, world!';
-  console.log('hogehoge!');
-}
+import Vue from 'vue';
+import app from './components/app.vue'
 
-component();
+new Vue({
+  el: '#content',
+  components: {
+    'app': app,
+  },
+});
