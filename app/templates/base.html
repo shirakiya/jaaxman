@@ -1,11 +1,13 @@
+{% load original_tags %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Jaaxman</title>
+        <script src="{% webpack_js "style.js" %}"></script>
     </head>
     <body>
-        <div id="main">
+        <div id="content">
         {% block content %}
             {{ content }}
         {% endblock %}

@@ -8,6 +8,7 @@ const distPath = path.resolve(__dirname, 'app', 'static', 'dist')
 module.exports = {
   entry: {
     index: './src/js/index.js',
+    style: './src/css/entry.js',
   },
   plugins: [
     new CleanWebpackPlugin([distPath]),
@@ -29,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        exclude: /node_modules/,
+        exclude: /node_modules(?![\\/]vue-awesome[\\/])/,
         loader: 'vue-loader',
       },
       {
@@ -38,8 +39,7 @@ module.exports = {
         loader: 'babel-loader',
       },
       {
-        test: /\.scss$/,
-        exclude: /node_modules/,
+        test: /\.(sass|scss)$/,
         use: [
           'style-loader',
           'css-loader',
