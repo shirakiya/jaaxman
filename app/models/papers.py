@@ -76,3 +76,17 @@ class Paper(models.Model):
             return False
         self.authors.add(*authors)
         return True
+
+    def dumps(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'title_ja': self.title_ja,
+            'abstract': self.abstract,
+            'abstract_ja': self.abstract_ja,
+            'link': self.link,
+            'subject': self.subject,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'authors': [author.dumps() for author in self.authors.all()],
+        }

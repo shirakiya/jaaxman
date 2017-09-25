@@ -1,24 +1,18 @@
 <template>
-  <div id="app">
-    <div class="title">
-      <h1>{{ message }}</h1>
-    </div>
-    <icon name="flag"></icon>
-  </div>
+<div>
+  <navbar></navbar>
+  <contents></contents>
+</div>
 </template>
 
 <script>
-import Icon from 'vue-awesome/components/Icon.vue';
-import 'vue-awesome/icons/flag';
+import navbar from './navbar.vue';
+import contents from './contents.vue';
 
 export default {
   components: {
-    Icon,
-  },
-  data: () => {
-    return {
-      message: 'Hello, Vue.js!',
-    }
+    navbar,
+    contents,
   },
 };
 </script>

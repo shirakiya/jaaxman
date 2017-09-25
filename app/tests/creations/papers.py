@@ -13,5 +13,5 @@ class CreationPaper(CreationBase):
             abstract=abstract or 'ABSTRACT',
             abstract_ja=abstract_ja or '要約',
             link=link or 'http://arxiv.org/abs/1708.00000',
-            subject=subject or 'TITLE_SUBJECT',
+            subject=subject or 'SUBJECT',
         )

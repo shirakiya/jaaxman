@@ -10,3 +10,12 @@ class Author(models.Model):
     link = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False)
+
+    def dumps(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'link': self.link,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+        }

@@ -1,3 +1,4 @@
+import datetime
 from unittest.mock import patch
 from app.tests.base_testcase import BaseTestCase
 
@@ -71,3 +72,20 @@ class PaperTestCase(BaseTestCase):
         self.assertEqual(authors[0].link, 'AUTHOR_LINK_0')
         self.assertEqual(authors[1].name, 'AUTHOR_NAME_1')
         self.assertEqual(authors[1].link, 'AUTHOR_LINK_1')
+
+    def test_dumps(self):
+        paper = self.creation.paper(rss_fetch_history_id=self.rss_fetch_history.id)
+        author = self.creation.author()
+        paper.authors.add(author)
+        result = paper.dumps()
+
+        self.assertIsInstance(result['id'], int)
+        self.assertEqual(result['title'], 'PAPER_TITLE')
+        self.assertEqual(result['title_ja'], 'タイトル')
+        self.assertEqual(result['abstract'], 'ABSTRACT')
+        self.assertEqual(result['abstract_ja'], '要約')
+        self.assertEqual(result['link'], 'http://arxiv.org/abs/1708.00000')
+        self.assertEqual(result['subject'], 'SUBJECT')
+        self.assertIsInstance(result['created_at'], datetime.datetime)
+        self.assertIsInstance(result['updated_at'], datetime.datetime)
+        self.assertIsInstance(result['authors'][0], dict)

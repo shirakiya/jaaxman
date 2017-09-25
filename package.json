@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "bulma": "^0.5.2",
-    "vue": "^2.4.4",
-    "vue-awesome": "^2.3.3"
+    "moment": "^2.18.1",
+    "vue": "^2.4.4"
   }
 }

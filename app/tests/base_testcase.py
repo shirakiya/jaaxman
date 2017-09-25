@@ -1,10 +1,11 @@
 import os
-from django.test import TestCase
+from django.test import TestCase, Client
 from app.tests.creation import Creation
 
 
 class BaseTestCase(TestCase):
 
+    client = Client()
     creation = Creation()
 
     @classmethod
