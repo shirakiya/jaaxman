@@ -1,6 +1,6 @@
 <template>
 <div class="paper-item">
-  <div class="paper-item-content">
+  <div class="paper-item-content" v-on:click="handleItemClick">
     <div class="columns is-gapless" :style="{ 'margin-bottom': '.2em' }">
       <div class="column is-1">
         <span class="tag is-light">{{ rssFetchSubjectName }}</span>
@@ -81,6 +81,9 @@ export default {
     getRssFetchSubjectName(rssFetchSubjectId) {
       return (rssFetchSubjectId in subjects) ? subjects[rssFetchSubjectId].name : null;
     },
+    handleItemClick() {
+      this.$emit('selectItem', this.paper.id);
+    },
   },
 };
 </script>
@@ -91,6 +94,7 @@ export default {
   border-bottom: 1px solid lightgray;
 
   .paper-item-content {
+    cursor: pointer;
     padding-right: 1.5em;
 
     span.paper-item-subtitle {

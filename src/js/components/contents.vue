@@ -2,10 +2,19 @@
 <div id="contents">
   <div class="columns is-gapless">
     <div class="column is-harf">
-      <paper-list :subjects="subjects" :papers="papers"></paper-list>
+      <paper-list
+        :subjects="subjects"
+        :papers="papers"
+        :paperDetailHeight="paperDetailHeight"
+        @selectItem="selectItem"
+      ></paper-list>
     </div>
     <div class="column is-harf">
-      <paper-detail></paper-detail>
+      <paper-detail
+        :paper="selectedPaper"
+        :subject="selectedSubject"
+        @updateHeight="updateHeight"
+      ></paper-detail>
     </div>
   </div>
 </div>
@@ -24,7 +33,24 @@ export default {
     return {
       subjects: window.subjects,
       papers: window.papers,
+      selectedPaper: null,
+      selectedSubject: null,
+      paperDetailHeight: 0,
     }
+  },
+  methods: {
+    selectItem(paperId) {
+      for (let paper of this.papers) {
+        if (paper.id === paperId) {
+          this.selectedPaper = paper;
+          this.selectedSubject = this.subjects[paper.rss_fetch_subject_id];
+          break;
+        }
+      }
+    },
+    updateHeight(paperDetailHeight) {
+      this.paperDetailHeight = paperDetailHeight;
+    },
   },
 };
 </script>

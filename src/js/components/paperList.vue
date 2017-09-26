@@ -23,7 +23,13 @@
         </h3>
       </div>
       <div id='paper-list-content' :style="paperListContentStyle">
-        <paper-item v-for="paper in filteredPapers" :paper="paper" :subjects="subjects" :key="paper.id"></paper-item>
+        <paper-item
+          v-for="paper in filteredPapers"
+          :key="paper.id"
+          :paper="paper"
+          :subjects="subjects"
+          @selectItem="selectItem"
+        ></paper-item>
       </div>
     </div>
   </div>
@@ -37,6 +43,7 @@ export default {
   props: {
     subjects: Object,
     papers: Array,
+    paperDetailHeight: Number,
   },
   components: {
     paperItem,
@@ -53,6 +60,11 @@ export default {
       selectedTab: '',
       paperListContentHeight: '100%',
     };
+  },
+  watch: {
+    paperDetailHeight() {
+      this.setPaperListContentStyle();
+    },
   },
   computed: {
     tabUrl() {
@@ -81,8 +93,21 @@ export default {
     },
     setPaperListContentStyle(e) {
       const clientHeight = document.documentElement.clientHeight;
-      const rect = document.getElementById('paper-list-content').getBoundingClientRect();
-      this.paperListContentHeight = clientHeight - rect.top + 'px';
+      const wholePaperDetailHeight = this.paperDetailHeight + 52;  // navbar
+      const targetHeight = (clientHeight >= wholePaperDetailHeight) ? clientHeight : wholePaperDetailHeight;
+
+      const paperListContent = document.getElementById('paper-list-content');
+      let baseHeight;
+      if ('offsetTop' in paperListContent) {
+        baseHeight = paperListContent.offsetTop;
+      } else {
+        baseHeight = paperListContent.getBoundingClientRect().top;
+      }
+
+      this.paperListContentHeight = targetHeight - baseHeight + 'px';
+    },
+    selectItem(paperId) {
+      this.$emit('selectItem', paperId);
     },
   },
 };
