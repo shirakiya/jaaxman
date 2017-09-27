@@ -5,6 +5,7 @@
       <paper-list
         :subjects="subjects"
         :papers="papers"
+        :selectedPaper="selectedPaper"
         :paperDetailHeight="paperDetailHeight"
         @selectItem="selectItem"
       ></paper-list>

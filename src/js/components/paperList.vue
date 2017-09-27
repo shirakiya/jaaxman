@@ -28,6 +28,7 @@
           :key="paper.id"
           :paper="paper"
           :subjects="subjects"
+          :isSelected="selectedPaper && paper.id === selectedPaper.id"
           @selectItem="selectItem"
         ></paper-item>
       </div>
@@ -43,6 +44,10 @@ export default {
   props: {
     subjects: Object,
     papers: Array,
+    selectedPaper: {
+      type: Object,
+      required: false,
+    },
     paperDetailHeight: Number,
   },
   components: {

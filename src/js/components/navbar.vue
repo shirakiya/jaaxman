@@ -8,7 +8,7 @@
       <span></span>
     </div>
   </div>
-  <div id="navbar-menu" class="navbar-menu" :class="{ 'is-active': isShownMenu }">
+  <div class="navbar-menu" :class="{ 'is-active': isShownMenu }">
     <div class="navbar-end">
       <a class="navbar-item" href="/" target="_brank">
         About

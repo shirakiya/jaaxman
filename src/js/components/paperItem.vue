@@ -1,5 +1,8 @@
 <template>
-<div class="paper-item">
+<div class="paper-item" :class="{ 'is-selected': isSelected }">
+  <div class="paper-item-selected" v-if="isSelected">
+    <span class="icon"><i class="fa fa-caret-right"></i></span>
+  </div>
   <div class="paper-item-content" v-on:click="handleItemClick">
     <div class="columns is-gapless" :style="{ 'margin-bottom': '.2em' }">
       <div class="column is-1">
@@ -54,6 +57,7 @@ export default {
   props: {
     paper: Object,
     subjects: Object,
+    isSelected: Boolean,
   },
   data() {
     return {
@@ -102,8 +106,24 @@ export default {
   padding: 1em 0 .5em;
   border-bottom: 1px solid lightgray;
 
+  &.is-selected {
+    display: flex;
+    background-color: whitesmoke;
+  }
+
+  &:hover {
+    background-color: whitesmoke;
+  }
+
+  .paper-item-selected {
+    align-self: center;
+    width: 20px;
+  }
+
   .paper-item-content {
     cursor: pointer;
+    width: 100%;
+    padding-left: .5em;
     padding-right: 1.5em;
 
     span.paper-item-subtitle {
