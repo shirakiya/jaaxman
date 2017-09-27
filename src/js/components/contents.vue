@@ -8,6 +8,7 @@
         :selectedPaper="selectedPaper"
         :paperDetailHeight="paperDetailHeight"
         @selectItem="selectItem"
+        @addPapers="addPapers"
       ></paper-list>
     </div>
     <div class="column is-harf">
@@ -51,6 +52,9 @@ export default {
     },
     updateHeight(paperDetailHeight) {
       this.paperDetailHeight = paperDetailHeight;
+    },
+    addPapers(papers) {
+      this.$set(this, 'papers', this.papers.concat(papers));
     },
   },
 };
