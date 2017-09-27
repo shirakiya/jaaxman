@@ -11,7 +11,7 @@
         <div>
           <h3>1. サイト運営者</h3>
           <p>
-            当サイトは、<a href="https://twitter.com/shirakiya831">shirakiya</a>が運営しています。
+            当サイトは、<a href="https://twitter.com/shirakiya831">shirakiya</a>が運営しています。お問い合わせがある場合にはTwitterにてMentionあるいはDMでのご連絡をお願いします。
           </p>
         </div>
         <br />
