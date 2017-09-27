@@ -1,7 +1,7 @@
 <template>
-<nav id="navbar" class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="/">Jaaxman</a>
+    <a class="navbar-item has-text-primary navbar-main" href="/">Jaaxman</a>
     <div class="navbar-burger burger" :class="{ 'is-active': isShownMenu }" v-on:click="toggleMenu">
       <span></span>
       <span></span>
@@ -34,7 +34,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#navbar {
+.navbar {
   border-bottom: 1px solid lightgray;
+
+  .navbar-main {
+    font-size: 24px;
+    font-weight: bold;
+  }
 }
 </style>

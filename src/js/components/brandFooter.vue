@@ -1,7 +1,7 @@
 <template>
 <footer>
   <div class="footer-content">
-    <span><a href="/">Jaaxman</a> created by <a href="https://twitter.com/shirakiya831">shirakiya</a>.</span>
+    <span><a href="/">Jaaxman</a> created by <a href="https://twitter.com/shirakiya831" target="_blank">shirakiya</a>.</span>
     <google-attribution-regular></google-attribution-regular>
     <span @click="openTermModal"><a>利用規約</a></span>
   </div>
