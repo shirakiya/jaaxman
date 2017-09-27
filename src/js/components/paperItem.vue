@@ -13,7 +13,12 @@
       {{ paperTitleJa }}
     </div>
     <div class="paper-item-body">
-      {{ paper.abstract_ja | truncate(55) }}
+      <div class="has-text-left">
+        {{ paper.abstract_ja | truncate(55) }}
+      </div>
+      <div class="has-text-right">
+        <google-attribution-short></google-attribution-short>
+      </div>
     </div>
     <div class="paper-item-footer">
       <div class="paper-item-footer-left">
@@ -40,8 +45,12 @@
 
 <script>
 import moment from 'moment';
+import googleAttributionShort from './googleAttributionShort.vue';
 
 export default {
+  components: {
+    googleAttributionShort,
+  },
   props: {
     paper: Object,
     subjects: Object,
@@ -112,7 +121,6 @@ export default {
 
     .paper-item-body {
       font-size: .8em;
-      margin-bottom: .4em;
     }
 
     .paper-item-footer {

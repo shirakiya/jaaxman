@@ -36,6 +36,9 @@
         <p class="has-text-gray">{{ paper.abstract }}</p>
       </div>
       <div class="paper-detail-footer">
+        <p class="has-text-right">
+          <google-attribution-short :width="150"></google-attribution-short>
+        <p>
         <p class="has-text-centered">
           <a class="button" :href="paper.link" target="_blank">
             <span class="icon"><i class="fa fa-link"></i></span>
@@ -53,8 +56,12 @@
 
 <script>
 import moment from 'moment';
+import googleAttributionShort from './googleAttributionShort.vue';
 
 export default {
+  components: {
+    googleAttributionShort,
+  },
   props: {
     paper: Object,
     subject: Object,
