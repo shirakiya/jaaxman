@@ -83,7 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 #paper-detail {
-  padding: 4em 3em 3em;
+  padding: 4em 3em 3em 2em;
 
   .paper-detail-container {
 
