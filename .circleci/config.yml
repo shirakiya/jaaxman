@@ -57,7 +57,8 @@ jobs:
             - ./node_modules
       - run:
           name: Build
-          command: npm run build:$CIRCLE_BRANCH
+          # command: npm run build:$CIRCLE_BRANCH
+          command: npm run build:production
       - save_cache:
           key: build-assets-{{ .Branch }}-{{ .Revision }}
           paths:
