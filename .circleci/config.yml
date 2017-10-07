@@ -70,7 +70,7 @@ workflows:
   version: 2
   test_and_build:
     jobs:
-      - test
+      - python-test
       - build:
           requires:
             - test
