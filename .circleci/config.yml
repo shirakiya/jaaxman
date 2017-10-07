@@ -1,47 +1,80 @@
+docker_settings: &docker_settings
+  - image: circleci/python:3.6.2
+    environment:
+      RUN_MODE: test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ""
+      MYSQL_HOST: 127.0.0.1
+      GOOGLE_API_KEY: ""
+  - image: mysql:5.6
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+
 version: 2
 jobs:
-  build:
+  python-test:
     working_directory: ~/jaaxman
-    docker:
-      - image: circleci/python:3.6.2
-        environment:
-          RUN_MODE: test
-          MYSQL_USER: root
-          MYSQL_PASSWORD: ""
-          MYSQL_HOST: 127.0.0.1
-          GOOGLE_API_KEY: ""
-
-      - image: mysql:5.6
-        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    docker: *docker_settings
     steps:
       - checkout
-
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-
+          key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install Python deps in a venv
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv"
-
       - run:
           name: Start test
           command: |
             . venv/bin/activate
             sleep 5s
             coverage run manage.py test
-
       - run:
           name: Report coverage
           command: |
             . venv/bin/activate
             coverage report
+  build:
+    working_directory: ~/jaaxman
+    docker: *docker_settings
+    steps:
+      - checkout
+      - restore_cache:
+          key: pip-{{ .Branch }}-{ checksum "requirements.txt" }
+      - run:
+          name: Install extra pip packages for build
+          command: |
+            . venv/bin/activate
+            pip install wheel
+            pip install awscli
+      - run:
+          name: Create pip wheels
+          command: |
+            . venv/bin/activate
+            pip wheel -w wheelhouse -r requirements.txt
+      - run:
+          name: Send app tarball to S3
+          command: |
+            TAR_NAME=jaaxman-`date '+%Y%m%d%H%M%S'`.tar.gz
+            tar cvzf $TAR_NAME *
+            aws s3 cp s3://jaaxman-production-infla/app/ $TAR_NAME
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
