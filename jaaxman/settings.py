@@ -32,6 +32,7 @@ RUN_MODES = (
     RUN_MODE_TEST,
 )
 
+
 RUN_MODE = os.environ.get('RUN_MODE', RUN_MODE_DEVELOPMENT)
 if RUN_MODE not in RUN_MODES:
     RUN_MODE = RUN_MODE_DEVELOPMENT
@@ -40,10 +41,9 @@ if RUN_MODE not in RUN_MODES:
 if RUN_MODE == RUN_MODE_PRODUCTION:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-elif RUN_MODE == RUN_MODE_DEVELOPMENT:
-    DEBUG = True
 else:
     DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 

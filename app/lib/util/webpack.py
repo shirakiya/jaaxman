@@ -5,16 +5,17 @@ from django.conf import settings
 
 class Webpack(object):
 
-    URL_WEBPACK_DEV_SERVER = 'http://localhost:8001/assets/'
+    ASSETS_HOST_PRODUCTION = 'https://s3-ap-northeast-1.amazonaws.com/jaaxman-production-assets/'
+    ASSETS_HOST_DEVELOPMENT = 'http://localhost:8001/assets/'
 
     def __init__(self):
         self.assets_base_url = self._get_assets_base_url()
 
     def _get_assets_base_url(self):
         if settings.RUN_MODE == settings.RUN_MODE_PRODUCTION:
-            return ''  # TODO: fix
+            return self.ASSETS_HOST_PRODUCTION
         else:
-            return self.URL_WEBPACK_DEV_SERVER
+            return self.ASSETS_HOST_DEVELOPMENT
 
     def _get_manifest(self):
         manifest = {}

@@ -7,7 +7,7 @@ const distPath = path.resolve(__dirname, 'app', 'static', 'dist')
 
 module.exports = {
   entry: {
-    index: './src/js/index.js',
+    app: './src/js/entry.js',
     style: './src/css/entry.js',
   },
   plugins: [
@@ -17,7 +17,7 @@ module.exports = {
     }),
   ],
   output: {
-    filename: '[name]-[hash].bundle.js',
+    filename: '[name]-[hash].js',
     path: distPath,
   },
   module: {

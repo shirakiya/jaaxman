@@ -9,5 +9,5 @@
     window.subjects = JSON.parse("{{ subjects|to_json|escapejs }}");
     window.papers = JSON.parse("{{ papers|to_json|escapejs }}");
 </script>
-<script src="{% webpack_js "index.js" %}"></script>
+<script src="{% webpack_js "app.js" %}"></script>
 {% endblock %}

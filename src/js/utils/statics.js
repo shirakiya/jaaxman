@@ -2,7 +2,7 @@ import path from 'path';
 
 function getStaticPath() {
   if (process.env.NODE_ENV === 'production') {
-    return '';  // TODO
+    return 'https://s3-ap-northeast-1.amazonaws.com/jaaxman-production-assets/';
   } else {
     return '/static';
   }
