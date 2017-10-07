@@ -109,6 +109,7 @@ workflows:
       - deploy:
           requires:
             - python-test
+            - build-assets
           filters:
             branches:
               only:
