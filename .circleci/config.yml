@@ -19,7 +19,7 @@ jobs:
       - restore_cache:
           key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
-          name: Install Python deps in a venv
+          name: Install pip packages
           command: |
             python3 -m venv venv
             . venv/bin/activate
@@ -27,7 +27,7 @@ jobs:
       - save_cache:
           key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
-            - "venv"
+            - ./venv
       - run:
           name: Start test
           command: |
@@ -39,7 +39,31 @@ jobs:
           command: |
             . venv/bin/activate
             coverage report
-  build:
+
+  build-assets:
+    working_directory: ~/jaaxman
+    docker:
+      - image: circleci/node:8.4.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: npm-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: Install npm packages
+          command: npm install
+      - save_cache:
+          key: npm-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Build
+          command: npm run build:$CIRCLE_BRANCH
+      - save_cache:
+          key: build-assets-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ./app/static/dist
+
+  deploy:
     working_directory: ~/jaaxman
     docker:
       - image: circleci/python:3.6.2
@@ -58,20 +82,31 @@ jobs:
           command: |
             . venv/bin/activate
             pip wheel -w wheelhouse -r requirements.txt
+      - restore_cache:
+          key: build-assets-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Send app tarball to S3
           command: |
-            TAR_NAME=jaaxman-`date '+%Y%m%d%H%M%S'`.tar.gz
-            tar cvzf $TAR_NAME --exclude venv *
+            IDENTIFIER=`date '+%Y%m%d%H%M%S'`
+            TAR_NAME=jaaxman-${IDENTIFIER}.tar.gz
+            tar cvzf $TAR_NAME --exclude=venv --exclude=app/static/dist/*.js *
             . venv/bin/activate
             aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
+            aws s3 sync ./app/static/dist/ s3://jaaxman-production-infla/assets/js/$IDENTIFIER --exclude=manifest.json
 
 workflows:
   version: 2
   test_and_build:
     jobs:
       - python-test
-      - build:
+      - build-assets:
+          requires:
+            - python-test
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
           requires:
             - python-test
           filters:
