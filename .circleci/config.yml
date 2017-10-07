@@ -47,7 +47,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: pip-{{ .Branch }}-{ checksum "requirements.txt" }
+          key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install extra pip packages for build
           command: |
