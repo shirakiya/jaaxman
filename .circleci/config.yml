@@ -1,21 +1,19 @@
-docker_settings: &docker_settings
-  - image: circleci/python:3.6.2
-    environment:
-      RUN_MODE: test
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ""
-      MYSQL_HOST: 127.0.0.1
-      GOOGLE_API_KEY: ""
-  - image: mysql:5.6
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-
 version: 2
 jobs:
   python-test:
     working_directory: ~/jaaxman
-    docker: *docker_settings
+    docker:
+      - image: circleci/python:3.6.2
+        environment:
+          RUN_MODE: test
+          MYSQL_USER: root
+          MYSQL_PASSWORD: ""
+          MYSQL_HOST: 127.0.0.1
+          GOOGLE_API_KEY: ""
+      - image: mysql:5.6
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
     steps:
       - checkout
       - restore_cache:
@@ -43,7 +41,8 @@ jobs:
             coverage report
   build:
     working_directory: ~/jaaxman
-    docker: *docker_settings
+    docker:
+      - image: circleci/python:3.6.2
     steps:
       - checkout
       - restore_cache:
