@@ -93,7 +93,7 @@ jobs:
             tar cvzf $TAR_NAME --exclude=venv --exclude=app/static/dist/*.js *
             . venv/bin/activate
             aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
-            aws s3 sync ./app/static/dist/ s3://jaaxman-production-infla/assets/js/$IDENTIFIER --exclude=manifest.json
+            aws s3 sync ./app/static/dist/ s3://jaaxman-production-public/js/bundle/$IDENTIFIER --exclude=manifest.json
 
 workflows:
   version: 2

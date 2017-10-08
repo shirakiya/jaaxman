@@ -5,7 +5,7 @@ from django.conf import settings
 
 class Webpack(object):
 
-    ASSETS_HOST_PRODUCTION = 'https://s3-ap-northeast-1.amazonaws.com/jaaxman-production-assets/'
+    ASSETS_HOST_PRODUCTION = 'https://s3-ap-northeast-1.amazonaws.com/jaaxman-production-public/js/bundle/'
     ASSETS_HOST_DEVELOPMENT = 'http://localhost:8001/assets/'
 
     def __init__(self):
