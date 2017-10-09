@@ -106,7 +106,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - production
       - deploy:
           requires:
             - python-test
@@ -114,4 +114,4 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - production
