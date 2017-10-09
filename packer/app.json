@@ -1,0 +1,55 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "ssh_private_key_file": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "ap-northeast-1",
+    "source_ami": "ami-5c58853a",
+    "instance_type": "t2.micro",
+    "ssh_username": "root",
+    "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+    "ssh_timeout": "3m",
+    "ami_name": "packer-example {{timestamp}}"
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
+      "scripts": [
+        "scripts/sleep.sh",
+        "scripts/base.sh",
+        "scripts/app.sh"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "files/authorized_keys",
+      "destination": "/root/.ssh/authorized_keys"
+    },
+    {
+      "type": "file",
+      "source": "files/nginx/nginx.conf",
+      "destination": "/etc/nginx/nginx.conf"
+    },
+    {
+      "type": "file",
+      "source": "files/nginx/jaaxman.conf",
+      "destination": "/etc/nginx/conf.d/jaaxman.conf"
+    },
+    {
+      "type": "file",
+      "source": "files/uwsgi.ini",
+      "destination": "/etc/nginx/uwsgi.ini"
+    },
+    {
+      "type": "file",
+      "source": "files/uwsgi.service",
+      "destination": "/etc/systemd/system/uwsgi.service"
+    }
+  ]
+}
