@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 cd $HOME
 echo $HOME
