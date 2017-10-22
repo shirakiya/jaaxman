@@ -33,7 +33,7 @@ RUN_MODES = (
 )
 
 
-RUN_MODE = os.environ.get('RUN_MODE', RUN_MODE_DEVELOPMENT)
+RUN_MODE = os.getenv('RUN_MODE', RUN_MODE_DEVELOPMENT)
 if RUN_MODE not in RUN_MODES:
     RUN_MODE = RUN_MODE_DEVELOPMENT
 
@@ -99,9 +99,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'jaaxman',
-        'USER': os.environ.get('MYSQL_USER'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': os.environ.get('MYSQL_HOST'),
+        'USER': os.getenv('MYSQL_USER', 'root'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', ''),
+        'HOST': os.getenv('MYSQL_HOST', 'localhost'),
         'PORT': '3306',
         'OPTIONS': {
             'charset': 'utf8mb4',
