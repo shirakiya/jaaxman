@@ -164,8 +164,13 @@ MANIFEST_PATH = os.path.join(STATICFILES_DIRS[0], 'dist', 'manifest.json')
 LOGGING = {
     'version': 1,
     'formatters': {
-        'myformat': {
-            'format': ' '.join(["%(asctime)s", "[%(levelname)s]", "%(message)s"]),
+        'normal': {
+            'format': '\t'.join([
+                'time:%(asctime)s',
+                'level:%(levelname)s',
+                'module:%(module)s',
+                'message:%(message)s',
+            ]),
             'datefmt': '%Y-%m-%dT%H:%M:%S',
         },
     },
@@ -173,13 +178,18 @@ LOGGING = {
         'console': {
             'level': 'DEBUG' if DEBUG else 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'myformat'
+            'formatter': 'normal'
         },
     },
     'loggers': {
-        'mylogger': {
+        'jaaxman': {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False,
         },
         # 開発中に実行されるSQLを出力したい場合は有効にする
         # 'django.db.backends': {

@@ -2,7 +2,7 @@ import logging
 
 
 class Logger(object):
-    logger = logging.getLogger('mylogger')
+    logger = logging.getLogger('jaaxman')
 
     @classmethod
     def debug(cls, msg):
