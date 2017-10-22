@@ -9,12 +9,12 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-northeast-1",
-    "source_ami": "ami-5c58853a",
+    "source_ami": "ami-b5ff24d3",
     "instance_type": "t2.micro",
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "ssh_timeout": "3m",
-    "ami_name": "packer-example {{timestamp}}"
+    "ami_name": "jaaxman_app_{{timestamp}}"
   }],
   "provisioners": [
     {
@@ -50,6 +50,13 @@
       "type": "file",
       "source": "files/uwsgi.service",
       "destination": "/etc/systemd/system/uwsgi.service"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
+      "scripts": [
+        "scripts/post_app.sh"
+      ]
     }
   ]
 }
