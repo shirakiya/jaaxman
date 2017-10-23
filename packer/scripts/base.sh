@@ -14,6 +14,23 @@ ufw disable
 # Base packages
 apt install -y openssl awscli
 
+# NTP
+apt install -y ntp
+sed -e 's/ubuntu.pool.ntp.org iburst/amazon.pool.ntp.org/' /etc/ntp.conf
+timedatectl
+
+# fluentd
+cat << EOS >> /etc/security/limits.conf
+root soft nofile 65536
+root hard nofile 65536
+* soft nofile 65536
+* hard nofile 65536
+EOS
+
+curl -L https://toolbelt.treasuredata.com/sh/install-ubuntu-xenial-td-agent2.sh | sh
+sed -i -e '14a export AWS_REGION=ap-northeast-1'
+
+
 # Python
 # ref.) https://github.com/pyenv/pyenv/wiki/Common-build-problems#requirements
 apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev

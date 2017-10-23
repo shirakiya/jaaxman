@@ -33,6 +33,11 @@
     },
     {
       "type": "file",
+      "source": "files/td-agent/td-agent.conf",
+      "destination": "/etc/td-agent/td-agent.conf"
+    },
+    {
+      "type": "file",
       "source": "files/nginx/nginx.conf",
       "destination": "/etc/nginx/nginx.conf"
     },
