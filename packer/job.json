@@ -14,7 +14,7 @@
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "ssh_timeout": "3m",
-    "ami_name": "jaaxman_app_{{timestamp}}"
+    "ami_name": "jaaxman_job_{{timestamp}}"
   }],
   "provisioners": [
     {
@@ -22,8 +22,7 @@
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "scripts": [
         "scripts/sleep.sh",
-        "scripts/base.sh",
-        "scripts/app.sh"
+        "scripts/base.sh"
       ]
     },
     {
@@ -33,34 +32,19 @@
     },
     {
       "type": "file",
-      "source": "files/td-agent/td-agent.app.conf",
+      "source": "files/td-agent/td-agent.job.conf",
       "destination": "/etc/td-agent/td-agent.conf"
     },
     {
       "type": "file",
-      "source": "files/nginx/nginx.conf",
-      "destination": "/etc/nginx/nginx.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/nginx/jaaxman.conf",
-      "destination": "/etc/nginx/conf.d/jaaxman.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/uwsgi.ini",
-      "destination": "/etc/nginx/uwsgi.ini"
-    },
-    {
-      "type": "file",
-      "source": "files/uwsgi.service",
-      "destination": "/etc/systemd/system/uwsgi.service"
+      "source": "files/crontab",
+      "destination": "/root/crontab"
     },
     {
       "type": "shell",
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "scripts": [
-        "scripts/post_app.sh"
+        "scripts/job.sh"
       ]
     }
   ]
