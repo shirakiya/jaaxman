@@ -14,3 +14,5 @@ crontab /root/crontab
 
 systemctl start cron
 systemctl enable cron
+
+systemctl enable td-agent
