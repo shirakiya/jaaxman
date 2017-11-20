@@ -14,7 +14,7 @@
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "ssh_timeout": "3m",
-    "ami_name": "jaaxman_job_{{timestamp}}"
+    "ami_name": "jaaxman_gateway_{{timestamp}}"
   }],
   "provisioners": [
     {
@@ -27,19 +27,14 @@
     },
     {
       "type": "file",
-      "source": "files/td-agent/td-agent.job.conf",
-      "destination": "/etc/td-agent/td-agent.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/crontab",
-      "destination": "/root/crontab"
+      "source": "files/fetch_hosts.py",
+      "destination": "/opt/fetch_hosts.py"
     },
     {
       "type": "shell",
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "scripts": [
-        "scripts/job.sh"
+        "scripts/gateway.sh"
       ]
     }
   ]

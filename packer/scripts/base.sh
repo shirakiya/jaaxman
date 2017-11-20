@@ -40,7 +40,7 @@ mkdir /root/local/
 git clone https://github.com/tagomoris/xbuild.git /root/xbuild
 /root/xbuild/python-install 3.6.2 /root/local/python-3.6.2
 
-echo 'export PATH=$HOME/local/python-3.6.2/bin:$PATH' >> /root/.bashrc
+echo -e "export PATH=$HOME/local/python-3.6.2/bin:$PATH\n" >> /root/.bash_profile
 
 # MySQL
 apt-get install -y libmysqlclient-dev mysql-client
