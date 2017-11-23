@@ -3,6 +3,7 @@ Description=uWSGI
 After=syslog.target
 
 [Service]
+EnvironmentFile=/root/env
 ExecStart=/root/local/python-3.6.2/bin/uwsgi --ini /etc/nginx/uwsgi.ini
 Restart=always
 KillSignal=SIGQUIT

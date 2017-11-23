@@ -1,5 +1,4 @@
 SHELL=/bin/bash
-PATH=/root/local/python-3.6.2/bin:/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=""
 
-05 06 * * * python /root/jaaxman/manage.py fetchrss >> /var/log/jaaxman/crontab.log
+05 06 * * * /root/jaaxman/scripts/fetchrss.sh >> /var/log/jaaxman/crontab.log

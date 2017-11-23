@@ -3,8 +3,6 @@ os: linux
 files:
   - source: /
     destination: /root/jaaxman
-  - source: README.md
-    destination: /opt
 hooks:
   AfterInstall:
     - location: scripts/setup.sh
