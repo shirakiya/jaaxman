@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /root
+  - source: README.md
+    destination: /opt
+hooks:
+  AfterInstall:
+    - location: scripts/migrate.sh
+      timeout: 300
+      runas: root
