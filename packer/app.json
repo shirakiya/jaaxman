@@ -23,6 +23,7 @@
       "scripts": [
         "scripts/sleep.sh",
         "scripts/base.sh",
+        "scripts/codedeploy.sh",
         "scripts/app.sh"
       ]
     },

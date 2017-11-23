@@ -22,7 +22,8 @@
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "scripts": [
         "scripts/sleep.sh",
-        "scripts/base.sh"
+        "scripts/base.sh",
+        "scripts/codedeploy.sh"
       ]
     },
     {
