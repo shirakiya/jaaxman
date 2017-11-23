@@ -2,11 +2,11 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /root
+    destination: /root/jaaxman
   - source: README.md
     destination: /opt
 hooks:
   AfterInstall:
-    - location: scripts/migrate.sh
-      timeout: 300
+    - location: scripts/setup.sh
+      timeout: 600
       runas: root
