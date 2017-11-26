@@ -168,7 +168,7 @@ LOGGING = {
             'format': '\t'.join([
                 'time:%(asctime)s',
                 'level:%(levelname)s',
-                'module:%(module)s',
+                'path:%(pathname)s',
                 'message:%(message)s',
             ]),
             'datefmt': '%Y-%m-%dT%H:%M:%S',
