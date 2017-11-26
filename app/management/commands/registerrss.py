@@ -1,6 +1,9 @@
+from logging import getLogger
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from app.models import RssFetchSubject
+
+logger = getLogger(__name__)
 
 RSS_LIST = (
     {
@@ -25,4 +28,4 @@ class Command(BaseCommand):
                     continue
                 RssFetchSubject.objects.create(**rss)
 
-        self.stdout.write(self.style.SUCCESS('Successfully register RSS.'))
+        logger.info(self.style.SUCCESS('Successfully register RSS.'))

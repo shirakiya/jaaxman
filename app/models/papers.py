@@ -1,9 +1,11 @@
+from logging import getLogger
 import re
 from django.db import models
-from jaaxman.logger import Logger
 from app.models.rss_fetch_histories import RssFetchHistory
 from app.models.authors import Author
 from app.lib.google_translator import GoogleTranslator
+
+logger = getLogger(__name__)
 
 
 class Paper(models.Model):
@@ -45,7 +47,7 @@ class Paper(models.Model):
     def _set_subject(self):
         match = re.search(r'\(.*\[(.+)\].*\)', self.title)
         if not match:
-            Logger.warn(f"Could not extract paper's subject. title => {self.title}")
+            logger.warn(f"Could not extract paper's subject. title => {self.title}")
             self.subject = ''
             return False
         else:

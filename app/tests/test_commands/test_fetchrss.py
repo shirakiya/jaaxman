@@ -1,6 +1,5 @@
 from unittest.mock import patch
 from django.core.management import call_command
-from django.utils.six import StringIO
 from app.tests.base_testcase import BaseTestCase
 from app.models import Paper
 
@@ -11,10 +10,10 @@ class FetchRssTestCase(BaseTestCase):
         self.rss_fetch_subject_0 = self.creation.rss_fetch_subject(name='NAME_0')
         self.rss_fetch_subject_1 = self.creation.rss_fetch_subject(name='NAME_1')
 
+    @patch('app.management.commands.fetchrss.logger')
     @patch('app.lib.rss.arxiv.ArxivRss.fetch_and_save')
-    def test_handle(self, m):
-        m.return_value = [Paper(), Paper()]
-        out = StringIO()
-        call_command('fetchrss', stdout=out)
+    def test_handle(self, m_fetch_and_save, m_logger):
+        m_fetch_and_save.return_value = [Paper(), Paper()]
+        call_command('fetchrss')
 
-        self.assertIn('4 papers', out.getvalue())
+        m_logger.info.assert_called_with('\x1b[32;1mSuccessfully fetch and save 4 papers from RSS.\x1b[0m')

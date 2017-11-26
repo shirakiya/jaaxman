@@ -186,6 +186,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO',
         },
+        'app': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+        },
         'django.request': {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO',

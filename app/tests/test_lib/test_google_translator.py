@@ -40,8 +40,8 @@ class GoogleTranslatorTestCase(BaseTestCase):
             'format': 'text',
         })
 
-    @patch('jaaxman.logger.Logger.critical')
-    def test_translate_error(self, m_critical):
+    @patch('app.lib.google_translator.logger')
+    def test_translate_error(self, _):
         response_json = {
             'INVALID_KEY': {
                 'translations': [

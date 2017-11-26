@@ -1,7 +1,9 @@
+from logging import getLogger
 from django.conf import settings
 import requests
-from jaaxman.logger import Logger
 from app.exceptions import CloudTranslationParseError
+
+logger = getLogger(__name__)
 
 
 class GoogleTranslator(object):
@@ -28,7 +30,7 @@ class GoogleTranslator(object):
         translated_texts = [t.get('translatedText') for t in response_texts]
 
         if not translated_texts or not all(translated_texts):
-            Logger.critical(res.text)
+            logger.critical(res.text)
             raise CloudTranslationParseError('Response body from Google Cloud Translation was changed.')
 
         return translated_texts
