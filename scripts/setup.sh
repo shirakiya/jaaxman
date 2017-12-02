@@ -14,10 +14,13 @@ cd /root/jaaxman
 # ref.) https://stackoverflow.com/questions/36796167/upgraded-to-ubuntu-16-04-now-mysql-python-dependencies-are-broken
 /root/local/python-3.6.2/bin/pip uninstall -y mysqlclient
 /root/local/python-3.6.2/bin/pip install --no-binary mysqlclient mysqlclient==1.3.12
+/root/local/python-3.6.2/bin/pip uninstall -y uWSGI
+/root/local/python-3.6.2/bin/pip install uWSGI
+
 
 if [ $DEPLOYMENT_GROUP_NAME = 'jaaxman-job' ]; then
   /root/local/python-3.6.2/bin/python manage.py migrate
   /root/local/python-3.6.2/bin/python manage.py registerrss
 elif [ $DEPLOYMENT_GROUP_NAME = 'jaaxman-app' ]; then
-  systemctl start uwsgi
+  systemctl restart uwsgi
 fi
