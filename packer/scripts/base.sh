@@ -31,6 +31,8 @@ EOS
 curl -L https://toolbelt.treasuredata.com/sh/install-ubuntu-xenial-td-agent2.sh | sh
 sed -i -e '14a export AWS_REGION=ap-northeast-1' /etc/init.d/td-agent
 
+/opt/td-agent/embedded/bin/gem install fluent-plugin-cloudwatch-logs --no-ri --no-rdoc
+
 
 # Python
 # ref.) https://github.com/pyenv/pyenv/wiki/Common-build-problems#requirements

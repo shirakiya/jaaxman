@@ -12,7 +12,5 @@ chmod -R 777 $CRON_LOG_DIR
 
 crontab /root/crontab
 
-systemctl start cron
 systemctl enable cron
-
 systemctl enable td-agent
