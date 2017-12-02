@@ -18,4 +18,6 @@ cd /root/jaaxman
 if [ $DEPLOYMENT_GROUP_NAME = 'jaaxman-job' ]; then
   /root/local/python-3.6.2/bin/python manage.py migrate
   /root/local/python-3.6.2/bin/python manage.py registerrss
+elif [ $DEPLOYMENT_GROUP_NAME = 'jaaxman-app' ]; then
+  systemctl start uwsgi
 fi
