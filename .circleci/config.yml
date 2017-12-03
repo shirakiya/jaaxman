@@ -94,6 +94,7 @@ jobs:
             . venv/bin/activate
             aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
             aws s3 sync ./app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
+            python manage.py notify_build $TAR_NAME
 
 workflows:
   version: 2

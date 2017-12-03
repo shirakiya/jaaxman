@@ -20,6 +20,7 @@ jaaxman [arXiv](https://arxiv.org/) papers in Japanese.
 | AWS_ACCESS_KEY_ID     | None          |
 | AWS_SECRET_ACCESS_KEY | None          |
 | SSH_PRIVATE_KEY_FILE  | None          |
+| SLACK_URL             | None          |
 
 
 ## SetUp
