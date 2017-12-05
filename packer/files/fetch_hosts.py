@@ -34,6 +34,8 @@ Host {instance_name}
   IdentityFile ~/.ssh/jaaxman
   TCPKeepAlive yes
   IdentitiesOnly yes
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
 """
 
 
