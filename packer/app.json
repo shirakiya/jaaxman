@@ -10,12 +10,12 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-northeast-1",
-    "source_ami": "ami-0bb0316d",
+    "source_ami": "ami-8c58d9ea",
     "instance_type": "t2.micro",
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
     "ssh_timeout": "3m",
-    "ami_name": "jaaxman_app_{{timestamp}}"
+    "ami_name": "jaaxman_app_{{isotime \"200601020304\"}}"
   }],
   "provisioners": [
     {
