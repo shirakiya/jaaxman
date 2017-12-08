@@ -2,14 +2,15 @@
   "variables": {
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
-    "ssh_private_key_file": "{{env `SSH_PRIVATE_KEY_FILE`}}"
+    "ssh_private_key_file": "{{env `SSH_PRIVATE_KEY_FILE`}}",
+    "mackerel_api_key": "{{env `MACKEREL_API_KEY`}}"
   },
   "builders": [{
     "type": "amazon-ebs",
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-northeast-1",
-    "source_ami": "ami-782e961e",
+    "source_ami": "ami-0bb0316d",
     "instance_type": "t2.micro",
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
@@ -25,12 +26,25 @@
         "scripts/base.sh",
         "scripts/codedeploy.sh",
         "scripts/app.sh"
+      ],
+      "environment_vars": [
+        "MACKEREL_APIKEY={{user `mackerel_apikey`}}"
       ]
     },
     {
       "type": "file",
       "source": "files/td-agent/td-agent.app.conf",
       "destination": "/etc/td-agent/td-agent.conf"
+    },
+    {
+      "type": "file",
+      "source": "files/mackerel/conf.d/app.conf",
+      "destination": "/etc/mackerel-agent/conf.d/app.conf"
+    },
+    {
+      "type": "file",
+      "source": "files/mackerel/default/mackerel-agent",
+      "destination": "/etc/default/mackerel-agent"
     },
     {
       "type": "file",
