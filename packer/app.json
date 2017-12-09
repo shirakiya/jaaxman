@@ -3,7 +3,7 @@
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
     "ssh_private_key_file": "{{env `SSH_PRIVATE_KEY_FILE`}}",
-    "mackerel_api_key": "{{env `MACKEREL_API_KEY`}}"
+    "mackerel_apikey": "{{env `MACKEREL_APIKEY`}}"
   },
   "builders": [{
     "type": "amazon-ebs",
