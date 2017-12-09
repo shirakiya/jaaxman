@@ -10,3 +10,7 @@ class ValidationError(JaaxmanException):
 
 class InvalidDeploymentRoleError(ValidationError):
     pass
+
+
+class EnvironmentVariableNotDefineError(JaaxmanException):
+    pass
