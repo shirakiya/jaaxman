@@ -31,6 +31,11 @@
     },
     {
       "type": "file",
+      "source": "files/chrony.conf",
+      "destination": "/etc/chrony/chrony.conf"
+    },
+    {
+      "type": "file",
       "source": "files/mackerel/conf.d/gateway.conf",
       "destination": "/etc/mackerel-agent/conf.d/gateway.conf"
     },

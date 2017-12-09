@@ -22,10 +22,9 @@ setup_base_packages () {
 
 # NTP
 setup_ntp () {
-  apt-get install -y ntp
-  sed -e 's/ubuntu.pool.ntp.org iburst/amazon.pool.ntp.org/' /etc/ntp.conf
-  timedatectl
-  systemctl enable ntp
+  apt-get remove -y ntp
+  apt-get install -y chrony
+  systemctl enable chrony
 }
 
 # Fluentd

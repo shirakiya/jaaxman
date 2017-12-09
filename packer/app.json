@@ -33,6 +33,11 @@
     },
     {
       "type": "file",
+      "source": "files/chrony.conf",
+      "destination": "/etc/chrony/chrony.conf"
+    },
+    {
+      "type": "file",
       "source": "files/td-agent/td-agent.app.conf",
       "destination": "/etc/td-agent/td-agent.conf"
     },
