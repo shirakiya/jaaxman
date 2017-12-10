@@ -8,6 +8,9 @@
     </header>
     <section class="modal-card-body">
       <div class="content">
+        <div class="modal-content-center">
+          <img :src="brandImage" class="term-img" alt="Jaaxman"></img>
+        </div>
         <div>
           <h3>1. サイト運営者</h3>
           <p>
@@ -50,9 +53,16 @@
 </template>
 
 <script>
+import { getImgPath } from '../utils/statics.js';
+
 export default {
   props: {
     isActive: Boolean,
+  },
+  computed: {
+    brandImage() {
+      return getImgPath('logo_stacked_512.png');
+    },
   },
   methods: {
     closeModal() {
@@ -63,4 +73,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal-content-center {
+  text-align: center;
+}
+
+.term-img {
+  width: 50%;
+}
 </style>
