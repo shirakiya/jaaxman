@@ -1,7 +1,9 @@
-# jaaxman
+![Jaaxman](https://github.com/shirakiya/jaaxman/blob/master/app/static/img/logo_stacked_512.png)
+
+# Jaaxman
 [![CircleCI](https://circleci.com/gh/shirakiya/jaaxman/tree/master.svg?style=svg)](https://circleci.com/gh/shirakiya/jaaxman/tree/master)  
   
-jaaxman [arXiv](https://arxiv.org/) papers in Japanese.
+Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 
 ## Required
 - Python>=3.6
