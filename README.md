@@ -32,6 +32,10 @@ git clone https://github.com/shirakiya/jaaxman.git path/to/repos
 cd path/to/repos
 
 pip install -r requirements.txt
+
+# if not exists database
+mysql -u <db user> -p -e 'CREATE database jaaxman CHARACTER SET utf8mb4;'
+
 python manage.py migrate
 
 npm install
@@ -50,7 +54,7 @@ npm start
 
 ### Job
 ```
-python manage.py [fetchrss|registerrss]
+python manage.py <fetchrss|registerrss>
 ```
 
 - `fetchrss`: Fetch RSS from arxiv.org and save paper datas to database.
@@ -62,9 +66,17 @@ python manage.py [fetchrss|registerrss]
 ```
 cd packer
 
+# build gateway AMI
+packer build gateway.json
+
 # build app AMI
-./build_app.sh
+packer build app.json
 
 # build job AMI
-./build_job.sh
+packer build job.json
+```
+
+## Deploy
+```
+python manage.py deploy <app|job> <tarball name>
 ```
