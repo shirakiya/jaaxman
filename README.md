@@ -65,15 +65,7 @@ python manage.py <fetchrss|registerrss>
 ## Build AMI
 ```
 cd packer
-
-# build gateway AMI
-packer build gateway.json
-
-# build app AMI
-packer build app.json
-
-# build job AMI
-packer build job.json
+packer build <gateway|app|job>.json
 ```
 
 ## Deploy
