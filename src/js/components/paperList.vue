@@ -1,153 +1,129 @@
 <template>
 <div id="paper-list">
   <div class="paper-list-container">
-    <div class="tabs is-centered">
-      <ul>
-        <li :class="{ 'is-active': !selectedTab }">
-          <a @click="selectTab('')">All</a>
-        </li>
-        <li v-for="subject in subjects" :class="{ 'is-active': selectedTab === subject.name }">
-          <a @click="selectTab(subject.name)">{{ subject.name }}</a>
-        </li>
-      </ul>
-    </div>
-    <div class="paper-list-main">
-      <div class="paper-list-title">
-        <h3 class="title" v-if="!selectedTab">
-          All
-        </h3>
-        <h3 class="title is-3" v-else>
-          <a :href="tabUrl" target="_blank">
-            {{ selectedTab }}
-          </a>
-        </h3>
-      </div>
-      <div id='paper-list-content' class="paper-list-content" :style="paperListContentStyle">
-        <paper-item
-          v-for="paper in filteredPapers"
-          :key="paper.id"
-          :paper="paper"
-          :subjects="subjects"
-          :isSelected="selectedPaper && paper.id === selectedPaper.id"
-          @selectItem="selectItem"
-        ></paper-item>
-        <div class="paper-item-end" v-if="!isFetchCompleted">
-          <a class="button is-loading"></a>
-        </div>
+    <div id="paper-list-content">
+      <paper-item
+        v-for="paper in filteredPapers"
+        :key="paper.id"
+        :paper="paper"
+        :subjects="subjects"
+        :isSelected="selectedPaper && paper.id === selectedPaper.id"
+        @selectItem="selectItem"
+      ></paper-item>
+      <div class="paper-item-end" v-if="!isFetchCompleted">
+        <a class="button is-loading"></a>
       </div>
     </div>
   </div>
+  <paper-modal
+    :paper="selectedPaper"
+    :subject="subjectOfSelectedPaper"
+    :isActive="isActivePaperModal"
+    @closePaperModal="closePaperModal"
+    v-if="selectedPaper"
+  ></paper-modal>
 </div>
 </template>
 
 <script>
 import paperItem from './paperItem.vue';
+import paperModal from './paperModal.vue';
 import axios from 'axios';
 
 export default {
   props: {
-    subjects: Object,
+    subjects: Array,
     papers: Array,
-    selectedPaper: {
+    selectedSubject: {
       type: Object,
       required: false,
     },
-    paperDetailHeight: Number,
   },
   components: {
     paperItem,
+    paperModal,
   },
   mounted() {
-    this.setPaperListContentStyle();
-    window.addEventListener('resize', this.setPaperListContentStyle);
-    const paperListContent = document.getElementById('paper-list-content');
-    paperListContent.addEventListener('scroll', this.fetchPapers);
+    window.addEventListener('scroll', this.checkAndFetchPapers);
   },
-  bedoreDestory() {
-    window.removeEventListener('resize', this.setPaperListContentStyle);
-    const paperListContent = document.getElementById('paper-list-content');
-    paperListContent.removeEventListener('scroll', this.fetchPapers);
+  beforeDestory() {
+    window.removeEventListener('scroll', this.checkAndFetchPapers);
   },
   data() {
     return {
-      selectedTab: '',
-      paperListContentHeight: '100%',
       inRequest: false,
       isFetchCompleted: false,
+      selectedPaper: null,
     };
   },
-  watch: {
-    paperDetailHeight() {
-      this.setPaperListContentStyle();
-    },
-  },
   computed: {
-    tabUrl() {
-      return 'https://arxiv.org/list/' + this.selectedTab + '/recent';
-    },
-    paperListContentStyle() {
-      return {
-        overflow: 'scroll',
-        height: this.paperListContentHeight,
-      }
-    },
     filteredPapers() {
-      if (this.selectedTab === '') {
+      if (!this.selectedSubject) {
         return this.papers;
       }
       else {
         return this.papers.filter((paper) => {
-          return this.subjects[paper.rss_fetch_subject_id].name === this.selectedTab;
+          return paper.rss_fetch_subject_id === this.selectedSubject.id;
         });
+      }
+    },
+    isActivePaperModal() {
+      return this.selectedPaper != null;
+    },
+    subjectOfSelectedPaper() {
+      if (!this.selectedPaper) {
+        return null;
+      }
+      for (let subject of this.subjects) {
+        if (subject.id == this.selectedPaper.rss_fetch_subject_id) {
+          return subject;
+        }
       }
     },
   },
   methods: {
-    selectTab(tab) {
-      this.selectedTab = tab;
-    },
-    setPaperListContentStyle() {
-      const clientHeight = document.documentElement.clientHeight;
-      const wholePaperDetailHeight = this.paperDetailHeight + 52;  // navbar
-      const targetHeight = (clientHeight >= wholePaperDetailHeight) ? clientHeight : wholePaperDetailHeight;
-
-      const paperListContent = document.getElementById('paper-list-content');
-      let baseHeight;
-      if ('offsetTop' in paperListContent) {
-        baseHeight = paperListContent.offsetTop;
-      } else {
-        baseHeight = paperListContent.getBoundingClientRect().top;
-      }
-
-      this.paperListContentHeight = targetHeight - baseHeight + 'px';
+    getScrollTop() {
+      const body = document.body;
+      const html = document.documentElement;
+      return body.scrollTop || html.scrollTop;
     },
     fetchPapers() {
-      const paperListContent = document.getElementById('paper-list-content');
-      if (this.isFetchCompleted || this.inRequest || paperListContent.scrollTop / paperListContent.scrollHeight < 0.9) {
+      return axios.get('/api/papers', {
+          params: {
+            count: this.papers.length,
+          },
+      })
+    },
+    checkAndFetchPapers() {
+      const html = document.documentElement;
+      const scrollTop = this.getScrollTop();
+      if (this.isFetchCompleted || this.inRequest || scrollTop / html.scrollHeight < 0.9) {
         return;
-      } else {
-        this.inRequest = true;
-        axios.get('/api/papers', {
-            params: {
-              count: this.papers.length,
-            },
-          })
-          .then(res => {
-            this.inRequest = false;
-            if (res.data.papers.length === 0) {
-              this.isFetchCompleted = true;
-            } else {
-              this.$emit('addPapers', res.data.papers);
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            this.inRequest = false;
-          })
       }
+      this.inRequest = true;
+      this.fetchPapers().then(res => {
+        this.inRequest = false;
+        const papers = res.data.papers;
+        if (papers.length === 0) {
+          this.isFetchCompleted = true;
+        } else {
+          this.$emit('addPapers', papers);
+        }
+      }).catch(error => {
+        this.inRequest = false;
+        console.log(error);
+      })
     },
     selectItem(paperId) {
-      this.$emit('selectItem', paperId);
+      for (let paper of this.papers) {
+        if (paper.id === paperId) {
+          this.selectedPaper = paper;
+          break;
+        }
+      }
+    },
+    closePaperModal() {
+      this.selectedPaper = null;
     },
   },
 };
@@ -155,30 +131,19 @@ export default {
 
 <style lang="scss" scoped>
 #paper-list {
-  border-right: 2px solid lightgray;
 
   .paper-list-container {
-    padding-top: 1em;
+    margin: 1em 1em 0;
+    height: 100%;
 
-    .paper-list-main {
-      padding-left: 2em;
+    .paper-item-end {
+      text-align: center;
+      height: 30px;
 
-      .paper-list-title {
-        padding-bottom: 0.5em;
-      }
-
-      .paper-list-content {
-
-        .paper-item-end {
-          text-align: center;
-          height: 30px;
-
-          .button {
-            &.is-loading {
-              font-size: 24px;
-              border: none;
-            }
-          }
+      .button {
+        &.is-loading {
+          font-size: 24px;
+          border: none;
         }
       }
     }

@@ -1,26 +1,20 @@
 <template>
 <div class="paper-item" :class="{ 'is-selected': isSelected }">
-  <div class="paper-item-selected" v-if="isSelected">
-    <span class="icon"><i class="fa fa-caret-right"></i></span>
-  </div>
   <div class="paper-item-content" v-on:click="handleItemClick">
-    <div class="columns is-gapless" :style="{ 'margin-bottom': '.2em' }">
-      <div class="column is-1">
-        <span class="tag is-light">{{ rssFetchSubjectName }}</span>
-      </div>
-      <div class="column">
-        <span class="paper-item-subtitle">[原文] {{ paper.title }}</span>
-      </div>
+    <div class="paper-item-header">
+      <span class="tag is-warning">
+        <a class="has-text-white" :href="subjectUrl" target="_blank">
+          {{ rssFetchSubjectName }}
+        </a>
+      </span>
+      <span class="paper-item-subtitle">[原文] {{ paper.title }}</span>
     </div>
     <div class="paper-item-title">
       {{ paperTitleJa }}
     </div>
     <div class="paper-item-body">
       <div class="has-text-left">
-        {{ paper.abstract_ja | truncate(55) }}
-      </div>
-      <div class="has-text-right">
-        <google-attribution-short></google-attribution-short>
+        {{ paper.abstract_ja | truncate(100) }}
       </div>
     </div>
     <div class="paper-item-footer">
@@ -49,6 +43,7 @@
 <script>
 import moment from 'moment';
 import googleAttributionShort from './googleAttributionShort.vue';
+import { getSubjectPageUrl } from './../utils/arxiv.js';
 
 export default {
   components: {
@@ -56,26 +51,27 @@ export default {
   },
   props: {
     paper: Object,
-    subjects: Object,
+    subjects: Array,
     isSelected: Boolean,
   },
-  data() {
+  data () {
     return {
     };
   },
   computed: {
+    subjectUrl() {
+      return getSubjectPageUrl(this.rssFetchSubjectName);
+    },
     rssFetchSubjectName() {
-      if (this.paper.rss_fetch_subject_id in this.subjects) {
-        return this.subjects[this.paper.rss_fetch_subject_id].name;
-      } else {
-        return null;
+      for (let subject of this.subjects) {
+        if (subject.id === this.paper.rss_fetch_subject_id) {
+          return subject.name;
+        }
       }
+      return null;
     },
     paperTitleJa() {
       return this.paper.title_ja.replace(/[（(].+[）)]$/, '').trim();
-    },
-    paperAbstractJa() {
-      return this.paper.abstract_ja.truncate(20, '...')
     },
     isExistAuthor() {
       return this.paper.authors.length > 0;
@@ -91,9 +87,6 @@ export default {
     },
   },
   methods: {
-    getRssFetchSubjectName(rssFetchSubjectId) {
-      return (rssFetchSubjectId in subjects) ? subjects[rssFetchSubjectId].name : null;
-    },
     handleItemClick() {
       this.$emit('selectItem', this.paper.id);
     },
@@ -103,11 +96,10 @@ export default {
 
 <style lang="scss" scoped>
 .paper-item {
-  padding: 1em 0 .5em;
+  padding: 1.2em 0 .5em;
   border-bottom: 1px solid lightgray;
 
   &.is-selected {
-    display: flex;
     background-color: whitesmoke;
   }
 
@@ -115,16 +107,15 @@ export default {
     background-color: whitesmoke;
   }
 
-  .paper-item-selected {
-    align-self: center;
-    width: 20px;
-  }
-
   .paper-item-content {
     cursor: pointer;
     width: 100%;
     padding-left: .5em;
     padding-right: 1.5em;
+
+    .paper-item-header {
+      margin-bottom: .2em;
+    }
 
     span.paper-item-subtitle {
       color: #6E6E6E;
@@ -140,12 +131,13 @@ export default {
     }
 
     .paper-item-body {
-      font-size: .8em;
+      margin: .4em 0;
+      font-size: .7rem;
     }
 
     .paper-item-footer {
       overflow: hidden;
-      font-size: .8em;
+      font-size: .7rem;
 
       .paper-item-footer-left {
         float: left;

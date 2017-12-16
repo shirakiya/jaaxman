@@ -3,7 +3,7 @@ from app.models import RssFetchSubject, Paper
 
 def create_jsonable_subjects():
     subjects = RssFetchSubject.objects.all()
-    return {subject.id: subject.dumps() for subject in subjects}
+    return [subject.dumps() for subject in subjects]
 
 
 def create_jsonable_papers(offset=0):

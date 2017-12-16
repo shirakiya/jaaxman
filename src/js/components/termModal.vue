@@ -10,6 +10,9 @@
       <div class="content">
         <div class="modal-content-center">
           <img :src="brandImage" class="term-img" alt="Jaaxman"></img>
+          <p>
+            <a href="/">Jaaxman</a> created by <a href="https://twitter.com/shirakiya831" target="_blank">shirakiya</a>.
+          </p>
         </div>
         <div>
           <h3>1. サイト運営者</h3>
@@ -69,7 +72,7 @@ export default {
       this.$emit('close');
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
