@@ -1,7 +1,7 @@
-from .rss_fetch_histories import CreationRssFetchHistory
-from .rss_fetch_subjects import CreationRssFetchSubject
-from .papers import CreationPaper
-from .authors import CreationAuthor
+from .rss_fetch_history import CreationRssFetchHistory
+from .rss_fetch_subject import CreationRssFetchSubject
+from .paper import CreationPaper
+from .author import CreationAuthor
 
 __all__ = [
     'CreationRssFetchHistory',

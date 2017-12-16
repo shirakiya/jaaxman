@@ -1,8 +1,8 @@
 from logging import getLogger
 import re
 from django.db import models
-from app.models.rss_fetch_histories import RssFetchHistory
-from app.models.authors import Author
+from app.models.rss_fetch_history import RssFetchHistory
+from app.models.author import Author
 from app.lib.google_translator import GoogleTranslator
 
 logger = getLogger(__name__)

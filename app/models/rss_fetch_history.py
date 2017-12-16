@@ -1,5 +1,5 @@
 from django.db import models
-from app.models.rss_fetch_subjects import RssFetchSubject
+from app.models.rss_fetch_subject import RssFetchSubject
 
 
 class RssFetchHistory(models.Model):
