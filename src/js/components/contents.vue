@@ -19,13 +19,11 @@
 </template>
 
 <script>
-import subjectTab from './subjectTab.vue';
 import filteringCard from './filteringCard.vue';
 import paperList from './paperList.vue';
 
 export default {
   components: {
-    subjectTab,
     filteringCard,
     paperList,
   },
