@@ -1,15 +1,17 @@
 <template>
 <section id="contents" class="columns">
   <div class="column is-10 is-offset-1">
-    <subject-tab
+    <filtering-card
       :subjects="subjects"
-      :selectedSubject="(selectedSubject) ? selectedSubject.name : ''"
+      :submitTypes="submitTypes"
       @selectSubject="selectSubject"
-    ></subject-tab>
+      @selectSubmitType="selectSubmitType"
+    ></filtering-card>
     <paper-list
       :subjects="subjects"
       :papers="papers"
       :selectedSubject="selectedSubject"
+      :selectedSubmitType="selectedSubmitType"
       @addPapers="addPapers"
     ></paper-list>
   </div>
@@ -18,31 +20,47 @@
 
 <script>
 import subjectTab from './subjectTab.vue';
+import filteringCard from './filteringCard.vue';
 import paperList from './paperList.vue';
 
 export default {
   components: {
     subjectTab,
+    filteringCard,
     paperList,
   },
   data() {
     return {
       subjects: window.subjects,
       papers: window.papers,
+      submitTypes: window.submitTypes,
       selectedSubject: null,
+      selectedSubmitType: null,
     };
   },
   methods: {
     selectSubject(subjectName) {
-      if (subjectName) {
+      if (subjectName === 'ALL') {
+        this.selectedSubject = null;
+      } else {
         for (let subject of this.subjects) {
           if (subject.name === subjectName) {
             this.selectedSubject = subject;
             break;
           }
         }
+      }
+    },
+    selectSubmitType(selectedSubmitType) {
+      if (selectedSubmitType === 'ALL') {
+        this.selectedSubmitType = null;
       } else {
-        this.selectedSubject = null;
+        for (let submitType of this.submitTypes) {
+          if (submitType.display_name === selectedSubmitType) {
+            this.selectedSubmitType = submitType;
+            break;
+          }
+        }
       }
     },
     addPapers(papers) {

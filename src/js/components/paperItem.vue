@@ -1,9 +1,9 @@
 <template>
 <div class="paper-item" :class="{ 'is-selected': isSelected }">
   <div class="paper-item-content" v-on:click="handleItemClick">
-    <div class="paper-item-header">
+    <div class="tags paper-item-header">
       <span class="tag is-warning">
-        <a class="has-text-white" :href="subjectUrl" target="_blank">
+        <a class="has-text-black-bis" :href="subjectUrl" target="_blank">
           {{ rssFetchSubjectName }}
         </a>
       </span>
@@ -120,7 +120,7 @@ export default {
     span.paper-item-subtitle {
       color: #6E6E6E;
       word-break: break-word;
-      font-size: .8em;
+      font-size: .7rem;
       font-weight: 400;
     }
 

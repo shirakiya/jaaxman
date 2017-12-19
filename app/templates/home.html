@@ -6,6 +6,7 @@
     <app></app>
 </div>
 <script type="text/javascript">
+    window.submitTypes = JSON.parse("{{ submit_types|to_json|escapejs }}");
     window.subjects = JSON.parse("{{ subjects|to_json|escapejs }}");
     window.papers = JSON.parse("{{ papers|to_json|escapejs }}");
 </script>

@@ -30,8 +30,18 @@ class Paper(models.Model):
     abstract_ja = models.TextField(null=False)
     link = models.TextField(null=False)
     subject = models.CharField(max_length=255, blank=True, null=False)
+    submit_type = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False)
+
+    SUBMIT_TYPE_NEW = 'new'
+    SUBMIT_TYPE_UPDATED = 'updated'
+    SUBMIT_TYPE_CROSS_LISTED = 'cross_listed'
+    SUBMIT_TYPES = (
+        (SUBMIT_TYPE_NEW, 'NEW'),
+        (SUBMIT_TYPE_UPDATED, 'UPDATED'),
+        (SUBMIT_TYPE_CROSS_LISTED, 'CROSS LISTED'),
+    )
 
     @classmethod
     def from_xml(cls, arxiv_paper_item):
@@ -41,6 +51,7 @@ class Paper(models.Model):
             link=arxiv_paper_item['link'],
         )
         self._set_subject()
+        self.set_submit_type()
         self._set_translation()
         return self
 
@@ -53,6 +64,14 @@ class Paper(models.Model):
         else:
             self.subject = match.groups()[0]
             return True
+
+    def set_submit_type(self):
+        for submit_type, submit_type_title in self.SUBMIT_TYPES:
+            if self.title.endswith(f'{submit_type_title})'):
+                self.submit_type = submit_type
+        if not self.submit_type:
+            self.submit_type = self.SUBMIT_TYPE_NEW
+        return True
 
     def _set_translation(self):
         texts = [
@@ -88,6 +107,7 @@ class Paper(models.Model):
             'abstract_ja': self.abstract_ja,
             'link': self.link,
             'subject': self.subject,
+            'submit_type': self.submit_type,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'authors': [author.dumps() for author in self.authors.all()],

@@ -20,3 +20,15 @@ def create_jsonable_papers(offset=0):
         jsonable_papers.append(paper_dict)
 
     return jsonable_papers
+
+
+def create_jsonable_submit_types():
+    jsonable_submit_types = []
+
+    for submit_type, submit_type_title in Paper.SUBMIT_TYPES:
+        jsonable_submit_types.append({
+            'name': submit_type,
+            'display_name': submit_type_title,
+        })
+
+    return jsonable_submit_types

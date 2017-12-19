@@ -1,6 +1,8 @@
 import datetime
-from unittest.mock import patch
+from unittest.mock import patch, ANY
+from parameterized import parameterized
 from app.tests.base_testcase import BaseTestCase
+from app.models import Paper
 
 
 class PaperTestCase(BaseTestCase):
@@ -10,6 +12,22 @@ class PaperTestCase(BaseTestCase):
         self.rss_fetch_history = self.creation.rss_fetch_history(
             rss_fetch_subject_id=self.rss_fetch_subject.id,
         )
+
+    @patch('app.models.paper.Paper._set_translation')
+    def test_from_xml(self, _):
+        arxiv_paper_item = {
+            'title': 'Some title.(arXiv:1611.07078v2 [cs.AI] UPDATED)',
+            'abstract': 'ABSTRACT',
+            'link': 'LINK',
+        }
+        result = Paper.from_xml(arxiv_paper_item)
+
+        self.assertIsInstance(result, Paper)
+        self.assertEqual(result.title, 'Some title.(arXiv:1611.07078v2 [cs.AI] UPDATED)')
+        self.assertEqual(result.abstract, 'ABSTRACT')
+        self.assertEqual(result.link, 'LINK')
+        self.assertEqual(result.subject, 'cs.AI')
+        self.assertEqual(result.submit_type, Paper.SUBMIT_TYPE_UPDATED)
 
     def test_set_subject(self):
         paper = self.creation.paper(
@@ -28,6 +46,20 @@ class PaperTestCase(BaseTestCase):
         paper._set_subject()
 
         self.assertEqual(paper.subject, 'cs.AI')
+
+    @parameterized.expand([
+        ('TITLE([])', Paper.SUBMIT_TYPE_NEW),
+        ('TITLE([] UPDATED)', Paper.SUBMIT_TYPE_UPDATED),
+        ('TITLE([] CROSS LISTED)', Paper.SUBMIT_TYPE_CROSS_LISTED),
+    ])
+    def test_set_submit_type_for_new(self, title, expected):
+        paper = self.creation.paper(
+            title=title,
+            rss_fetch_history_id=self.rss_fetch_history.id,
+        )
+        paper.set_submit_type()
+
+        self.assertEqual(paper.submit_type, expected)
 
     @patch('app.lib.google_translator.GoogleTranslator.translate')
     def test_set_translation(self, m_translate):
@@ -80,12 +112,19 @@ class PaperTestCase(BaseTestCase):
         result = paper.dumps()
 
         self.assertIsInstance(result['id'], int)
-        self.assertEqual(result['title'], 'PAPER_TITLE')
-        self.assertEqual(result['title_ja'], 'タイトル')
-        self.assertEqual(result['abstract'], 'ABSTRACT')
-        self.assertEqual(result['abstract_ja'], '要約')
-        self.assertEqual(result['link'], 'http://arxiv.org/abs/1708.00000')
-        self.assertEqual(result['subject'], 'SUBJECT')
         self.assertIsInstance(result['created_at'], datetime.datetime)
         self.assertIsInstance(result['updated_at'], datetime.datetime)
         self.assertIsInstance(result['authors'][0], dict)
+        self.assertEqual(result, {
+            'id': ANY,
+            'title': 'PAPER_TITLE',
+            'title_ja': 'タイトル',
+            'abstract': 'ABSTRACT',
+            'abstract_ja': '要約',
+            'link': 'http://arxiv.org/abs/1708.00000',
+            'subject': 'SUBJECT',
+            'submit_type': 'new',
+            'created_at': ANY,
+            'updated_at': ANY,
+            'authors': ANY,
+        })

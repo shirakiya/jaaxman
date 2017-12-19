@@ -38,6 +38,10 @@ export default {
       type: Object,
       required: false,
     },
+    selectedSubmitType: {
+      type: Object,
+      required: false,
+    },
   },
   components: {
     paperItem,
@@ -56,16 +60,24 @@ export default {
       selectedPaper: null,
     };
   },
+  watch: {
+    selectedSubject() {
+      setTimeout(() => {
+        this.checkAndFetchPapers();
+      }, 500);
+    },
+    selectedSubmitType() {
+      setTimeout(() => {
+        this.checkAndFetchPapers();
+      }, 500);
+    },
+  },
   computed: {
     filteredPapers() {
-      if (!this.selectedSubject) {
-        return this.papers;
-      }
-      else {
-        return this.papers.filter((paper) => {
-          return paper.rss_fetch_subject_id === this.selectedSubject.id;
-        });
-      }
+      let papers = this.papers;
+      papers = this.filteredPapersBySubject(papers);
+      papers = this.filteredPapersBySubmitType(papers);
+      return papers;
     },
     isActivePaperModal() {
       return this.selectedPaper != null;
@@ -82,10 +94,29 @@ export default {
     },
   },
   methods: {
-    getScrollTop() {
+    filteredPapersBySubject(papers) {
+      if (!this.selectedSubject) {
+        return papers;
+      } else {
+        return papers.filter((paper) => {
+          return paper.rss_fetch_subject_id === this.selectedSubject.id;
+        });
+      }
+    },
+    filteredPapersBySubmitType(papers) {
+      if (!this.selectedSubmitType) {
+        return papers;
+      } else {
+        return papers.filter((paper) => {
+          return paper.submit_type === this.selectedSubmitType.name;
+        });
+      }
+    },
+    getScrollBottom() {
       const body = document.body;
       const html = document.documentElement;
-      return body.scrollTop || html.scrollTop;
+      const scrollTop = body.scrollTop || html.scrollTop;
+      return html.scrollHeight - html.clientHeight - scrollTop;
     },
     fetchPapers() {
       return axios.get('/api/papers', {
@@ -95,9 +126,8 @@ export default {
       })
     },
     checkAndFetchPapers() {
-      const html = document.documentElement;
-      const scrollTop = this.getScrollTop();
-      if (this.isFetchCompleted || this.inRequest || scrollTop / html.scrollHeight < 0.9) {
+      const scrollButtom = this.getScrollBottom();
+      if (this.isFetchCompleted || this.inRequest || scrollButtom >= 300) {
         return;
       }
       this.inRequest = true;
@@ -133,7 +163,7 @@ export default {
 #paper-list {
 
   .paper-list-container {
-    margin: 1em 1em 0;
+    margin: 0 1em 0;
     height: 100%;
 
     .paper-item-end {
