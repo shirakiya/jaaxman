@@ -3,7 +3,7 @@ from app.tests.base_testcase import BaseTestCase
 from app.models import Paper
 from app.views.helpers import (
     create_jsonable_subjects,
-    create_jsonable_papers,
+    create_jsonable_date_to_papers,
     create_jsonable_submit_types,
 )
 
@@ -32,7 +32,7 @@ class ViewHelperTestCase(BaseTestCase):
             },
         ])
 
-    def test_create_jsonable_papers(self):
+    def test_create_jsonable_date_to_papers(self):
         rss_fetch_subject = self.creation.rss_fetch_subject()
         rss_fetch_history = self.creation.rss_fetch_history(rss_fetch_subject_id=rss_fetch_subject.id)
 
@@ -42,12 +42,13 @@ class ViewHelperTestCase(BaseTestCase):
                 title=f'PAPER_TITLE_{i}',
             )
         offset = 1
-        result = create_jsonable_papers(offset)
+        result = create_jsonable_date_to_papers(offset)
 
-        self.assertEqual(result[0]['title'], 'PAPER_TITLE_98')  # offset分1つ少ない
-        self.assertEqual(result[-1]['title'], 'PAPER_TITLE_0')
-        self.assertEqual(result[0]['rss_fetch_subject_id'], rss_fetch_subject.id)
-        self.assertEqual(result[-1]['rss_fetch_subject_id'], rss_fetch_subject.id)
+        self.assertEqual(list(result.keys()), ['2017-08-01'])
+        self.assertEqual(result['2017-08-01'][0]['title'], 'PAPER_TITLE_98')  # offset分1つ少ない
+        self.assertEqual(result['2017-08-01'][-1]['title'], 'PAPER_TITLE_0')
+        self.assertEqual(result['2017-08-01'][0]['rss_fetch_subject_id'], rss_fetch_subject.id)
+        self.assertEqual(result['2017-08-01'][-1]['rss_fetch_subject_id'], rss_fetch_subject.id)
 
     def test_create_jsonable_submit_types(self):
         result = create_jsonable_submit_types()

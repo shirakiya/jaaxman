@@ -2,14 +2,15 @@
 <div id="paper-list">
   <div class="paper-list-container">
     <div id="paper-list-content">
-      <paper-item
-        v-for="paper in filteredPapers"
-        :key="paper.id"
-        :paper="paper"
+      <daily-paper-list
+        v-for="(filteredPaperValues, date) in filteredPapers"
+        :key="date"
+        :date="date"
+        :papers="filteredPaperValues"
         :subjects="subjects"
-        :isSelected="selectedPaper && paper.id === selectedPaper.id"
+        :selectedPaper="selectedPaper"
         @selectItem="selectItem"
-      ></paper-item>
+      ></daily-paper-list>
       <div class="paper-item-end" v-if="!isFetchCompleted">
         <a class="button is-loading"></a>
       </div>
@@ -26,14 +27,14 @@
 </template>
 
 <script>
-import paperItem from './paperItem.vue';
+import dailyPaperList from './dailyPaperList.vue';
 import paperModal from './paperModal.vue';
 import axios from 'axios';
 
 export default {
   props: {
     subjects: Array,
-    papers: Array,
+    papers: Object,
     selectedSubject: {
       type: Object,
       required: false,
@@ -44,7 +45,7 @@ export default {
     },
   },
   components: {
-    paperItem,
+    dailyPaperList,
     paperModal,
   },
   mounted() {
@@ -98,18 +99,26 @@ export default {
       if (!this.selectedSubject) {
         return papers;
       } else {
-        return papers.filter((paper) => {
-          return paper.rss_fetch_subject_id === this.selectedSubject.id;
+        let filteredPapers = {};
+        Object.keys(papers).map((key) => {
+          filteredPapers[key] = papers[key].filter((paper) => {
+            return paper.rss_fetch_subject_id === this.selectedSubject.id;
+          });
         });
+        return filteredPapers;
       }
     },
     filteredPapersBySubmitType(papers) {
       if (!this.selectedSubmitType) {
         return papers;
       } else {
-        return papers.filter((paper) => {
-          return paper.submit_type === this.selectedSubmitType.name;
+        let filteredPapers = {};
+        Object.keys(papers).map((key) => {
+          filteredPapers[key] = papers[key].filter((paper) => {
+            return paper.submit_type === this.selectedSubmitType.name;
+          });
         });
+        return filteredPapers;
       }
     },
     getScrollBottom() {
@@ -118,10 +127,17 @@ export default {
       const scrollTop = body.scrollTop || html.scrollTop;
       return html.scrollHeight - html.clientHeight - scrollTop;
     },
+    getPaperLength(papers) {
+      let count = 0;
+      Object.keys(papers).map((key) => {
+        count += papers[key].length;
+      });
+      return count;
+    },
     fetchPapers() {
       return axios.get('/api/papers', {
           params: {
-            count: this.papers.length,
+            count: this.getPaperLength(this.papers),
           },
       })
     },
@@ -134,7 +150,7 @@ export default {
       this.fetchPapers().then(res => {
         this.inRequest = false;
         const papers = res.data.papers;
-        if (papers.length === 0) {
+        if (this.getPaperLength(papers) === 0) {
           this.isFetchCompleted = true;
         } else {
           this.$emit('addPapers', papers);
@@ -145,10 +161,13 @@ export default {
       })
     },
     selectItem(paperId) {
-      for (let paper of this.papers) {
-        if (paper.id === paperId) {
-          this.selectedPaper = paper;
-          break;
+      loop:
+      for (let key of Object.keys(this.papers)) {
+        for (let paper of this.papers[key]) {
+          if (paper.id === paperId) {
+            this.selectedPaper = paper;
+            break loop;
+          }
         }
       }
     },

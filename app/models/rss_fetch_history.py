@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from app.models.rss_fetch_subject import RssFetchSubject
 
@@ -24,3 +25,9 @@ class RssFetchHistory(models.Model):
             rss_fetch_subject_id=rss_fetch_subject_id,
             date=date,
         ).exists()
+
+    def cut_to_datetime(self):
+        return self.date.rsplit('-', 1)[0]
+
+    def get_fetch_datetime(self):
+        return datetime.strptime(self.cut_to_datetime(), '%Y-%m-%dT%H:%M:%S')

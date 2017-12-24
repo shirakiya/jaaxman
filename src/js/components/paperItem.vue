@@ -14,7 +14,7 @@
     </div>
     <div class="paper-item-body">
       <div class="has-text-left">
-        {{ paper.abstract_ja | truncate(100) }}
+        {{ paper.abstract_ja | truncate(150) }}
       </div>
     </div>
     <div class="paper-item-footer">
@@ -52,7 +52,10 @@ export default {
   props: {
     paper: Object,
     subjects: Array,
-    isSelected: Boolean,
+    isSelected: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {

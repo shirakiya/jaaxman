@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       subjects: window.subjects,
-      papers: window.papers,
+      papers: window.date_to_papers,
       submitTypes: window.submitTypes,
       selectedSubject: null,
       selectedSubmitType: null,
@@ -62,7 +62,15 @@ export default {
       }
     },
     addPapers(papers) {
-      this.$set(this, 'papers', this.papers.concat(papers));
+      const assignedPapers = Object.assign({}, this.papers);
+      Object.keys(papers).map((key) => {
+        if (key in assignedPapers) {
+          assignedPapers[key] = assignedPapers[key].concat(papers[key]);
+        } else {
+          assignedPapers[key] = papers[key];
+        }
+      });
+      this.$set(this, 'papers', assignedPapers);
     },
   },
 };
