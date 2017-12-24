@@ -102,6 +102,10 @@ export default {
   padding: 1.2em 0 .5em;
   border-bottom: 1px solid lightgray;
 
+  &:first-child {
+    padding: 0 0 .5em;
+  }
+
   &.is-selected {
     background-color: whitesmoke;
   }

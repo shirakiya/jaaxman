@@ -1,17 +1,21 @@
 <template>
-<div class="columns daily-paper-list" v-if="!isPapersEmpty">
-  <div class="column is-2 daily-paper-meta">
+<div class="daily-paper-list" v-if="!isPapersEmpty">
+  <div class="daily-paper-title">
     <h2 class="subtitle is-2 has-text-justified">{{ displayDate }}</h2>
   </div>
-  <div class="column is-10">
-    <paper-item
-      v-for="paper in papers"
-      :key="paper.id"
-      :paper="paper"
-      :subjects="subjects"
-      :isSelected="selectedPaper && paper.id === selectedPaper.id"
-      @selectItem="selectItem"
-    ></paper-item>
+  <div class="columns">
+    <div class="column is-2">
+    </div>
+    <div class="column is-10">
+      <paper-item
+        v-for="paper in papers"
+        :key="paper.id"
+        :paper="paper"
+        :subjects="subjects"
+        :isSelected="selectedPaper && paper.id === selectedPaper.id"
+        @selectItem="selectItem"
+      ></paper-item>
+    </div>
   </div>
 </div>
 </template>
@@ -58,8 +62,10 @@ export default {
     margin-top: 0;
   }
 
-  .daily-paper-meta {
-    padding: 1.5em 1em 0;
+  .daily-paper-title {
+    background-color: whitesmoke;
+    margin-bottom: .5em;
+    padding: .5em 1.5em;
   }
 }
 </style>
