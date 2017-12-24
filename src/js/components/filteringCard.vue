@@ -84,7 +84,7 @@ export default {
       inDateRequest: false,
       selectedDate: null,
       flatPickrConfig: {
-        // minDate: "2017-12",
+        minDate: "2017-12",
       },
     };
   },
