@@ -34,6 +34,7 @@
     "axios": "^0.16.2",
     "bulma": "^0.6.1",
     "moment": "^2.18.1",
-    "vue": "^2.4.4"
+    "vue": "^2.4.4",
+    "vue-flatpickr-component": "^5.0.5"
   }
 }

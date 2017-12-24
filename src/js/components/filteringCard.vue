@@ -8,7 +8,7 @@
   <div class="card-content">
     <div class="field is-horizontal">
       <div class="field-label is-normal">
-        <label class="label">Subject</label>
+        <label class="label">カテゴリ</label>
       </div>
       <div class="field-body">
         <div class="field is-narrow">
@@ -25,7 +25,7 @@
     </div>
     <div class="field is-horizontal">
       <div class="field-label is-normal">
-        <label class="label">Submit Type</label>
+        <label class="label">記事種別</label>
       </div>
       <div class="field-body">
         <div class="field is-narrow">
@@ -40,11 +40,38 @@
         </div>
       </div>
     </div>
+    <div class="field is-horizontal">
+      <div class="field-label is-normal">
+        <label class="label">更新日</label>
+      </div>
+      <div class="field-body">
+        <div class="field is-narrow has-addons">
+          <div class="control has-icons-left" :class="{ 'is-loading': inDateRequest }">
+            <flat-pickr
+              v-model="selectedDate"
+              :config="flatPickrConfig"
+              class="input"
+              placeholder="対象の日付を選択"
+            ></flat-pickr>
+            <span class="icon is-small is-left">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+          <div class="control">
+            <a type="submit" class="button" @click="removeDate">
+              <span class="icon is-small"><i class="fa fa-times-circle"></i></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: {
     subjects: Array,
@@ -54,7 +81,20 @@ export default {
     return {
       selectedSubjectName: 'ALL',
       selectedSubmitType: 'ALL',
+      inDateRequest: false,
+      selectedDate: null,
+      flatPickrConfig: {
+        // minDate: "2017-12",
+      },
     };
+  },
+  watch: {
+    selectedDate() {
+      if (!this.selectedDate || this.inDateRequest) {
+        return;
+      }
+      this.fetchPaperByDate(this.selectedDate);
+    },
   },
   methods: {
     selectSubject() {
@@ -62,7 +102,29 @@ export default {
     },
     selectSubmitType() {
       this.$emit('selectSubmitType', this.selectedSubmitType);
-    }
+    },
+    fetchPaperByDate(requestDate) {
+      this.inDateRequest = true;
+
+      axios.get('/api/papers', {
+        params: {
+          date: requestDate,
+        }
+      }).then(res => {
+        this.inDateRequest = false;
+        const papers = res.data.papers;
+        if (papers && papers[requestDate]) {
+          this.$emit('replacePapers', papers);
+        }
+      }).catch(error => {
+        this.inDateRequest = false;
+        console.error(error);
+      })
+    },
+    removeDate() {
+      this.selectedDate = null;
+      this.$emit('undoPapers');
+    },
   }
 };
 </script>

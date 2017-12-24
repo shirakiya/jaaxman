@@ -11,7 +11,7 @@
         :selectedPaper="selectedPaper"
         @selectItem="selectItem"
       ></daily-paper-list>
-      <div class="paper-item-end" v-if="!isFetchCompleted">
+      <div class="paper-item-end" v-if="showLoader">
         <a class="button is-loading"></a>
       </div>
     </div>
@@ -43,6 +43,7 @@ export default {
       type: Object,
       required: false,
     },
+    stopAutoLoading: Boolean,
   },
   components: {
     dailyPaperList,
@@ -92,6 +93,9 @@ export default {
           return subject;
         }
       }
+    },
+    showLoader() {
+      return !this.isFetchCompleted && !this.stopAutoLoading;
     },
   },
   methods: {
@@ -143,7 +147,7 @@ export default {
     },
     checkAndFetchPapers() {
       const scrollButtom = this.getScrollBottom();
-      if (this.isFetchCompleted || this.inRequest || scrollButtom >= 300) {
+      if (this.stopAutoLoading || this.isFetchCompleted || this.inRequest || scrollButtom >= 300) {
         return;
       }
       this.inRequest = true;
@@ -157,7 +161,7 @@ export default {
         }
       }).catch(error => {
         this.inRequest = false;
-        console.log(error);
+        console.error(error);
       })
     },
     selectItem(paperId) {

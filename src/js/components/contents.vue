@@ -6,12 +6,15 @@
       :submitTypes="submitTypes"
       @selectSubject="selectSubject"
       @selectSubmitType="selectSubmitType"
+      @replacePapers="replacePapers"
+      @undoPapers="undoPapers"
     ></filtering-card>
     <paper-list
       :subjects="subjects"
       :papers="papers"
       :selectedSubject="selectedSubject"
       :selectedSubmitType="selectedSubmitType"
+      :stopAutoLoading="isReplaced"
       @addPapers="addPapers"
     ></paper-list>
   </div>
@@ -32,9 +35,15 @@ export default {
       subjects: window.subjects,
       papers: window.date_to_papers,
       submitTypes: window.submitTypes,
+      allPapers: null,
       selectedSubject: null,
       selectedSubmitType: null,
     };
+  },
+  computed: {
+    isReplaced() {
+      return this.allPapers !== null;
+    },
   },
   methods: {
     selectSubject(subjectName) {
@@ -71,6 +80,16 @@ export default {
         }
       });
       this.$set(this, 'papers', assignedPapers);
+    },
+    replacePapers(papers) {
+      this.$set(this, 'allPapers', this.papers)
+      this.$set(this, 'papers', papers);
+    },
+    undoPapers() {
+      if (this.allPapers) {
+        this.$set(this, 'papers', this.allPapers);
+        this.$set(this, 'allPapers', null);
+      }
     },
   },
 };
