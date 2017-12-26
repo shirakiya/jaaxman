@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from jaaxman.exceptions import InvalidApiParamsError
 from app.views.helpers import (
     create_jsonable_date_to_papers_with_offset,
     create_jsonable_date_to_papers_with_date,
@@ -11,15 +10,13 @@ from app.views.helpers import (
 def api_papers(request):
     params = request.GET
 
-    offset = params.get('count')
     date = params.get('date')
+    offset = params.get('count', 0)
 
-    if offset:
-        jsonable_date_to_papers = create_jsonable_date_to_papers_with_offset(int(offset))
-    elif date:
+    if date:
         jsonable_date_to_papers = create_jsonable_date_to_papers_with_date(date)
     else:
-        raise InvalidApiParamsError('Invalid API params.')
+        jsonable_date_to_papers = create_jsonable_date_to_papers_with_offset(int(offset))
 
     return JsonResponse({
         'papers': jsonable_date_to_papers,
