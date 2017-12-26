@@ -4,10 +4,12 @@
     <filtering-card
       :subjects="subjects"
       :submitTypes="submitTypes"
+      :minDate="minDate"
+      :maxDate="maxDate"
       @selectSubject="selectSubject"
       @selectSubmitType="selectSubmitType"
       @replacePapers="replacePapers"
-      @undoPapers="undoPapers"
+      @resetOriginalPapers="resetOriginalPapers"
     ></filtering-card>
     <paper-list
       v-if="!isPapersEmpty"
@@ -41,12 +43,17 @@ export default {
       subjects: window.subjects,
       papers: window.date_to_papers,
       submitTypes: window.submitTypes,
-      allPapers: null,
+      allPapers: window.date_to_papers,
+      minDate: '2017-12',
       selectedSubject: null,
       selectedSubmitType: null,
     };
   },
   computed: {
+    maxDate() {
+      const dates = Object.keys(window.date_to_papers);
+      return (dates.length !== 0 ) ? dates[0] : '2017-12';
+    },
     isReplaced() {
       return this.allPapers !== null;
     },
@@ -91,14 +98,10 @@ export default {
       this.$set(this, 'papers', assignedPapers);
     },
     replacePapers(papers) {
-      this.$set(this, 'allPapers', this.papers)
       this.$set(this, 'papers', papers);
     },
-    undoPapers() {
-      if (this.allPapers) {
-        this.$set(this, 'papers', this.allPapers);
-        this.$set(this, 'allPapers', null);
-      }
+    resetOriginalPapers() {
+      this.$set(this, 'papers', this.allPapers);
     },
   },
 };

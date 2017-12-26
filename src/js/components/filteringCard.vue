@@ -76,6 +76,8 @@ export default {
   props: {
     subjects: Array,
     submitTypes: Array,
+    minDate: String,
+    maxDate: String,
   },
   data() {
     return {
@@ -83,9 +85,6 @@ export default {
       selectedSubmitType: 'ALL',
       inDateRequest: false,
       selectedDate: null,
-      flatPickrConfig: {
-        minDate: "2017-12",
-      },
     };
   },
   watch: {
@@ -94,6 +93,14 @@ export default {
         return;
       }
       this.fetchPaperByDate(this.selectedDate);
+    },
+  },
+  computed: {
+    flatPickrConfig() {
+      return {
+        minDate: this.minDate,
+        maxDate: this.maxDate,
+      };
     },
   },
   methods: {
@@ -120,7 +127,7 @@ export default {
     },
     removeDate() {
       this.selectedDate = null;
-      this.$emit('undoPapers');
+      this.$emit('resetOriginalPapers');
     },
   }
 };
