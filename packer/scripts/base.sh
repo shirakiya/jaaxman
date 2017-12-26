@@ -1,6 +1,10 @@
 #!/bin/bash
 set -eu
 
+chmod_home () {
+  chmod +rx .
+}
+
 # Timezone
 setup_timezone () {
   # UTC -> JST
@@ -71,6 +75,7 @@ cd $HOME
 echo $HOME
 apt-get update
 
+chmod_home
 setup_timezone
 setup_firewall
 setup_base_packages
