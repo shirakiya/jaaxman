@@ -10,6 +10,7 @@
       @undoPapers="undoPapers"
     ></filtering-card>
     <paper-list
+      v-if="!isPapersEmpty"
       :subjects="subjects"
       :papers="papers"
       :selectedSubject="selectedSubject"
@@ -17,6 +18,11 @@
       :stopAutoLoading="isReplaced"
       @addPapers="addPapers"
     ></paper-list>
+    <article class="message is-warning" v-else>
+      <div class="message-body">
+        論文が存在しません。
+      </div>
+    </article>
   </div>
 </section>
 </template>
@@ -43,6 +49,9 @@ export default {
   computed: {
     isReplaced() {
       return this.allPapers !== null;
+    },
+    isPapersEmpty() {
+      return Object.keys(this.papers).length === 0;
     },
   },
   methods: {

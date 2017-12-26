@@ -112,10 +112,7 @@ export default {
         }
       }).then(res => {
         this.inDateRequest = false;
-        const papers = res.data.papers;
-        if (papers && papers[requestDate]) {
-          this.$emit('replacePapers', papers);
-        }
+        this.$emit('replacePapers', res.data.papers);
       }).catch(error => {
         this.inDateRequest = false;
         console.error(error);
