@@ -7,6 +7,9 @@
           {{ rssFetchSubjectName }}
         </a>
       </span>
+      <span class="tag is-success">
+        {{ paper.submit_type }}
+      </span>
       <span class="paper-item-subtitle">[原文] {{ paper.title }}</span>
     </div>
     <div class="paper-item-title">

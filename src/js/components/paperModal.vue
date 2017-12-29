@@ -16,6 +16,9 @@
               {{ subject.name }}
             </a>
           </span>
+          <span class="tag is-success">
+            {{ paper.submit_type }}
+          </span>
           <span>更新日: {{ updateDate }}</span>
         </div>
       </div>

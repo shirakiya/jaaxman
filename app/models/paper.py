@@ -31,16 +31,17 @@ class Paper(models.Model):
     link = models.TextField(null=False)
     subject = models.CharField(max_length=255, blank=True, null=False)
     submit_type = models.CharField(max_length=255, null=False)
+    is_cross_listed = models.BooleanField(null=False, default=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False)
 
     SUBMIT_TYPE_NEW = 'new'
     SUBMIT_TYPE_UPDATED = 'updated'
-    SUBMIT_TYPE_CROSS_LISTED = 'cross_listed'
+    # SUBMIT_TYPE_CROSS_LISTED = 'cross_listed'
     SUBMIT_TYPES = (
         (SUBMIT_TYPE_NEW, 'NEW'),
         (SUBMIT_TYPE_UPDATED, 'UPDATED'),
-        (SUBMIT_TYPE_CROSS_LISTED, 'CROSS LISTED'),
+        # (SUBMIT_TYPE_CROSS_LISTED, 'CROSS LISTED'),
     )
 
     @classmethod
@@ -52,6 +53,7 @@ class Paper(models.Model):
         )
         self._set_subject()
         self.set_submit_type()
+        self.set_is_cross_listed()
         self._set_translation()
         return self
 
@@ -71,6 +73,11 @@ class Paper(models.Model):
                 self.submit_type = submit_type
         if not self.submit_type:
             self.submit_type = self.SUBMIT_TYPE_NEW
+        return True
+
+    def set_is_cross_listed(self):
+        if self.title.endswith('CROSS LISTED)'):
+            self.is_cross_listed = True
         return True
 
     def _set_translation(self):
@@ -108,6 +115,7 @@ class Paper(models.Model):
             'link': self.link,
             'subject': self.subject,
             'submit_type': self.submit_type,
+            'is_cross_listed': self.is_cross_listed,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'authors': [author.dumps() for author in self.authors.all()],

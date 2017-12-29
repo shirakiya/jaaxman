@@ -51,16 +51,30 @@ class PaperTestCase(BaseTestCase):
     @parameterized.expand([
         ('TITLE([])', Paper.SUBMIT_TYPE_NEW),
         ('TITLE([] UPDATED)', Paper.SUBMIT_TYPE_UPDATED),
-        ('TITLE([] CROSS LISTED)', Paper.SUBMIT_TYPE_CROSS_LISTED),
+        ('TITLE([] CROSS LISTED)', Paper.SUBMIT_TYPE_NEW),
     ])
     def test_set_submit_type_for_new(self, title, expected):
         paper = self.creation.paper(
-            title=title,
             rss_fetch_history_id=self.rss_fetch_history.id,
+            title=title,
         )
         paper.set_submit_type()
 
         self.assertEqual(paper.submit_type, expected)
+
+    @parameterized.expand([
+        ('TITLE([])', False),
+        ('TITLE([] UPDATED)', False),
+        ('TITLE([] CROSS LISTED)', True),
+    ])
+    def test_is_cross_listed(self, title, expected):
+        paper = self.creation.paper(
+            rss_fetch_history_id=self.rss_fetch_history.id,
+            title=title,
+        )
+        paper.set_is_cross_listed()
+
+        self.assertEqual(paper.is_cross_listed, expected)
 
     @patch('app.lib.google_translator.GoogleTranslator.translate')
     def test_set_translation(self, m_translate):
@@ -125,6 +139,7 @@ class PaperTestCase(BaseTestCase):
             'link': 'http://arxiv.org/abs/1708.00000',
             'subject': 'SUBJECT',
             'submit_type': 'new',
+            'is_cross_listed': False,
             'created_at': ANY,
             'updated_at': ANY,
             'authors': ANY,

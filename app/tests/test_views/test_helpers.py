@@ -120,8 +120,4 @@ class ViewHelperTestCase(BaseTestCase):
                 'name': Paper.SUBMIT_TYPE_UPDATED,
                 'display_name': 'UPDATED',
             },
-            {
-                'name': Paper.SUBMIT_TYPE_CROSS_LISTED,
-                'display_name': 'CROSS LISTED',
-            },
         ])
