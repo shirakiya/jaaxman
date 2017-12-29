@@ -8,23 +8,6 @@
   <div class="card-content">
     <div class="field is-horizontal">
       <div class="field-label is-normal">
-        <label class="label">カテゴリ</label>
-      </div>
-      <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <div class="select is-fullwidth">
-              <select v-model="selectedSubjectName" @change="selectSubject">
-                <option>ALL</option>
-                <option v-for="subject in subjects">{{ subject.name }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="field is-horizontal">
-      <div class="field-label is-normal">
         <label class="label">記事種別</label>
       </div>
       <div class="field-body">
@@ -34,6 +17,23 @@
               <select v-model="selectedSubmitType" @change="selectSubmitType">
                 <option>ALL</option>
                 <option v-for="submitType in submitTypes">{{ submitType.display_name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field is-horizontal">
+      <div class="field-label is-normal">
+        <label class="label">カテゴリ</label>
+      </div>
+      <div class="field-body">
+        <div class="field is-narrow">
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select v-model="selectedSubjectName" @change="selectSubject">
+                <option>ALL</option>
+                <option v-for="subject in subjects">{{ subject.name }}</option>
               </select>
             </div>
           </div>

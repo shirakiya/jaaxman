@@ -2,13 +2,13 @@
 <div class="paper-item" :class="{ 'is-selected': isSelected }">
   <div class="paper-item-content" v-on:click="handleItemClick">
     <div class="tags paper-item-header">
+      <span class="tag is-success">
+        {{ paper.submit_type }}
+      </span>
       <span class="tag is-warning">
         <a class="has-text-black-bis" :href="subjectUrl" target="_blank">
           {{ rssFetchSubjectName }}
         </a>
-      </span>
-      <span class="tag is-success">
-        {{ paper.submit_type }}
       </span>
       <span class="paper-item-subtitle">[原文] {{ paper.title }}</span>
     </div>

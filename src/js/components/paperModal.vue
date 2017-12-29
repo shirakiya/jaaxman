@@ -11,13 +11,13 @@
           </a>
         </div>
         <div class="paper-detail-header-left">
-          <span class="tag is-warning">
-            <a class="has-text-white" :href="subjectUrl" target="_blank">
-              {{ subject.name }}
-            </a>
-          </span>
           <span class="tag is-success">
             {{ paper.submit_type }}
+          </span>
+          <span class="tag is-warning">
+            <a class="has-text-black-bis" :href="subjectUrl" target="_blank">
+              {{ subject.name }}
+            </a>
           </span>
           <span>更新日: {{ updateDate }}</span>
         </div>
