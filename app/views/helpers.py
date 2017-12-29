@@ -1,4 +1,8 @@
-from app.models import RssFetchSubject, RssFetchHistory, Paper
+from datetime import datetime, timedelta
+import pytz
+from app.models import RssFetchSubject, Paper
+
+TIMEZONE = pytz.timezone('Asia/Tokyo')
 
 
 def create_jsonable_subjects():
@@ -12,8 +16,8 @@ def _format_jsonable_date_to_papers(papers):
     for paper in papers:
         paper_dump = paper.dumps()
         paper_dump['rss_fetch_subject_id'] = paper.rss_fetch_history.rss_fetch_subject_id
-        fetch_datetime = paper.rss_fetch_history.get_fetch_datetime()
-        jsonable_fetch_date_to_papers.setdefault(fetch_datetime.date().isoformat(), []).append(paper_dump)
+        fetch_date = paper.get_fetch_date(TIMEZONE)
+        jsonable_fetch_date_to_papers.setdefault(fetch_date, []).insert(0, paper_dump)
 
     return jsonable_fetch_date_to_papers
 
@@ -28,9 +32,19 @@ def create_jsonable_date_to_papers_with_offset(offset=0):
     return _format_jsonable_date_to_papers(papers)
 
 
+def _get_search_datetime_as_range(date):
+    request_dt = datetime.strptime(date, '%Y-%m-%d')
+    request_dt = TIMEZONE.localize(request_dt)
+    end_dt = request_dt.replace(hour=21)
+    start_dt = end_dt - timedelta(days=1)
+
+    return start_dt, end_dt
+
+
 def create_jsonable_date_to_papers_with_date(date):
-    rss_fetch_histories = RssFetchHistory.objects.filter(date__contains=date).all()
-    papers = Paper.objects.order_by('-id').filter(rss_fetch_history__in=rss_fetch_histories).all()\
+    start_dt, end_dt = _get_search_datetime_as_range(date)
+
+    papers = Paper.objects.order_by('-id').filter(created_at__range=(start_dt, end_dt)).all()\
         .prefetch_related('rss_fetch_history')\
         .prefetch_related('authors')
 

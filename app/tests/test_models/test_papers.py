@@ -1,4 +1,5 @@
 import datetime
+import pytz
 from unittest.mock import patch, ANY
 from parameterized import parameterized
 from app.tests.base_testcase import BaseTestCase
@@ -128,3 +129,14 @@ class PaperTestCase(BaseTestCase):
             'updated_at': ANY,
             'authors': ANY,
         })
+
+    @parameterized.expand([
+        (pytz.timezone('Asia/Tokyo'), '2017-12-24'),
+        (pytz.utc, '2017-12-23'),
+    ])
+    def test_get_fetch_date(self, timezone, expected):
+        paper = self.creation.paper(rss_fetch_history_id=self.rss_fetch_history.id)
+        paper.created_at = datetime.datetime(2017, 12, 23, 21, 0, 0)
+        result = paper.get_fetch_date(timezone)
+
+        self.assertEqual(result, expected)

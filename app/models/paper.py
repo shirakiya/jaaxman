@@ -112,3 +112,9 @@ class Paper(models.Model):
             'updated_at': self.updated_at,
             'authors': [author.dumps() for author in self.authors.all()],
         }
+
+    def get_fetch_date(self, timezone=None):
+        fetch_date = self.created_at
+        if timezone:
+            fetch_date = fetch_date.astimezone(timezone)
+        return fetch_date.strftime('%Y-%m-%d')

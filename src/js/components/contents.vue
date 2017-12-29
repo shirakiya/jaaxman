@@ -52,7 +52,7 @@ export default {
   computed: {
     maxDate() {
       const dates = Object.keys(window.date_to_papers);
-      return (dates.length !== 0 ) ? dates[0] : '2017-12';
+      return (dates.length !== 0) ? dates[0] : '2017-12';
     },
     isReplaced() {
       return this.allPapers !== null;
