@@ -19,6 +19,9 @@
       :stopAutoLoading="isReplaced"
       @addPapers="addPapers"
     ></paper-list>
+    <div class="paper-loading has-text-centered" v-else-if="isLoadingPaper">
+      <a class="button is-loading"></a>
+    </div>
     <article class="message is-warning" v-else>
       <div class="message-body">
         論文が存在しません。
@@ -56,6 +59,7 @@ export default {
     return {
       subjects: window.subjects,
       submitTypes: window.submitTypes,
+      isLoadingPaper: true,
       papers: {},
       allPapers: {},
       minDate: '2017-12',
@@ -135,6 +139,7 @@ export default {
     fetchPapers() {
       if (this.selectedDate) {
         this.fetchPapersWithDate(this.selectedDate).then(res => {
+          this.isLoadingPaper = false;
           this.$set(this, 'papers', res.data.papers);
           return this.fetchPapersAsDefault();
         }).then(res => {
@@ -144,6 +149,7 @@ export default {
         });
       } else {
         this.fetchPapersAsDefault().then(res => {
+          this.isLoadingPaper = false;
           this.$set(this, 'papers', res.data.papers);
           this.$set(this, 'allPapers', res.data.papers);
         }).catch(error => {
@@ -170,5 +176,14 @@ export default {
 <style lang="scss" scoped>
 #contents {
   padding-top: 1em;
+
+  .paper-loading {
+    .button {
+      &.is-loading {
+        font-size: 36px;
+        border: none;
+      }
+    }
+  }
 }
 </style>
