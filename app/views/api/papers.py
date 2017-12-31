@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from app.views.helpers import (
@@ -14,7 +15,11 @@ def api_papers(request):
     offset = params.get('count', 0)
 
     if date:
-        jsonable_date_to_papers = create_jsonable_date_to_papers_with_date(date)
+        try:
+            datetime.strptime(date, '%Y-%m-%d')
+            jsonable_date_to_papers = create_jsonable_date_to_papers_with_date(date)
+        except ValueError:
+            jsonable_date_to_papers = {}
     else:
         jsonable_date_to_papers = create_jsonable_date_to_papers_with_offset(int(offset))
 

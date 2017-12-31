@@ -4,19 +4,18 @@
     <filtering-card
       :subjects="subjects"
       :submitTypes="submitTypes"
+      :defaultSubmitType="selectedSubmitType"
+      :defaultSubject="selectedSubject"
+      :defaultDate="selectedDate"
       :minDate="minDate"
       :maxDate="maxDate"
-      @selectSubject="selectSubject"
-      @selectSubmitType="selectSubmitType"
-      @replacePapers="replacePapers"
-      @resetOriginalPapers="resetOriginalPapers"
     ></filtering-card>
     <paper-list
       v-if="!isPapersEmpty"
       :subjects="subjects"
       :papers="papers"
-      :selectedSubject="selectedSubject"
       :selectedSubmitType="selectedSubmitType"
+      :selectedSubject="selectedSubject"
       :stopAutoLoading="isReplaced"
       @addPapers="addPapers"
     ></paper-list>
@@ -30,10 +29,25 @@
 </template>
 
 <script>
+import axios from 'axios';
 import filteringCard from './filteringCard.vue';
 import paperList from './paperList.vue';
 
 export default {
+  props: {
+    selectedSubmitTypeName: {
+      type: String,
+      default: null,
+    },
+    selectedSubjectName: {
+      type: String,
+      default: null,
+    },
+    selectedDate: {
+      type: String,
+      default: null,
+    },
+  },
   components: {
     filteringCard,
     paperList,
@@ -41,49 +55,100 @@ export default {
   data() {
     return {
       subjects: window.subjects,
-      papers: window.date_to_papers,
       submitTypes: window.submitTypes,
-      allPapers: window.date_to_papers,
+      papers: {},
+      allPapers: {},
       minDate: '2017-12',
-      selectedSubject: null,
-      selectedSubmitType: null,
     };
+  },
+  watch: {
+    selectedDate() {
+      if (this.selectedDate) {
+        this.fetchPapersWithDate(this.selectedDate).then(res => {
+          this.$set(this, 'papers', res.data.papers);
+        });
+      } else {
+        this.$set(this, 'papers', this.allPapers);
+      }
+    },
+  },
+  created() {
+    this.fetchPapers();
   },
   computed: {
     maxDate() {
-      const dates = Object.keys(window.date_to_papers);
+      const dates = Object.keys(this.allPapers);
       return (dates.length !== 0) ? dates[0] : '2017-12';
     },
     isReplaced() {
-      return this.allPapers !== null;
+      return Boolean(this.selectedDate);
     },
     isPapersEmpty() {
       return Object.keys(this.papers).length === 0;
     },
-  },
-  methods: {
-    selectSubject(subjectName) {
-      if (subjectName === 'ALL') {
-        this.selectedSubject = null;
-      } else {
-        for (let subject of this.subjects) {
-          if (subject.name === subjectName) {
-            this.selectedSubject = subject;
-            break;
+    selectedSubmitType() {
+      if (!this.selectedSubmitTypeName) {
+        return null;
+      }
+      else if (this.selectedSubmitTypeName === 'ALL') {
+        return null;
+      }
+      else {
+        for (let submitType of this.submitTypes) {
+          if (submitType.display_name === this.selectedSubmitTypeName) {
+            return submitType;
           }
         }
       }
     },
-    selectSubmitType(selectedSubmitType) {
-      if (selectedSubmitType === 'ALL') {
-        this.selectedSubmitType = null;
-      } else {
-        for (let submitType of this.submitTypes) {
-          if (submitType.display_name === selectedSubmitType) {
-            this.selectedSubmitType = submitType;
-            break;
+    selectedSubject() {
+      if (!this.selectedSubjectName) {
+        return null;
+      }
+      else if (this.selectedSubjectName === 'ALL') {
+        return null;
+      }
+      else {
+        for (let subject of this.subjects) {
+          if (subject.name === this.selectedSubjectName) {
+            return subject;
           }
         }
+      }
+    },
+  },
+  methods: {
+    fetchPapersWithDate(date) {
+      return axios.get('/api/papers', {
+        params: {
+          date: date,
+        },
+      });
+    },
+    fetchPapersAsDefault() {
+      return axios.get('/api/papers', {
+        params: {
+          count: 0,
+        },
+      });
+    },
+    fetchPapers() {
+      if (this.selectedDate) {
+        this.fetchPapersWithDate(this.selectedDate).then(res => {
+          this.$set(this, 'papers', res.data.papers);
+          return this.fetchPapersAsDefault();
+        }).then(res => {
+          this.$set(this, 'allPapers', res.data.papers);
+        }).catch(error => {
+          console.error(error);
+        });
+      } else {
+        this.fetchPapersAsDefault().then(res => {
+          this.$set(this, 'papers', res.data.papers);
+          this.$set(this, 'allPapers', res.data.papers);
+        }).catch(error => {
+          console.error(error);
+        });
       }
     },
     addPapers(papers) {
@@ -96,12 +161,7 @@ export default {
         }
       });
       this.$set(this, 'papers', assignedPapers);
-    },
-    replacePapers(papers) {
-      this.$set(this, 'papers', papers);
-    },
-    resetOriginalPapers() {
-      this.$set(this, 'papers', this.allPapers);
+      this.$set(this, 'allPapers', assignedPapers);
     },
   },
 };

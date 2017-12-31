@@ -3,12 +3,13 @@
 {% load original_tags %}
 {% block content %}
 <div id="app">
-    <app></app>
+    <router-view name="navbar"></router-view>
+    <router-view></router-view>
+    <router-view name="brandFooter"></router-view>
 </div>
 <script type="text/javascript">
     window.submitTypes = JSON.parse("{{ submit_types|to_json|escapejs }}");
     window.subjects = JSON.parse("{{ subjects|to_json|escapejs }}");
-    window.date_to_papers = JSON.parse("{{ date_to_papers|to_json|escapejs }}");
 </script>
 <script src="{% webpack_js "app.js" %}"></script>
 {% endblock %}

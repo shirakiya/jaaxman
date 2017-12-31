@@ -46,7 +46,7 @@
       </div>
       <div class="field-body">
         <div class="field is-narrow has-addons">
-          <div class="control has-icons-left" :class="{ 'is-loading': inDateRequest }">
+          <div class="control has-icons-left">
             <flat-pickr
               v-model="selectedDate"
               :config="flatPickrConfig"
@@ -78,21 +78,34 @@ export default {
     submitTypes: Array,
     minDate: String,
     maxDate: String,
+    defaultSubmitType: {
+      type: Object,
+      default: null,
+    },
+    defaultSubject: {
+      type: Object,
+      default: null,
+    },
+    defaultDate: {
+      type: String,
+      default: 'hoge',
+    },
   },
   data() {
     return {
-      selectedSubjectName: 'ALL',
-      selectedSubmitType: 'ALL',
-      inDateRequest: false,
-      selectedDate: null,
+      selectedSubmitType: (this.defaultSubmitType) ? this.defaultSubmitType.display_name : 'ALL',
+      selectedSubjectName: (this.defaultSubject) ? this.defaultSubject.name : 'ALL',
+      selectedDate: this.defaultDate,
     };
   },
   watch: {
+    defaultDate() {
+      this.$set(this, 'selectedDate', this.defaultDate);
+    },
     selectedDate() {
-      if (!this.selectedDate || this.inDateRequest) {
-        return;
+      if (this.selectedDate) {
+        this.selectDate();
       }
-      this.fetchPaperByDate(this.selectedDate);
     },
   },
   computed: {
@@ -104,30 +117,37 @@ export default {
     },
   },
   methods: {
-    selectSubject() {
-      this.$emit('selectSubject', this.selectedSubjectName);
-    },
     selectSubmitType() {
-      this.$emit('selectSubmitType', this.selectedSubmitType);
+      this.$router.push({
+        name: 'home',
+        query: Object.assign({}, this.$route.query, {
+          submitType: this.selectedSubmitType,
+        }),
+      });
     },
-    fetchPaperByDate(requestDate) {
-      this.inDateRequest = true;
-
-      axios.get('/api/papers', {
-        params: {
-          date: requestDate,
-        }
-      }).then(res => {
-        this.inDateRequest = false;
-        this.$emit('replacePapers', res.data.papers);
-      }).catch(error => {
-        this.inDateRequest = false;
-        console.error(error);
-      })
+    selectSubject() {
+      this.$router.push({
+        name: 'home',
+        query: Object.assign({}, this.$route.query, {
+          subject: this.selectedSubjectName,
+        }),
+      });
+    },
+    selectDate() {
+      this.$router.push({
+        name: 'home',
+        query: Object.assign({}, this.$route.query, {
+          date: this.selectedDate,
+        }),
+      });
     },
     removeDate() {
-      this.selectedDate = null;
-      this.$emit('resetOriginalPapers');
+      const query = Object.assign({}, this.$route.query);
+      delete query.date;
+      this.$router.push({
+        home: 'home',
+        query: query,
+      });
     },
   }
 };

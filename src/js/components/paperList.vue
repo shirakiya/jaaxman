@@ -27,19 +27,19 @@
 </template>
 
 <script>
+import axios from 'axios';
 import dailyPaperList from './dailyPaperList.vue';
 import paperModal from './paperModal.vue';
-import axios from 'axios';
 
 export default {
   props: {
     subjects: Array,
     papers: Object,
-    selectedSubject: {
+    selectedSubmitType: {
       type: Object,
       required: false,
     },
-    selectedSubmitType: {
+    selectedSubject: {
       type: Object,
       required: false,
     },
@@ -143,7 +143,7 @@ export default {
           params: {
             count: this.getPaperLength(this.papers),
           },
-      })
+      });
     },
     checkAndFetchPapers() {
       const scrollButtom = this.getScrollBottom();
