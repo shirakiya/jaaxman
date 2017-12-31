@@ -12,8 +12,6 @@
         :key="paper.id"
         :paper="paper"
         :subjects="subjects"
-        :isSelected="selectedPaper && paper.id === selectedPaper.id"
-        @selectItem="selectItem"
       ></paper-item>
     </div>
   </div>
@@ -29,7 +27,6 @@ export default {
     date: String,
     papers: Array,
     subjects: Array,
-    selectedPaper: Object,
   },
   components: {
     paperItem,
@@ -44,11 +41,6 @@ export default {
     },
     isPapersEmpty() {
       return this.papers.length < 1;
-    },
-  },
-  methods: {
-    selectItem(paperId) {
-      this.$emit('selectItem', paperId);
     },
   },
 };

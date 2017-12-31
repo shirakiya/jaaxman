@@ -14,6 +14,7 @@
       v-if="!isPapersEmpty"
       :subjects="subjects"
       :papers="papers"
+      :selectedPaperId="selectedPaperId"
       :selectedSubmitType="selectedSubmitType"
       :selectedSubject="selectedSubject"
       :stopAutoLoading="isReplaced"
@@ -48,6 +49,10 @@ export default {
     },
     selectedDate: {
       type: String,
+      default: null,
+    },
+    selectedPaperId: {
+      type: Number,
       default: null,
     },
   },

@@ -8,8 +8,6 @@
         :date="date"
         :papers="filteredPaperValues"
         :subjects="subjects"
-        :selectedPaper="selectedPaper"
-        @selectItem="selectItem"
       ></daily-paper-list>
       <div class="paper-item-end" v-if="showLoader">
         <a class="button is-loading"></a>
@@ -17,11 +15,10 @@
     </div>
   </div>
   <paper-modal
+    v-if="selectedPaper"
     :paper="selectedPaper"
     :subject="subjectOfSelectedPaper"
     :isActive="isActivePaperModal"
-    @closePaperModal="closePaperModal"
-    v-if="selectedPaper"
   ></paper-modal>
 </div>
 </template>
@@ -35,6 +32,10 @@ export default {
   props: {
     subjects: Array,
     papers: Object,
+    selectedPaperId: {
+      type: Number,
+      required: false,
+    },
     selectedSubmitType: {
       type: Object,
       required: false,
@@ -51,6 +52,9 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.checkAndFetchPapers);
+    if (this.selectedPaperId) {
+      this.selectOrFetchPaper(this.selectedPaperId);
+    }
   },
   beforeDestory() {
     window.removeEventListener('scroll', this.checkAndFetchPapers);
@@ -63,6 +67,9 @@ export default {
     };
   },
   watch: {
+    selectedPaperId() {
+      this.selectOrFetchPaper(this.selectedPaperId);
+    },
     selectedSubject() {
       setTimeout(() => {
         this.checkAndFetchPapers();
@@ -125,6 +132,45 @@ export default {
         return filteredPapers;
       }
     },
+    fetchPaper(paperId) {
+      return axios.get(`/api/paper/${paperId}`);
+    },
+    fetchPapers() {
+      return axios.get('/api/papers', {
+          params: {
+            count: this.getPaperLength(this.papers),
+          },
+      });
+    },
+    selectPaper(paperId) {
+      for (let key of Object.keys(this.papers)) {
+        for (let paper of this.papers[key]) {
+          if (paper.id === paperId) {
+            return paper;
+          }
+        }
+      }
+    },
+    selectOrFetchPaper(paperId) {
+      if (!paperId) {
+        this.selectedPaper = null;
+      } else {
+        let selectedPaper = this.selectPaper(paperId);
+        if (selectedPaper) {
+          this.selectedPaper = selectedPaper;
+        } else {
+          this.fetchPaper(paperId).then(res => {
+            this.selectedPaper = res.data;
+          }).catch(error => {
+            if (error.response.status === 404) {
+              this.$router.replace({ name: 'home' });
+            } else {
+              console.error(error);
+            }
+          });
+        }
+      }
+    },
     getScrollBottom() {
       const body = document.body;
       const html = document.documentElement;
@@ -138,16 +184,9 @@ export default {
       });
       return count;
     },
-    fetchPapers() {
-      return axios.get('/api/papers', {
-          params: {
-            count: this.getPaperLength(this.papers),
-          },
-      });
-    },
     checkAndFetchPapers() {
-      const scrollButtom = this.getScrollBottom();
-      if (this.stopAutoLoading || this.isFetchCompleted || this.inRequest || scrollButtom >= 300) {
+      const scrollBottom = this.getScrollBottom();
+      if (this.stopAutoLoading || this.isFetchCompleted || this.inRequest || scrollBottom >= 300) {
         return;
       }
       this.inRequest = true;
@@ -163,20 +202,6 @@ export default {
         this.inRequest = false;
         console.error(error);
       })
-    },
-    selectItem(paperId) {
-      loop:
-      for (let key of Object.keys(this.papers)) {
-        for (let paper of this.papers[key]) {
-          if (paper.id === paperId) {
-            this.selectedPaper = paper;
-            break loop;
-          }
-        }
-      }
-    },
-    closePaperModal() {
-      this.selectedPaper = null;
     },
   },
 };

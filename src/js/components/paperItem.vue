@@ -1,5 +1,5 @@
 <template>
-<div class="paper-item" :class="{ 'is-selected': isSelected }">
+<div class="paper-item">
   <div class="paper-item-content" v-on:click="handleItemClick">
     <div class="tags paper-item-header">
       <span class="tag is-success">
@@ -55,10 +55,6 @@ export default {
   props: {
     paper: Object,
     subjects: Array,
-    isSelected: {
-      type: Boolean,
-      default: false,
-    },
   },
   data () {
     return {
@@ -94,7 +90,12 @@ export default {
   },
   methods: {
     handleItemClick() {
-      this.$emit('selectItem', this.paper.id);
+      this.$router.push({
+        name: 'home',
+        query: Object.assign({}, this.$route.query, {
+          paperId: this.paper.id,
+        }),
+      });
     },
   },
 };
@@ -107,10 +108,6 @@ export default {
 
   &:first-child {
     padding: 0 0 .5em;
-  }
-
-  &.is-selected {
-    background-color: whitesmoke;
   }
 
   &:hover {

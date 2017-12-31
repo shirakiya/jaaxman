@@ -92,7 +92,12 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit('closePaperModal');
+      const query = Object.assign({}, this.$route.query);
+      delete query.paperId;
+      this.$router.push({
+        name: 'home',
+        query: query,
+      });
     },
   },
 };
