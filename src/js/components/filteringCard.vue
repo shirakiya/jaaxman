@@ -118,20 +118,22 @@ export default {
   },
   methods: {
     selectSubmitType() {
-      this.$router.push({
-        name: 'home',
-        query: Object.assign({}, this.$route.query, {
-          submitType: this.selectedSubmitType,
-        }),
+      const query = Object.assign({}, this.$route.query, {
+        submitType: this.selectedSubmitType,
       });
+      if (query.submitType === '全て') {
+        delete query.submitType;
+      }
+      this.$router.push({ name: 'home', query: query});
     },
     selectSubject() {
-      this.$router.push({
-        name: 'home',
-        query: Object.assign({}, this.$route.query, {
-          subject: this.selectedSubjectName,
-        }),
+      const query = Object.assign({}, this.$route.query, {
+        subject: this.selectedSubjectName,
       });
+      if (query.subject === '全て') {
+        delete query.subject;
+      }
+      this.$router.push({ name: 'home', query: query});
     },
     selectDate() {
       this.$router.push({
