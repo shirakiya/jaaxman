@@ -99,7 +99,7 @@ export default {
       if (!this.selectedSubmitTypeName) {
         return null;
       }
-      else if (this.selectedSubmitTypeName === 'ALL') {
+      else if (this.selectedSubmitTypeName === '全て') {
         return null;
       }
       else {
@@ -114,7 +114,7 @@ export default {
       if (!this.selectedSubjectName) {
         return null;
       }
-      else if (this.selectedSubjectName === 'ALL') {
+      else if (this.selectedSubjectName === '全て') {
         return null;
       }
       else {

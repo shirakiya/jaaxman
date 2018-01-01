@@ -15,7 +15,7 @@
           <div class="control">
             <div class="select is-fullwidth">
               <select v-model="selectedSubmitType" @change="selectSubmitType">
-                <option>ALL</option>
+                <option>全て</option>
                 <option v-for="submitType in submitTypes">{{ submitType.display_name }}</option>
               </select>
             </div>
@@ -32,7 +32,7 @@
           <div class="control">
             <div class="select is-fullwidth">
               <select v-model="selectedSubjectName" @change="selectSubject">
-                <option>ALL</option>
+                <option>全て</option>
                 <option v-for="subject in subjects">{{ subject.name }}</option>
               </select>
             </div>
@@ -93,8 +93,8 @@ export default {
   },
   data() {
     return {
-      selectedSubmitType: (this.defaultSubmitType) ? this.defaultSubmitType.display_name : 'ALL',
-      selectedSubjectName: (this.defaultSubject) ? this.defaultSubject.name : 'ALL',
+      selectedSubmitType: (this.defaultSubmitType) ? this.defaultSubmitType.display_name : '全て',
+      selectedSubjectName: (this.defaultSubject) ? this.defaultSubject.name : '全て',
       selectedDate: this.defaultDate,
     };
   },
