@@ -26,6 +26,31 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 | SLACK_URL             | None          |
 
 
+# Use Docker
+At first, it is necessary to install [Docker Community Edition](https://www.docker.com/community-edition) and [Docker Compose](https://docs.docker.com/compose/).
+
+## SetUp
+```
+git clone https://github.com/shirakiya/jaaxman.git path/to/repos
+cd path/to/repos
+
+cp docker/backend/env.sample docker/backend/env
+vim docker/backend/env  # => write collect environment variables
+```
+
+## Start
+### Application
+```
+docker-compose up
+```
+
+### Job
+```
+docker-compose exec backend python manage.py <fetchrss|registerrss>
+```
+
+
+# Not use Docker
 ## SetUp
 ```
 git clone https://github.com/shirakiya/jaaxman.git path/to/repos
@@ -57,6 +82,8 @@ npm start
 python manage.py <fetchrss|registerrss>
 ```
 
+
+# Jobs
 - `fetchrss`: Fetch RSS from arxiv.org and save paper datas to database.
 - `registerrss`: Save arxiv.org subjects to fetch.
 

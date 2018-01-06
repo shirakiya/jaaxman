@@ -7,6 +7,7 @@ module.exports = merge(common, {
   devServer: {
     compress: false,
     publicPath: '/assets/',
+    host: "0.0.0.0",
     port: 8001,
   },
   plugins: [

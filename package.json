@@ -9,7 +9,6 @@
     "start": "NODE_ENV=development webpack-dev-server --config webpack.dev.js"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",

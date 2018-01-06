@@ -1,0 +1,46 @@
+version: "3"
+services:
+  backend:
+    container_name: jaaxman-backend
+    image: python:3.6.3
+    env_file: ./docker/backend/env
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+      - MYSQL_HOST=mysql
+    networks:
+      app:
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: bash -c "pip install -r requirements.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+  frontend:
+    container_name: jaaxman-frontend
+    image: node:8.9
+    env_file: ./docker/frontend/env
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: bash -c "npm install && npm start"
+  mysql:
+    container_name: jaaxman-db
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: jaaxman
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      app:
+    ports:
+      - "3336:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
+volumes:
+  db_data:
+networks:
+  app:
