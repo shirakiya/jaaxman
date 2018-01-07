@@ -19,7 +19,7 @@
           Info
         </a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="/" target="_brank">
+          <a class="navbar-item" href="http://shirakiya.hatenablog.com/entry/jaaxman_published" target="_brank">
             Jaaxmanについて
           </a>
           <a class="navbar-item" @click="openTermModal" @close="closeTermModal">
