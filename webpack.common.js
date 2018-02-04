@@ -37,6 +37,22 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        options: {
+          'presets': [
+            [
+              'env',
+              {
+                'targets': {
+                  'browsers': [
+                    'last 2 versions',
+                  ],
+                  'uglify': true,
+                },
+                'useBuiltIns': true,
+              },
+            ],
+          ],
+        },
       },
       {
         test: /\.(sass|scss)$/,
