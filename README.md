@@ -18,6 +18,7 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 | MYSQL_USER            | 'root'        |
 | MYSQL_PASSWORD        | ''            |
 | MYSQL_HOST            | 'localhost'   |
+| API_TOKEN             | None          |
 | GOOGLE_API_KEY        | None          |
 | AWS_ACCESS_KEY_ID     | None          |
 | AWS_SECRET_ACCESS_KEY | None          |
