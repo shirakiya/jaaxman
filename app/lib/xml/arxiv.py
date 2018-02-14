@@ -21,7 +21,7 @@ class ArxivXml(object):
             item_bs.find('description').string.replace('\n', ' '),
             parser='lxml',
         )
-        abstract = '\n'.join([p.string.strip() for p in description_bs.find_all('p')])
+        abstract = '\n'.join([p.getText().strip() for p in description_bs.find_all('p')])
 
         link = item_bs.find('link').string.strip()
 
