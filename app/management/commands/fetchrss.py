@@ -13,6 +13,9 @@ logger = getLogger(__name__)
 
 class Command(BaseCommand):
 
+    def _twitter(self):
+        return Twitter()
+
     def _create_tweet_message(self, paper_count):
         if paper_count == 0:
             return '本日の記事の追加はありませんでした。'
@@ -34,7 +37,7 @@ class Command(BaseCommand):
             papers = arxiv_rss.fetch_and_save()
             paper_count += len(papers)
 
-        twitter = Twitter()
+        twitter = self._twitter()
         twitter.post_tweet(self._create_tweet_message(paper_count))
 
         message = f'Successfully fetch and save {paper_count} papers from RSS.'
