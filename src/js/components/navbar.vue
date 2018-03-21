@@ -22,6 +22,9 @@
           <a class="navbar-item" href="http://shirakiya.hatenablog.com/entry/jaaxman_published" target="_brank">
             Jaaxmanについて
           </a>
+          <a class="navbar-item" href="https://twitter.com/jaaxman" target="_brank">
+            Twitter
+          </a>
           <a class="navbar-item" @click="openTermModal" @close="closeTermModal">
             利用規約
           </a>
