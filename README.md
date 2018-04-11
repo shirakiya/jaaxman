@@ -12,18 +12,22 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
     - database: `jaaxman` (charaset=utf8mb4)
 
 ## Environment Variables
-| Key                   | default       |
-|-----------------------|---------------|
-| RUN_MODE              | 'development' |
-| MYSQL_USER            | 'root'        |
-| MYSQL_PASSWORD        | ''            |
-| MYSQL_HOST            | 'localhost'   |
-| API_TOKEN             | None          |
-| GOOGLE_API_KEY        | None          |
-| AWS_ACCESS_KEY_ID     | None          |
-| AWS_SECRET_ACCESS_KEY | None          |
-| SSH_PRIVATE_KEY_FILE  | None          |
-| SLACK_URL             | None          |
+| Key                         | default       |
+|-----------------------------|---------------|
+| RUN_MODE                    | 'development' |
+| MYSQL_USER                  | 'root'        |
+| MYSQL_PASSWORD              | ''            |
+| MYSQL_HOST                  | 'localhost'   |
+| API_TOKEN                   | None          |
+| GOOGLE_API_KEY              | None          |
+| AWS_ACCESS_KEY_ID           | None          |
+| AWS_SECRET_ACCESS_KEY       | None          |
+| SSH_PRIVATE_KEY_FILE        | None          |
+| SLACK_URL                   | None          |
+| TWITTER_CONSUMER_KEY        | None          |
+| TWITTER_CONSUMER_SECRET     | None          |
+| TWITTER_ACCESS_TOKEN        | None          |
+| TWITTER_ACCESS_TOKEN_SECRET | None          |
 
 
 # Use Docker
