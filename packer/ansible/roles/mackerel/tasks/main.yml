@@ -1,0 +1,21 @@
+- name: setup mackerel-agent before install
+  shell: wget -q -O - https://mackerel.io/file/script/setup-apt-v2.sh | sh
+
+- name: install mackerel-agent
+  apt: name=mackerel-agent state=present update_cache=yes
+  notify: enable mackerel
+
+- name: copy mackerel-agent.conf.example
+  copy: src=mackerel-agent.conf.example dest=/etc/mackerel-agent/mackerel-agent.conf.example mode=644
+
+- name: put mackerel-agent.conf
+  template: src=mackerel-agent.conf dest=/etc/mackerel-agent/mackerel-agent.conf mode=644
+
+- name: mkdir /etc/mackerel-agent/conf.d
+  file: path=/etc/mackerel-agent/conf.d state=directory owner=root group=root mode=755
+
+- name: put mackerel-agent.conf of each role
+  template: src=mackerel-agent.conf.role dest=/etc/mackerel-agent/conf.d/{{ role }}.conf mode=644
+
+- name: put default settings
+  template: src=mackerel-agent dest=/etc/default/mackerel-agent mode=644

@@ -1,0 +1,19 @@
+- hosts: all
+  remote_user: root
+  gather_facts: no
+  vars_files:
+    - vars/common.yml
+    - vars/gateway.yml
+  tasks:
+    - import_role:
+        name: base
+    - include_role:
+        name: chrony
+    - include_role:
+        name: fluentd
+    - include_role:
+        name: mackerel
+    - include_role:
+        name: python
+    - include_role:
+        name: fetch_hosts

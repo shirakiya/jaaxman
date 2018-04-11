@@ -10,7 +10,7 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-northeast-1",
-    "source_ami": "ami-87bdf8e1",
+    "source_ami": "ami-0d988871",
     "instance_type": "t2.micro",
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
@@ -19,47 +19,11 @@
   }],
   "provisioners": [
     {
-      "type": "shell",
-      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
-      "scripts": [
-        "scripts/sleep.sh",
-        "scripts/base.sh",
-        "scripts/codedeploy.sh"
-      ],
-      "environment_vars": [
-        "MACKEREL_APIKEY={{user `mackerel_apikey`}}"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "files/chrony.conf",
-      "destination": "/etc/chrony/chrony.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/td-agent/td-agent.job.conf",
-      "destination": "/etc/td-agent/td-agent.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/mackerel/conf.d/job.conf",
-      "destination": "/etc/mackerel-agent/conf.d/job.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/mackerel/default/mackerel-agent",
-      "destination": "/etc/default/mackerel-agent"
-    },
-    {
-      "type": "file",
-      "source": "files/crontab",
-      "destination": "/root/crontab"
-    },
-    {
-      "type": "shell",
-      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
-      "scripts": [
-        "scripts/job.sh"
+      "type": "ansible",
+      "playbook_file": "./ansible/job.yml",
+      "extra_arguments": [
+        "--extra-vars",
+        "ansible_python_interpreter='/usr/bin/env python3'"
       ]
     }
   ]

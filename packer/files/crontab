@@ -1,4 +1,0 @@
-SHELL=/bin/bash
-MAILTO=""
-
-05 06 * * * /root/jaaxman/scripts/fetchrss.sh >> /var/log/jaaxman/crontab.log 2>&1

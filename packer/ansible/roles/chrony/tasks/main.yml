@@ -1,0 +1,8 @@
+- name: remove npm
+  apt: name=npm state=absent
+
+- name: install chrony
+  apt: name=chrony state=present update_cache=yes
+
+- name: set configuration file
+  template: src=chrony.conf dest=/etc/chrony/chrony.conf mode=644

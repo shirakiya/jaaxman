@@ -1,0 +1,36 @@
+- name: install packages for Python
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - make
+    - build-essential
+    - libssl-dev
+    - zlib1g-dev
+    - libbz2-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - wget
+    - curl
+    - llvm
+    - libncurses5-dev
+    - libncursesw5-dev
+    - xz-utils
+    - tk-dev
+
+- name: mkdir /root/local
+  file: path=/root/local state=directory owner=root group=root mode=755
+
+- name: clone tagomoris/xbuild
+  git: repo=https://github.com/tagomoris/xbuild.git dest=/root/xbuild
+
+- name: stat python
+  stat: path=/root/local/python-{{ python_version }}
+  register: f
+
+- name: build Python
+  shell: /root/xbuild/python-install {{ python_version }} /root/local/python-{{ python_version }}
+  when: not f.stat.exists
+
+- name: export python path
+  lineinfile:
+    path: /root/.bash_profile
+    line: export PATH=$HOME/local/python-3.6.2/bin:$PATH

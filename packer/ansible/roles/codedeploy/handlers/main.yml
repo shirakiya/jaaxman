@@ -1,0 +1,2 @@
+- name: enable codedeploy-agent
+  systemd: name=codedeploy-agent enabled=yes

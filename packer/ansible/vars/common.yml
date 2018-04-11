@@ -1,0 +1,4 @@
+role: common
+
+mackerel_apikey: "{{ lookup('env', 'MACKEREL_APIKEY') }}"
+python_version: 3.6.2

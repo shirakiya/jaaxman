@@ -1,0 +1,2 @@
+- name: enable uwsgi
+  systemd: name=uwsgi enabled=yes

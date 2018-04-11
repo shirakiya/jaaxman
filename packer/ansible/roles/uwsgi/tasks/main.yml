@@ -1,0 +1,9 @@
+- name: create /var/log/uwsgi
+  file: path=/var/log/uwsgi state=directory owner=root group=root mode=777
+
+- name: set uwsgi.ini
+  template: src=uwsgi.ini dest=/etc/nginx/uwsgi.ini mode=644
+
+- name: set uwsgi.service
+  template: src=uwsgi.service dest=/etc/systemd/system/uwsgi.service owner=root group=root mode=644
+  notify: enable uwsgi

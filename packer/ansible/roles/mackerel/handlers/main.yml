@@ -1,0 +1,2 @@
+ - name: enable mackerel
+   systemd: name=mackerel-agent enabled=yes

@@ -1,0 +1,2 @@
+- name: enable td-agent
+  systemd: name=td-agent enabled=yes

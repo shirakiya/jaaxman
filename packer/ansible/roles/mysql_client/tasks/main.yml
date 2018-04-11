@@ -1,0 +1,5 @@
+- name: install mysql-client
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - libmysqlclient-dev
+    - mysql-client

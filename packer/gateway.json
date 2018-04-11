@@ -10,7 +10,7 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-northeast-1",
-    "source_ami": "ami-87bdf8e1",
+    "source_ami": "ami-0d988871",
     "instance_type": "t2.nano",
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
@@ -19,36 +19,11 @@
   }],
   "provisioners": [
     {
-      "type": "shell",
-      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
-      "scripts": [
-        "scripts/sleep.sh",
-        "scripts/base.sh"
-      ],
-      "environment_vars": [
-        "MACKEREL_APIKEY={{user `mackerel_apikey`}}"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "files/chrony.conf",
-      "destination": "/etc/chrony/chrony.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/mackerel/conf.d/gateway.conf",
-      "destination": "/etc/mackerel-agent/conf.d/gateway.conf"
-    },
-    {
-      "type": "file",
-      "source": "files/fetch_hosts.py",
-      "destination": "/opt/fetch_hosts.py"
-    },
-    {
-      "type": "shell",
-      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
-      "scripts": [
-        "scripts/gateway.sh"
+      "type": "ansible",
+      "playbook_file": "./ansible/gateway.yml",
+      "extra_arguments": [
+        "--extra-vars",
+        "ansible_python_interpreter='/usr/bin/env python3'"
       ]
     }
   ]

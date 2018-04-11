@@ -104,3 +104,4 @@ ENV/
 .node-version
 node_modules
 docker/backend/env
+packer/ansible/*.retry
