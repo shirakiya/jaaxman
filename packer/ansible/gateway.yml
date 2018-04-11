@@ -17,3 +17,5 @@
         name: python
     - include_role:
         name: fetch_hosts
+    - include_role:
+        name: sshd
