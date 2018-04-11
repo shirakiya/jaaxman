@@ -105,3 +105,4 @@ ENV/
 node_modules
 docker/backend/env
 packer/ansible/*.retry
+packer/ansible/vault_password

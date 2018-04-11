@@ -23,7 +23,6 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 | AWS_ACCESS_KEY_ID     | None          |
 | AWS_SECRET_ACCESS_KEY | None          |
 | SSH_PRIVATE_KEY_FILE  | None          |
-| MACKEREL_APIKEY       | None          |
 | SLACK_URL             | None          |
 
 
@@ -91,6 +90,14 @@ python manage.py <fetchrss|registerrss>
 
 # Infla
 ## Build AMI
+At first, prepare `packer/ansible/vault_password` file to decript vault.
+
+```
+echo '{ansible-vault-password}' > packer/ansible/vault_password
+```
+
+Build AMI by `packer build` command.
+
 ```
 cd packer
 packer build <gateway|app|job>.json

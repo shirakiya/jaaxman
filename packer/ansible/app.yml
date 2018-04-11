@@ -3,6 +3,7 @@
   gather_facts: no
   vars_files:
     - vars/common.yml
+    - vars/vault.yml
     - vars/app.yml
   tasks:
     - import_role:
