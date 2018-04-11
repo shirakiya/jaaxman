@@ -10,7 +10,7 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-northeast-1",
-    "source_ami": "ami-0d988871",
+    "source_ami": "ami-0a1b0676",
     "instance_type": "t2.nano",
     "ssh_username": "root",
     "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
@@ -23,7 +23,8 @@
       "playbook_file": "./ansible/gateway.yml",
       "extra_arguments": [
         "--extra-vars",
-        "ansible_python_interpreter='/usr/bin/env python3'"
+        "ansible_python_interpreter='/usr/bin/env python3'",
+        "--vault-password-file=ansible/vault_password"
       ]
     }
   ]
