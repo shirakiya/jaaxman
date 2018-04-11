@@ -94,7 +94,7 @@ python manage.py <fetchrss|registerrss>
 
 # Infla
 ## Build AMI
-At first, prepare `packer/ansible/vault_password` file to decript vault.
+At first, prepare `packer/ansible/vault_password` file to decrypt vault.
 
 ```
 echo '{ansible-vault-password}' > packer/ansible/vault_password
