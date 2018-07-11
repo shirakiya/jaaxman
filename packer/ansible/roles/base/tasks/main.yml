@@ -1,3 +1,9 @@
+- name: workaround before apt op /var/lib/apt/lists/lock
+  file: path=/var/lib/apt/lists/lock state=absent
+
+- name: workaround before apt op /var/lib/dpkg/lock
+  file: path=/var/lib/dpkg/lock state=absent
+
 - name: apt update
   command: apt update
 
