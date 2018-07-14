@@ -1,8 +1,8 @@
 - name: increase max of file descriptors
   template: src=limits.conf dest=/etc/security/limits.conf mode=644
 
-- name: install td-anget
-  shell: curl -L https://toolbelt.treasuredata.com/sh/install-ubuntu-xenial-td-agent2.sh | sh
+- name: install td-agent
+  shell: curl -L https://toolbelt.treasuredata.com/sh/install-ubuntu-xenial-td-agent3.sh | sh
   notify: enable td-agent
 
 - name: set environment variable of AWS_REGION
@@ -12,7 +12,7 @@
     insertafter: ^export PATH=
 
 - name: install cloudwatch-logs plugin
-  command: /opt/td-agent/embedded/bin/gem install fluent-plugin-cloudwatch-logs --no-ri --no-rdoc
+  command: td-agent-gem install fluent-plugin-cloudwatch-logs --no-ri --no-rdoc
 
 - name: set td-agent.conf
   template: src=td-agent.{{ role }}.conf dest=/etc/td-agent/td-agent.conf owner=root group=root mode=644
