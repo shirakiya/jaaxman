@@ -11,7 +11,7 @@
     - include_role:
         name: chrony
     - include_role:
-        name: fluentd
+        name: awslogs
     - include_role:
         name: mackerel
     - include_role:
