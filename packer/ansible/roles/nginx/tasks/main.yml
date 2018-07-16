@@ -8,5 +8,8 @@
 - name: set jaaxman.conf
   template: src=jaaxman.conf dest=/etc/nginx/conf.d/jaaxman.conf owner=root group=root mode=644
 
+- name: set nginx-jaaxman.logrotate
+  template: src=nginx-jaaxman.logrotate dest=/etc/logrotate.d/nginx-jaaxman owner=root group=root mode=644
+
 - name: create log directory for nginx
   file: path=/var/log/nginx/jaaxman state=directory owner=root group=root mode=777
