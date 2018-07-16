@@ -1,11 +1,10 @@
-- name: workaround before apt op /var/lib/apt/lists/lock
-  file: path=/var/lib/apt/lists/lock state=absent
-
-- name: workaround before apt op /var/lib/dpkg/lock
-  file: path=/var/lib/dpkg/lock state=absent
-
-- name: apt update
-  command: apt update
+- name: stop apt auto update
+  systemd: name={{ item }} state=stopped masked=yes
+  with_items:
+    - apt-daily.service
+    - apt-daily.timer
+    - apt-daily-upgrade.service
+    - apt-daily-upgrade.timer
 
 - name: chmod home
   file: path=/root/. owner=root group=root mode=+rx
@@ -20,7 +19,7 @@
   command: ufw disable
 
 - name: install base packages
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state=present update_cache=yes autoclean=yes autoremove=yes
   with_items:
     - openssl
     - git
