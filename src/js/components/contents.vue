@@ -7,6 +7,7 @@
       :defaultSubmitType="selectedSubmitType"
       :defaultSubject="selectedSubject"
       :defaultDate="selectedDate"
+      :defaultSearchQuery="searchQuery"
       :minDate="minDate"
       :maxDate="maxDate"
     ></filtering-card>
@@ -51,6 +52,10 @@ export default {
       type: String,
       default: null,
     },
+    searchQuery: {
+      type: String,
+      default: null,
+    },
     selectedPaperId: {
       type: Number,
       default: null,
@@ -72,8 +77,19 @@ export default {
   },
   watch: {
     selectedDate() {
-      if (this.selectedDate) {
-        this.fetchPapersWithDate(this.selectedDate).then(res => {
+      // 条件が一つでもあるならば新たに検索を行う
+      if (this.selectedDate || this.searchQuery) {
+        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
+          this.$set(this, 'papers', res.data.papers);
+        });
+      } else {
+        this.$set(this, 'papers', this.allPapers);
+      }
+    },
+    searchQuery() {
+      // 条件が一つでもあるならば新たに検索を行う
+      if (this.selectedDate || this.searchQuery) {
+        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
           this.$set(this, 'papers', res.data.papers);
         });
       } else {
@@ -90,7 +106,7 @@ export default {
       return (dates.length !== 0) ? dates[0] : '2017-12';
     },
     isReplaced() {
-      return Boolean(this.selectedDate);
+      return Boolean(this.selectedDate) || Boolean(this.searchQuery);
     },
     isPapersEmpty() {
       return Object.keys(this.papers).length === 0;
@@ -127,10 +143,11 @@ export default {
     },
   },
   methods: {
-    fetchPapersWithDate(date) {
+    fetchPapersWithCondition(date, query) {
       return axios.get('/api/papers', {
         params: {
           date: date,
+          query: query,
         },
       });
     },
@@ -142,8 +159,8 @@ export default {
       });
     },
     fetchPapers() {
-      if (this.selectedDate) {
-        this.fetchPapersWithDate(this.selectedDate).then(res => {
+      if (this.selectedDate || this.searchQuery) {
+        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
           this.isLoadingPaper = false;
           this.$set(this, 'papers', res.data.papers);
           return this.fetchPapersAsDefault();

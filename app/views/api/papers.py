@@ -2,8 +2,11 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from app.views.helpers import (
-    create_jsonable_date_to_papers_with_offset,
-    create_jsonable_date_to_papers_with_date,
+    fetch_papers_with_date,
+    fetch_papers_with_offset,
+    fetch_papers_with_query,
+    filter_papers_with_query,
+    format_jsonable_date_to_papers,
 )
 
 
@@ -12,17 +15,21 @@ def api_papers(request):
     params = request.GET
 
     date = params.get('date')
-    offset = params.get('count', 0)
+    query = params.get('query')
 
     if date:
         try:
             datetime.strptime(date, '%Y-%m-%d')
-            jsonable_date_to_papers = create_jsonable_date_to_papers_with_date(date)
+            papers = fetch_papers_with_date(date)
         except ValueError:
-            jsonable_date_to_papers = {}
+            papers = []
+        papers = filter_papers_with_query(papers, query)
+    elif query:
+        papers = fetch_papers_with_query(query)
     else:
-        jsonable_date_to_papers = create_jsonable_date_to_papers_with_offset(int(offset))
+        offset = params.get('count', 0)
+        papers = fetch_papers_with_offset(int(offset))
 
     return JsonResponse({
-        'papers': jsonable_date_to_papers,
+        'papers': format_jsonable_date_to_papers(papers),
     })

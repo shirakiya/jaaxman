@@ -26,6 +26,7 @@ const router = new VueRouter({
           selectedSubmitTypeName: route.query.submitType || null,
           selectedSubjectName: route.query.subject || null,
           selectedDate: route.query.date || null,
+          searchQuery: route.query.query || null,
           selectedPaperId: Number(route.query.paperId) || null,
         }),
         navbar: false,

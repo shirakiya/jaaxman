@@ -6,6 +6,8 @@
     </p>
   </header>
   <div class="card-content">
+    <div class="columns">
+    <div class="column">
     <div class="field is-horizontal">
       <div class="field-label is-normal">
         <label class="label">記事種別</label>
@@ -65,6 +67,30 @@
         </div>
       </div>
     </div>
+    </div>
+    <div class="column">
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">タイトル検索</label>
+        </div>
+        <div class="field-body">
+          <div class="field is-expanded">
+            <div class="field has-addons">
+              <p class="control has-icons-left is-expanded">
+                <input class="input" type="text" placeholder="スペース区切りで検索" v-model="searchQuery">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-search"></i>
+                </span>
+              </p>
+              <div class="control">
+                <a class="button is-info" @click="searchTitle">検索</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
 </div>
 </template>
@@ -88,7 +114,11 @@ export default {
     },
     defaultDate: {
       type: String,
-      default: 'hoge',
+      default: '',
+    },
+    defaultSearchQuery: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -96,6 +126,7 @@ export default {
       selectedSubmitType: (this.defaultSubmitType) ? this.defaultSubmitType.display_name : '全て',
       selectedSubjectName: (this.defaultSubject) ? this.defaultSubject.name : '全て',
       selectedDate: this.defaultDate,
+      searchQuery: this.defaultSearchQuery,
     };
   },
   watch: {
@@ -124,7 +155,10 @@ export default {
       if (query.submitType === '全て') {
         delete query.submitType;
       }
-      this.$router.push({ name: 'home', query: query});
+      this.$router.push({
+        name: 'home',
+        query: query,
+      });
     },
     selectSubject() {
       const query = Object.assign({}, this.$route.query, {
@@ -133,7 +167,10 @@ export default {
       if (query.subject === '全て') {
         delete query.subject;
       }
-      this.$router.push({ name: 'home', query: query});
+      this.$router.push({
+        name: 'home',
+        query: query,
+      });
     },
     selectDate() {
       this.$router.push({
@@ -141,6 +178,18 @@ export default {
         query: Object.assign({}, this.$route.query, {
           date: this.selectedDate,
         }),
+      });
+    },
+    searchTitle() {
+      const query = Object.assign({}, this.$route.query, {
+        query: this.searchQuery,
+      });
+      if (!this.searchQuery) {
+        delete query.query;
+      }
+      this.$router.push({
+        name: 'home',
+        query: query,
       });
     },
     removeDate() {
