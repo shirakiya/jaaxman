@@ -6,7 +6,7 @@
       <div class="paper-detail-header">
         <div class="paper-detail-header-right">
           <a class="button is-small" @click="closeModal">
-            <span class="icon"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+            <span class="icon"><i class="fas fa-arrow-left" aria-hidden="true"></i></span>
             <span>戻る</span>
           </a>
         </div>

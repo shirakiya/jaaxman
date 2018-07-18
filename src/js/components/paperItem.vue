@@ -23,7 +23,7 @@
     <div class="paper-item-footer">
       <div class="paper-item-footer-left">
         <span class="paper-item-author" v-if="isExistAuthor">
-          <span class="icon"><i class="fa fa-user-circle-o"></i></span>
+          <span class="icon"><i class="fas fa-user-circle"></i></span>
           <a :href="firstAuthor.link" target="_blank">
             {{ firstAuthor.name }}
           </a>
@@ -33,7 +33,7 @@
       <div class="paper-item-footer-right">
         <span class="paper-item-link">
           <a :href="paper.link" target="_blank">
-            <span class="icon"><i class="fa fa-link"></i></span>論文ページ
+            <span class="icon"><i class="fas fa-link"></i></span>論文ページ
           </a>
         </span>
         <span class="paper-date">更新日: {{ updateDate }}</span>

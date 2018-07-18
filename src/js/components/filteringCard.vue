@@ -56,12 +56,12 @@
               placeholder="対象の日付を選択"
             ></flat-pickr>
             <span class="icon is-small is-left">
-              <i class="fa fa-calendar"></i>
+              <i class="fas fa-calendar"></i>
             </span>
           </div>
           <div class="control">
             <a type="submit" class="button" @click="removeDate">
-              <span class="icon is-small"><i class="fa fa-times-circle"></i></span>
+              <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
             </a>
           </div>
         </div>
@@ -79,7 +79,7 @@
               <p class="control has-icons-left is-expanded">
                 <input class="input" type="text" placeholder="スペース区切りで検索" v-model="searchQuery">
                 <span class="icon is-small is-left">
-                  <i class="fa fa-search"></i>
+                  <i class="fas fa-search"></i>
                 </span>
               </p>
               <div class="control">
