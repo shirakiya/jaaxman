@@ -152,6 +152,7 @@ workflows:
       - build-assets:
           requires:
             - python-test
+            - flake8
           filters:
             branches:
               only:
@@ -159,6 +160,7 @@ workflows:
       - deploy:
           requires:
             - python-test
+            - flake8
             - build-assets
           filters:
             branches:
