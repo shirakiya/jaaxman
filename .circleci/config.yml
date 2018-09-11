@@ -1,7 +1,44 @@
+working_directory: &working_directory ~/jaaxman
+pip:
+  restore_cache: &pip_restore_cache
+    keys:
+      - pip-v1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+      - pip-v1-{{ .Branch }}-
+      - pip-v1-
+
+  install:  &pip_install
+    name: Install pip packages
+    command: |
+      python3 -m venv ~/venv
+      . ~/venv/bin/activate
+      pip install -r requirements-dev.txt
+
+  save_cache: &pip_save_cache
+    key: pip-v1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+    paths:
+      - ~/venv
+
+npm:
+  restore_cache: &npm_restore_cache
+    keys:
+      - npm-v1-{{ .Branch }}-{{ checksum "package.json" }}
+      - npm-v1-{{ .Branch }}-
+      - npm-v1-
+
+  install: &npm_install
+    name: Install npm modules
+    command: npm install
+
+  save_cache: &npm_save_cache
+    key: npm-v1-{{ .Branch }}-{{ checksum "package.json" }}
+    paths:
+      - ./node_modules
+
+
 version: 2
 jobs:
   python-test:
-    working_directory: ~/jaaxman
+    working_directory: *working_directory
     docker:
       - image: circleci/python:3.6.2
         environment:
@@ -17,47 +54,37 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          <<: *pip_restore_cache
       - run:
-          name: Install pip packages
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+          <<: *pip_install
       - save_cache:
-          key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - ./venv
+          <<: *pip_save_cache
       - run:
-          name: Start test
+          name: Run tests
           command: |
-            . venv/bin/activate
+            . ~/venv/bin/activate
             sleep 5s
             coverage run manage.py test
       - run:
           name: Report coverage
           command: |
-            . venv/bin/activate
+            . ~/venv/bin/activate
             coverage report
 
   build-assets:
-    working_directory: ~/jaaxman
+    working_directory: *working_directory
     docker:
       - image: circleci/node:8.4.0
     steps:
       - checkout
       - restore_cache:
-          key: npm-{{ .Branch }}-{{ checksum "package.json" }}
+          <<: *npm_restore_cache
       - run:
-          name: Install npm packages
-          command: npm install
+          <<: *npm_install
       - save_cache:
-          key: npm-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
+          <<: *npm_save_cache
       - run:
           name: Build
-          # command: npm run build:$CIRCLE_BRANCH
           command: npm run build:production
       - save_cache:
           key: build-assets-{{ .Branch }}-{{ .Revision }}
@@ -65,23 +92,25 @@ jobs:
             - ./app/static/dist
 
   deploy:
-    working_directory: ~/jaaxman
+    working_directory: *working_directory
     docker:
       - image: circleci/python:3.6.2
     steps:
       - checkout
       - restore_cache:
-          key: pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          <<: *pip_restore_cache
+      - run:
+          <<: *pip_install
       - run:
           name: Install extra pip packages for build
           command: |
-            . venv/bin/activate
+            . ~/venv/bin/activate
             pip install wheel
             pip install awscli
       - run:
           name: Create pip wheels
           command: |
-            . venv/bin/activate
+            . ~/venv/bin/activate
             pip wheel -w wheelhouse -r requirements.txt
       - restore_cache:
           key: build-assets-{{ .Branch }}-{{ .Revision }}
@@ -90,8 +119,8 @@ jobs:
           command: |
             IDENTIFIER=`date '+%Y%m%d%H%M%S'`
             TAR_NAME=jaaxman-${IDENTIFIER}.tar.gz
-            tar cvzf $TAR_NAME --exclude=venv --exclude=app/static/dist/*.js *
-            . venv/bin/activate
+            tar cvzf $TAR_NAME --exclude=app/static/dist/*.js *
+            . ~/venv/bin/activate
             aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
             aws s3 sync ./app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
             python scripts/notify_build.py $TAR_NAME

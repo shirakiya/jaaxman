@@ -60,6 +60,7 @@ docker-compose exec backend python manage.py <fetchrss|registerrss>
 git clone https://github.com/shirakiya/jaaxman.git path/to/repos
 cd path/to/repos
 
+# use requirements-dev.txt instead of requirements.txt if development
 pip install -r requirements.txt
 
 # if not exists database
