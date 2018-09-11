@@ -126,3 +126,6 @@ class Paper(models.Model):
         if timezone:
             fetch_date = fetch_date.astimezone(timezone)
         return fetch_date.strftime('%Y-%m-%d')
+
+    def en_chars_len(self):
+        return len(self.title) + len(self.abstract)

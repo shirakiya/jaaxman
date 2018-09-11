@@ -32,15 +32,17 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         paper_count = 0
+        paper_chars_len = 0
         for subject in RssFetchSubject.objects.all():
             arxiv_rss = ArxivRss(subject)
             papers = arxiv_rss.fetch_and_save()
             paper_count += len(papers)
+            paper_chars_len += sum(paper.en_chars_len() for paper in papers)
 
         twitter = self._twitter()
         twitter.post_tweet(self._create_tweet_message(paper_count))
 
-        message = f'Successfully fetch and save {paper_count} papers from RSS.'
+        message = f'Successfully fetch and save {paper_count} papers ({paper_chars_len} chars) from RSS.'
         logger.info(self.style.SUCCESS(message))
 
         slack = self._slack()

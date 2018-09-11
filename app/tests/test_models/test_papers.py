@@ -155,3 +155,13 @@ class PaperTestCase(BaseTestCase):
         result = paper.get_fetch_date(timezone)
 
         self.assertEqual(result, expected)
+
+    def test_en_chars_len(self):
+        paper = self.creation.paper(
+            rss_fetch_history_id=self.rss_fetch_history.id,
+            title='abcde',
+            abstract='fjk'
+        )
+        actural = paper.en_chars_len()
+
+        self.assertEqual(actural, 8)

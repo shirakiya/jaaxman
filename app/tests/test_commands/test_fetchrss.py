@@ -31,10 +31,13 @@ class FetchRssTestCase(BaseTestCase):
         twitter_mock = Mock()
         slack_mock = Mock()
         m_twitter.return_value = twitter_mock
-        m_fetch_and_save.return_value = [Paper(), Paper()]
+        m_fetch_and_save.return_value = [
+            Paper(title='xxx', abstract='yyy'),
+            Paper(title='xxx', abstract='yyy'),
+        ]
         m_slack.return_value = slack_mock
         call_command('fetchrss')
 
         twitter_mock.post_tweet.assert_called_with('4件の記事が追加されました。')
-        m_logger.info.assert_called_with('\x1b[32;1mSuccessfully fetch and save 4 papers from RSS.\x1b[0m')
-        slack_mock.notify_fetchrss.assert_called_with('Successfully fetch and save 4 papers from RSS.')
+        m_logger.info.assert_called_with('\x1b[32;1mSuccessfully fetch and save 4 papers (24 chars) from RSS.\x1b[0m')
+        slack_mock.notify_fetchrss.assert_called_with('Successfully fetch and save 4 papers (24 chars) from RSS.')
