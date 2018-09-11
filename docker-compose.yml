@@ -15,7 +15,7 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: bash -c "pip install -r requirements.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "pip install -r requirements-dev.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   frontend:
     container_name: jaaxman-frontend
     image: node:8.9
