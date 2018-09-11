@@ -1,3 +1,4 @@
+import time
 import requests
 from app.exceptions import RssFetchError, RssParseError
 from app.lib.xml.arxiv import ArxivXml
@@ -48,6 +49,10 @@ class ArxivRss(object):
         rss_fetch_history = self._subject.rss_fetch_histories.create(date=date)
         papers = []
         for paper_item in arxiv_xml.get_paper_items():
+            # avoid Google Tranlate API limit (100,000chars/100sec)
+            if papers and len(papers) % 50 == 0:
+                time.sleep(100)
+
             paper = Paper.from_xml(paper_item)
             rss_fetch_history.papers.add(paper, bulk=False)
             paper.add_authors(paper_item['authors'])
