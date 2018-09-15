@@ -1,18 +1,15 @@
 {
-  "name": "jaaxman",
-  "version": "1.0.0",
   "private": true,
-  "repository": "ssh://git@github.com/shirakiya/jaaxman.git",
   "scripts": {
     "build:production": "NODE_ENV=production webpack --config webpack.prod.js",
     "build:development": "NODE_ENV=development webpack --config webpack.dev.js",
     "start": "NODE_ENV=development webpack-dev-server --config webpack.dev.js"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
     "eslint": "^4.6.1",

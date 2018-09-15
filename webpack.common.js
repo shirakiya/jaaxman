@@ -38,17 +38,17 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          'presets': [
+          presets: [
             [
-              'env',
+              '@babel/preset-env',
               {
-                'targets': {
-                  'browsers': [
-                    'last 2 versions',
-                  ],
-                  'uglify': true,
+                targets: {
+                  // googlebot use Chrome 41
+                  // ref.) https://developers.google.com/search/docs/guides/rendering
+                  chrome: '41',
                 },
-                'useBuiltIns': true,
+                forceAllTransforms: true,
+                useBuiltIns: 'entry',
               },
             ],
           ],
