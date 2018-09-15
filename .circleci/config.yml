@@ -92,7 +92,7 @@ jobs:
   build-assets:
     working_directory: *working_directory
     docker:
-      - image: circleci/node:8.4.0
+      - image: circleci/node:8.12.0
     steps:
       - checkout
       - restore_cache:

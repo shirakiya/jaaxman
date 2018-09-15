@@ -18,7 +18,7 @@ services:
     command: bash -c "pip install -r requirements-dev.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   frontend:
     container_name: jaaxman-frontend
-    image: node:8.9
+    image: node:8.12
     env_file: ./docker/frontend/env
     ports:
       - "8001:8001"
