@@ -48,7 +48,7 @@ module.exports = {
                   chrome: '41',
                 },
                 forceAllTransforms: true,
-                useBuiltIns: 'entry',
+                useBuiltIns: 'usage',
               },
             ],
           ],

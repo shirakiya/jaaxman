@@ -1,11 +1,10 @@
-function truncate(value, length, omission) {
-  const lengthInt = length ? parseInt(length, 10) : 20;
-  const ommisionString = omission ? omission.toString() : '...';
+function truncate(value, length = 20, omission = '...') {
+  const lengthInt = parseInt(length, 10);
 
   if (value.length <= lengthInt) {
     return value;
   } else {
-    return value.substring(0, lengthInt) + ommisionString;
+    return value.substring(0, lengthInt) + omission;
   }
 }
 
