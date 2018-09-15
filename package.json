@@ -27,6 +27,7 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "axios": "^0.16.2",
     "bulma": "^0.6.1",
     "moment": "^2.18.1",
