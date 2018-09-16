@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import flatPickr from 'vue-flatpickr-component';

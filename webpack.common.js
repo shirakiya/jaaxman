@@ -46,13 +46,12 @@ module.exports = {
                   // googlebot use Chrome 41
                   // ref.) https://developers.google.com/search/docs/guides/rendering
                   browsers: [
-                    'last 2 versions',
                     'Chrome >= 41',
+                    'ie >= 11',
                   ],
                 },
-                forceAllTransforms: true,
                 modules: false,
-                useBuiltIns: 'entry',
+                useBuiltIns: 'usage',
               },
             ],
           ],
