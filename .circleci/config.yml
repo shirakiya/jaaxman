@@ -158,9 +158,8 @@ workflows:
               only:
                 - production
       - deploy:
+          context: shirakiya-IAM-CircleCI-user
           requires:
-            - python-test
-            - flake8
             - build-assets
           filters:
             branches:
