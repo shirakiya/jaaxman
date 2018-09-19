@@ -37,25 +37,6 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        options: {
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                targets: {
-                  // googlebot use Chrome 41
-                  // ref.) https://developers.google.com/search/docs/guides/rendering
-                  browsers: [
-                    'Chrome >= 41',
-                    'ie >= 11',
-                  ],
-                },
-                modules: false,
-                useBuiltIns: 'usage',
-              },
-            ],
-          ],
-        },
       },
       {
         test: /\.(sass|scss)$/,
