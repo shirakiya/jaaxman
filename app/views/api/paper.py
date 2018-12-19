@@ -1,10 +1,17 @@
+from aws_xray_sdk.core import xray_recorder
 from django.http import JsonResponse, Http404
 from django.views.decorators.http import require_GET
+
+import app.lib.util.xray as xrayutil
 from app.models import Paper
 
 
+@xray_recorder.capture('view.api.paper')
 @require_GET
 def api_paper(request, paper_id):
+    segment = xrayutil.current_segment()
+    segment.put_metadata('paper_id', paper_id, 'request')
+
     try:
         paper = Paper.objects\
             .prefetch_related('rss_fetch_history')\

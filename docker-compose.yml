@@ -1,13 +1,15 @@
 version: "3"
 services:
   backend:
-    container_name: jaaxman-backend
     image: python:3.6.3
+    container_name: jaaxman-backend
     env_file: ./docker/backend/env
     environment:
+      - RUN_MODE=development
       - MYSQL_USER=root
       - MYSQL_PASSWORD=
       - MYSQL_HOST=mysql
+      - "AWS_XRAY_DAEMON_ADDRESS=xray:2000"
     networks:
       app:
     ports:
@@ -17,8 +19,8 @@ services:
     working_dir: /app
     command: bash -c "pip install -r requirements-dev.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   frontend:
-    container_name: jaaxman-frontend
     image: node:8.12
+    container_name: jaaxman-frontend
     env_file: ./docker/frontend/env
     ports:
       - "8001:8001"
@@ -27,8 +29,8 @@ services:
     working_dir: /app
     command: bash -c "yarn install && yarn start"
   mysql:
-    container_name: jaaxman-db
     image: mysql:5.6
+    container_name: jaaxman-db
     environment:
       MYSQL_DATABASE: jaaxman
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -40,7 +42,21 @@ services:
       - db_data:/var/lib/mysql
       - ./docker/mysql/conf.d:/etc/mysql/conf.d:ro
       - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
+  xray:
+    image: pottava/xray
+    container_name: jaaxman-xray
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+    networks:
+      app:
+    ports:
+      - "2000:2000/udp"
+      - "2000:2000/tcp"
+    command: --region ap-northeast-1 --local-mode
+
 volumes:
   db_data:
+
 networks:
   app:

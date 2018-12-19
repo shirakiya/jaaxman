@@ -1,6 +1,10 @@
 from datetime import datetime
+
+from aws_xray_sdk.core import xray_recorder
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+
+import app.lib.util.xray as xrayutil
 from app.views.helpers import (
     fetch_papers_with_date,
     fetch_papers_with_offset,
@@ -10,12 +14,20 @@ from app.views.helpers import (
 )
 
 
+@xray_recorder.capture('view.api.paper')
 @require_GET
 def api_papers(request):
+    segment = xrayutil.current_segment()
+
     params = request.GET
 
     date = params.get('date')
     query = params.get('query')
+    offset = int(params.get('count', 0))
+
+    segment.put_metadata('date', date, 'request')
+    segment.put_metadata('query', query, 'request')
+    segment.put_metadata('count', offset, 'request')
 
     if date:
         try:
@@ -27,8 +39,7 @@ def api_papers(request):
     elif query:
         papers = fetch_papers_with_query(query)
     else:
-        offset = params.get('count', 0)
-        papers = fetch_papers_with_offset(int(offset))
+        papers = fetch_papers_with_offset(offset)
 
     return JsonResponse({
         'papers': format_jsonable_date_to_papers(papers),

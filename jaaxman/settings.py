@@ -57,11 +57,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'aws_xray_sdk.ext.django',
     'app',
     'storages',
 ]
 
 MIDDLEWARE = [
+    'aws_xray_sdk.ext.django.middleware.XRayMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -232,3 +234,32 @@ TWITTER_CONSUMER_KEY = os.getenv('TWITTER_CONSUMER_KEY')
 TWITTER_CONSUMER_SECRET = os.getenv('TWITTER_CONSUMER_SECRET')
 TWITTER_ACCESS_TOKEN_KEY = os.getenv('TWITTER_ACCESS_TOKEN')
 TWITTER_ACCESS_TOKEN_SECRET = os.getenv('TWITTER_ACCESS_TOKEN_SECRET')
+
+
+# AWS X-Ray
+
+XRAY_RECORDER = {
+    'AWS_XRAY_DAEMON_ADDRESS': '127.0.0.1:2000',
+    'AWS_XRAY_TRACING_NAME': f'jaaxman-backend-{RUN_MODE}',
+    'AUTO_INSTRUMENT': True,
+    'AWS_XRAY_CONTEXT_MISSING': 'LOG_ERROR',
+    'PLUGINS': () if DEBUG else ('EC2Plugin',),
+    'SAMPLING': True,
+    'SAMPLING_RULES': {
+        'version': 1,
+        'rules': [
+            {
+                'description': 'healthcheck',
+                'service_name': "*",
+                'http_method': "*",
+                'url_path': "/healthcheck",
+                'fixed_target': 0,
+                'rate': 0,
+            }
+        ],
+        'default': {
+            'fixed_target': 0,
+            'rate': 0 if DEBUG else 0.2,
+        },
+    },
+}
