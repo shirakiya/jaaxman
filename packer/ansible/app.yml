@@ -21,6 +21,8 @@
     - include_role:
         name: codedeploy
     - include_role:
+        name: xray
+    - include_role:
         name: nginx
     - include_role:
         name: uwsgi
