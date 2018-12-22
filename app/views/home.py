@@ -1,3 +1,4 @@
+from aws_xray_sdk.core import xray_recorder
 from django.shortcuts import render
 from app.views.helpers import (
     create_jsonable_subjects,
@@ -5,6 +6,7 @@ from app.views.helpers import (
 )
 
 
+@xray_recorder.capture('view.home')
 def home(request):
     jsonable_subjects = create_jsonable_subjects()
     jsonable_submit_types = create_jsonable_submit_types()

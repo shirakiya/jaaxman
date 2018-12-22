@@ -53,6 +53,11 @@ docker-compose up
 docker-compose exec backend python manage.py <fetchrss|registerrss>
 ```
 
+### Test
+```
+docker-compose exec -e RUN_MODE=test backend python manage.py test
+```
+
 
 # Not use Docker
 ## SetUp
@@ -85,6 +90,11 @@ npm start
 ### Job
 ```
 python manage.py <fetchrss|registerrss>
+```
+
+### Test
+```
+RUN_MODE=test python manage.py test
 ```
 
 

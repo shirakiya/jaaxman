@@ -1,0 +1,12 @@
+.git
+Dockerfile
+README.md
+docker
+misc
+node_modules
+package.json
+packer
+*env
+src
+webpack*
+yarn.lock
