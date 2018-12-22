@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path
 from app.views.healthcheck import healthcheck
 from app.views.home import home
 from app.views.index import index
@@ -7,9 +7,9 @@ from app.views.api.papers import api_papers
 
 
 urlpatterns = [
-    url(r'^healthcheck$', healthcheck, name='healthcheck'),
-    url(r'^$', home, name='home'),
-    url(r'^index$', index, name='index'),
-    url(r'^api/papers$', api_papers, name='api_papers'),
-    url(r'^api/paper/(?P<paper_id>\d+)$', api_paper, name='api_paper'),
+    path('healthcheck', healthcheck, name='healthcheck'),
+    path('', home, name='home'),
+    path('index',  index, name='index'),
+    path('api/papers', api_papers, name='api_papers'),
+    path('api/paper/<int:paper_id>', api_paper, name='api_paper'),
 ]
