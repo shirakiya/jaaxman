@@ -1,6 +1,7 @@
 from datetime import datetime
-from app.tests.base_testcase import BaseTestCase
+
 from app.models import RssFetchHistory
+from app.tests.base_testcase import BaseTestCase
 
 
 class RssFetchHistoryTestCase(BaseTestCase):

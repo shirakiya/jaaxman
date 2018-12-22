@@ -1,6 +1,8 @@
 from logging import getLogger
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
+
 from app.models import RssFetchSubject
 
 logger = getLogger(__name__)

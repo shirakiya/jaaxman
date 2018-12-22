@@ -1,4 +1,5 @@
 from django import template
+
 from app.lib.util.webpack import Webpack
 
 register = template.Library()

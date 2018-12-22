@@ -1,9 +1,4 @@
-from app.tests.creations import (
-    CreationRssFetchHistory,
-    CreationRssFetchSubject,
-    CreationPaper,
-    CreationAuthor,
-)
+from app.tests.creations import CreationAuthor, CreationPaper, CreationRssFetchHistory, CreationRssFetchSubject
 
 
 class Creation(object):

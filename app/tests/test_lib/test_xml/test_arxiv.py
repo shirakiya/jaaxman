@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-from app.tests.base_testcase import BaseTestCase
+
 from app.lib.xml.arxiv import ArxivXml
+from app.tests.base_testcase import BaseTestCase
 
 
 class ArxivXmlTestCase(BaseTestCase):

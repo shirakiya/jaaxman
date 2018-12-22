@@ -1,9 +1,11 @@
 from unittest.mock import Mock, patch
-from django.conf import settings
+
 import requests
-from app.tests.base_testcase import BaseTestCase
-from app.lib.google_translator import GoogleTranslator
+from django.conf import settings
+
 from app.exceptions import CloudTranslationParseError
+from app.lib.google_translator import GoogleTranslator
+from app.tests.base_testcase import BaseTestCase
 
 
 class GoogleTranslatorTestCase(BaseTestCase):

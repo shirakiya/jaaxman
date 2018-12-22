@@ -1,9 +1,11 @@
 import datetime
+from unittest.mock import ANY, patch
+
 import pytz
-from unittest.mock import patch, ANY
 from parameterized import parameterized
-from app.tests.base_testcase import BaseTestCase
+
 from app.models import Paper
+from app.tests.base_testcase import BaseTestCase
 
 
 class PaperTestCase(BaseTestCase):

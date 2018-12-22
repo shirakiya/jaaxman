@@ -1,5 +1,7 @@
 import os
-from django.test import TestCase, Client
+
+from django.test import Client, TestCase
+
 from app.tests.creation import Creation
 
 

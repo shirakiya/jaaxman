@@ -1,18 +1,20 @@
 from datetime import datetime
 from unittest.mock import ANY
-from freezegun import freeze_time
+
 import pytz
-from app.tests.base_testcase import BaseTestCase
+from freezegun import freeze_time
+
 from app.models import Paper
+from app.tests.base_testcase import BaseTestCase
 from app.views.helpers import (
+    _get_search_datetime_as_range,
     create_jsonable_subjects,
     create_jsonable_submit_types,
-    filter_papers_with_query,
-    format_jsonable_date_to_papers,
-    fetch_papers_with_offset,
-    _get_search_datetime_as_range,
     fetch_papers_with_date,
+    fetch_papers_with_offset,
     fetch_papers_with_query,
+    filter_papers_with_query,
+    format_jsonable_date_to_papers
 )
 
 

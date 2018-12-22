@@ -1,5 +1,6 @@
-from django.conf import settings
 import twitter
+from django.conf import settings
+
 from jaaxman.exceptions import EnvironmentVariableNotDefineError
 
 

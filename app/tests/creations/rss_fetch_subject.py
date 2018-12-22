@@ -1,5 +1,5 @@
-from app.tests.creations.base import CreationBase
 from app.models import RssFetchSubject
+from app.tests.creations.base import CreationBase
 
 
 class CreationRssFetchSubject(CreationBase):
