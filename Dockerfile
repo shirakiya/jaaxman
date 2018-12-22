@@ -2,6 +2,7 @@ FROM python:3.6.3
 LABEL maintainer="shirakiya"
 LABEL version="1261a5743d4b7276b4d02a4fd11c8f3010a8c24c"
 
+ENV PYTHONUNBUFFERED "0"
 ENV RUN_MODE "production"
 ENV PORT "8000"
 ENV MYSQL_USER "root"
@@ -21,6 +22,7 @@ COPY ./jaaxman /app/jaaxman
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -U pip \
+    && pip install --no-cache-dir -r requirements.txt
 
 CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:$PORT"]
