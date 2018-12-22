@@ -247,6 +247,7 @@ XRAY_RECORDER = {
     'AWS_XRAY_TRACING_NAME': f'jaaxman-backend-{RUN_MODE}',
     'AUTO_INSTRUMENT': True,
     'AWS_XRAY_CONTEXT_MISSING': 'LOG_ERROR',
+    'DYNAMIC_NAMING': '*shirakiya.com',
     'PLUGINS': () if DEBUG else ('EC2Plugin',),
     'SAMPLING': True,
     'SAMPLING_RULES': {
@@ -256,7 +257,7 @@ XRAY_RECORDER = {
                 'description': 'healthcheck',
                 'service_name': "*",
                 'http_method': "*",
-                'url_path': "/healthcheck",
+                'url_path': '/healthcheck',
                 'fixed_target': 0,
                 'rate': 0,
             }
