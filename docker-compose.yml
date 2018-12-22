@@ -1,7 +1,8 @@
 version: "3"
 services:
   backend:
-    image: python:3.6.3
+    build: .
+    image: jaaxman-backend
     container_name: jaaxman-backend
     env_file: ./docker/backend/env
     environment:
@@ -9,7 +10,7 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=
       - MYSQL_HOST=mysql
-      - "AWS_XRAY_DAEMON_ADDRESS=xray:2000"
+      - AWS_XRAY_DAEMON_ADDRESS=xray:2000
     networks:
       app:
     ports:
