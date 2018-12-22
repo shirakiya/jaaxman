@@ -44,7 +44,7 @@ services:
       - ./docker/mysql/conf.d:/etc/mysql/conf.d:ro
       - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
   xray:
-    image: pottava/xray
+    image: pottava/xray:3.0
     container_name: jaaxman-xray
     environment:
       - AWS_ACCESS_KEY_ID
