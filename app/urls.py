@@ -1,10 +1,10 @@
 from django.urls import path
+
+from app.views.api.paper import api_paper
+from app.views.api.papers import api_papers
 from app.views.healthcheck import healthcheck
 from app.views.home import home
 from app.views.index import index
-from app.views.api.paper import api_paper
-from app.views.api.papers import api_papers
-
 
 urlpatterns = [
     path('healthcheck', healthcheck, name='healthcheck'),

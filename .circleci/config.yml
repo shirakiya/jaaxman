@@ -1,4 +1,9 @@
 working_directory: &working_directory ~/jaaxman
+
+images:
+  python: &python_image circleci/python:3.6.2
+  nodejs: &nodejs_image circleci/node:8.12.0
+
 pip:
   restore_cache: &pip_restore_cache
     keys:
@@ -40,7 +45,7 @@ jobs:
   python-test:
     working_directory: *working_directory
     docker:
-      - image: circleci/python:3.6.2
+      - image: *python_image
         environment:
           RUN_MODE: test
           MYSQL_USER: root
@@ -74,7 +79,7 @@ jobs:
   flake8:
     working_directory: *working_directory
     docker:
-      - image: circleci/python:3.6.2
+      - image: *python_image
     steps:
       - checkout
       - restore_cache:
@@ -92,7 +97,7 @@ jobs:
   build-assets:
     working_directory: *working_directory
     docker:
-      - image: circleci/node:8.12.0
+      - image: *nodejs_image
     steps:
       - checkout
       - restore_cache:
@@ -112,7 +117,7 @@ jobs:
   deploy:
     working_directory: *working_directory
     docker:
-      - image: circleci/python:3.6.2
+      - image: *python_image
     steps:
       - checkout
       - restore_cache:

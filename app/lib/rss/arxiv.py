@@ -1,8 +1,10 @@
 import time
+
 import requests
+
 from app.exceptions import RssFetchError, RssParseError
 from app.lib.xml.arxiv import ArxivXml
-from app.models import RssFetchSubject, RssFetchHistory, Paper
+from app.models import Paper, RssFetchHistory, RssFetchSubject
 
 
 class ArxivRss(object):

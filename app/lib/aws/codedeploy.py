@@ -1,5 +1,6 @@
-from .base import Aws
 from jaaxman.exceptions import InvalidDeploymentRoleError
+
+from .base import Aws
 
 
 class CodeDeploy(object):

@@ -1,6 +1,7 @@
 from unittest.mock import patch
-from app.tests.base_testcase import BaseTestCase
+
 from app.lib.slack import Slack
+from app.tests.base_testcase import BaseTestCase
 
 
 class SlackTestCase(BaseTestCase):

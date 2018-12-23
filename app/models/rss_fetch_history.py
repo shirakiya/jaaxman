@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from django.db import models
+
 from app.models.rss_fetch_subject import RssFetchSubject
 
 

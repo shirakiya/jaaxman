@@ -1,5 +1,5 @@
 from aws_xray_sdk.core import xray_recorder
-from django.http import JsonResponse, Http404
+from django.http import Http404, JsonResponse
 from django.views.decorators.http import require_GET
 
 import app.lib.util.xray as xrayutil

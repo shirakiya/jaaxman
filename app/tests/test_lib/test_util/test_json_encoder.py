@@ -1,7 +1,8 @@
 import json
 from datetime import datetime
-from app.tests.base_testcase import BaseTestCase
+
 from app.lib.util.json_encoder import OriginalJSONEncoder
+from app.tests.base_testcase import BaseTestCase
 
 
 class OriginalJSONEncoderTestCase(BaseTestCase):

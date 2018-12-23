@@ -1,9 +1,11 @@
 from unittest.mock import Mock, patch
+
 import requests
-from app.tests.base_testcase import BaseTestCase
+
 from app.exceptions import RssFetchError, RssParseError
-from app.models import RssFetchHistory
 from app.lib.rss.arxiv import ArxivRss
+from app.models import RssFetchHistory
+from app.tests.base_testcase import BaseTestCase
 
 
 class ArxivRssTestCase(BaseTestCase):

@@ -1,5 +1,7 @@
 import json
+
 from django import template
+
 from app.lib.util.json_encoder import OriginalJSONEncoder
 
 register = template.Library()

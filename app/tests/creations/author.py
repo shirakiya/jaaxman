@@ -1,5 +1,5 @@
-from app.tests.creations.base import CreationBase
 from app.models import Author
+from app.tests.creations.base import CreationBase
 
 
 class CreationAuthor(CreationBase):

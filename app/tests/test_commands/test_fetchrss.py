@@ -1,9 +1,11 @@
 import os
 from unittest.mock import Mock, patch
+
 from django.core.management import call_command
-from jaaxman.exceptions import EnvironmentVariableNotDefineError
-from app.tests.base_testcase import BaseTestCase
+
 from app.models import Paper
+from app.tests.base_testcase import BaseTestCase
+from jaaxman.exceptions import EnvironmentVariableNotDefineError
 
 
 class FetchRssTestCase(BaseTestCase):

@@ -1,7 +1,9 @@
 from unittest.mock import patch
+
 from django.core.management import call_command
-from app.tests.base_testcase import BaseTestCase
+
 from app.models import RssFetchSubject
+from app.tests.base_testcase import BaseTestCase
 
 
 class RegisterRssTestCase(BaseTestCase):

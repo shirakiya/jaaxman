@@ -1,6 +1,8 @@
 from logging import getLogger
-from django.conf import settings
+
 import requests
+from django.conf import settings
+
 from app.exceptions import CloudTranslationParseError
 
 logger = getLogger(__name__)

@@ -1,14 +1,12 @@
 from unittest.mock import Mock, patch
+
 from django.conf import settings
 from django.http import HttpRequest
 from parameterized import parameterized
-from jaaxman.exceptions import EnvironmentVariableNotDefineError
+
+from app.middleware.authorization import AuthorizationMiddleware, HttpResponseBadRequest, HttpResponseUnauthorized
 from app.tests.base_testcase import BaseTestCase
-from app.middleware.authorization import (
-    AuthorizationMiddleware,
-    HttpResponseBadRequest,
-    HttpResponseUnauthorized,
-)
+from jaaxman.exceptions import EnvironmentVariableNotDefineError
 
 
 class AuthorizationMiddlewareTestCase(BaseTestCase):

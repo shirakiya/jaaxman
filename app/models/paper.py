@@ -1,9 +1,11 @@
-from logging import getLogger
 import re
+from logging import getLogger
+
 from django.db import models
-from app.models.rss_fetch_history import RssFetchHistory
-from app.models.author import Author
+
 from app.lib.google_translator import GoogleTranslator
+from app.models.author import Author
+from app.models.rss_fetch_history import RssFetchHistory
 
 logger = getLogger(__name__)
 

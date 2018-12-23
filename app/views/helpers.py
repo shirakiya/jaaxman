@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
+
 import pytz
-from app.models import RssFetchSubject, Paper
+
+from app.models import Paper, RssFetchSubject
 
 TIMEZONE = pytz.timezone('Asia/Tokyo')
 

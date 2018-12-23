@@ -1,5 +1,7 @@
 from logging import getLogger
+
 from django.core.management.base import BaseCommand
+
 from app.lib.aws import CodeDeploy
 
 logger = getLogger(__name__)

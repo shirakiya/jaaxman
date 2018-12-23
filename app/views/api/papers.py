@@ -10,7 +10,7 @@ from app.views.helpers import (
     fetch_papers_with_offset,
     fetch_papers_with_query,
     filter_papers_with_query,
-    format_jsonable_date_to_papers,
+    format_jsonable_date_to_papers
 )
 
 

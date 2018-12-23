@@ -1,7 +1,8 @@
 from unittest.mock import Mock, patch
-from jaaxman.exceptions import EnvironmentVariableNotDefineError
-from app.tests.base_testcase import BaseTestCase
+
 from app.lib.twitter import Twitter
+from app.tests.base_testcase import BaseTestCase
+from jaaxman.exceptions import EnvironmentVariableNotDefineError
 
 
 class TwitterTestCase(BaseTestCase):
