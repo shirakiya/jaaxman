@@ -53,7 +53,7 @@ export default {
     return {
       isShownMenu: false,
       isActiveTerm: false,
-    }
+    };
   },
   computed: {
     brandImage() {

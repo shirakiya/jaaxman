@@ -11,5 +11,5 @@
     window.submitTypes = JSON.parse("{{ submit_types|to_json|escapejs }}");
     window.subjects = JSON.parse("{{ subjects|to_json|escapejs }}");
 </script>
-<script src="{% webpack_js "app.js" %}" defer></script>
+<script src="{% webpack "app.js" %}" defer></script>
 {% endblock %}

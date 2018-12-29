@@ -3,9 +3,9 @@ from django import template
 from app.lib.util.webpack import Webpack
 
 register = template.Library()
-webpack = Webpack()
+webpack_util = Webpack()
 
 
 @register.simple_tag
-def webpack_js(base_name):
-    return webpack.get_js_src(base_name)
+def webpack(base_name):
+    return webpack_util.get_src(base_name)

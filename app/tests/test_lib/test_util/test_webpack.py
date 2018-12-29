@@ -1,7 +1,6 @@
 import os
 
 from app.lib.util.webpack import Webpack
-# from django.test import override_settings
 from app.tests.base_testcase import BaseTestCase
 
 

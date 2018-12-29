@@ -142,7 +142,7 @@ jobs:
           command: |
             IDENTIFIER=`date '+%Y%m%d%H%M%S'`
             TAR_NAME=jaaxman-${IDENTIFIER}.tar.gz
-            tar cvzf $TAR_NAME --exclude=app/static/dist/*.js *
+            tar cvzf $TAR_NAME --exclude=app/static/dist/*.js --exclude=app/static/dist/*.css *
             . ~/venv/bin/activate
             aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
             aws s3 sync ./app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
