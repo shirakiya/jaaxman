@@ -1,37 +1,26 @@
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = merge(common, {
+module.exports = merge.smart(common, {
+  mode: 'production',
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production'),
-      },
-    }),
-    new UglifyJsPlugin({
-      sourceMap: true,
-    }),
-    new ExtractTextPlugin({
-      filename: '[name].css',
-      allChunks: true,
+    new UglifyJsPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name]-[hash].css',
     }),
   ],
   module: {
     rules: [
       {
-        test: /\.(sass|scss)$/,
-        include: /node_modules/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            'sass-loader',
-          ],
-        }),
-      }
+        test: /\.(sass|scss|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader?url=false',
+          'sass-loader',
+        ],
+      },
     ],
   },
 });

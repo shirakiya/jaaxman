@@ -137,9 +137,9 @@ export default {
     },
     fetchPapers() {
       return axios.get('/api/papers', {
-          params: {
-            count: this.getPaperLength(this.papers),
-          },
+        params: {
+          count: this.getPaperLength(this.papers),
+        },
       });
     },
     selectPaper(paperId) {
@@ -201,7 +201,7 @@ export default {
       }).catch(error => {
         this.inRequest = false;
         console.error(error);
-      })
+      });
     },
   },
 };

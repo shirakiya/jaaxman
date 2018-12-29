@@ -7,10 +7,19 @@ from django.conf import settings
 class Webpack(object):
 
     ASSETS_HOST_PRODUCTION = 'https://s3-ap-northeast-1.amazonaws.com/jaaxman-production-public/js/bundle/'
-    ASSETS_HOST_DEVELOPMENT = 'http://localhost:8001/assets/'
+    ASSETS_HOST_DEVELOPMENT = os.getenv('ASSETS_BASE_URL', 'http://localhost:8001/assets/')
 
     def __init__(self):
         self.assets_base_url = self._get_assets_base_url()
+        self._manifest = None
+
+    @property
+    def manifest(self):
+        if not self._manifest or settings.RUN_MODE == settings.RUN_MODE_DEVELOPMENT:
+            self._manifest = self._get_manifest()
+            return self._manifest
+
+        return self._manifest
 
     def _get_assets_base_url(self):
         if settings.RUN_MODE == settings.RUN_MODE_PRODUCTION:
@@ -25,8 +34,7 @@ class Webpack(object):
                 manifest = json.load(f)
         return manifest
 
-    def get_js_src(self, base_name):
-        manifest = self._get_manifest()
-        bundle_name = manifest.get(base_name, '')
+    def get_src(self, base_name):
+        bundle_name = self.manifest.get(base_name, '')
 
         return self.assets_base_url + bundle_name

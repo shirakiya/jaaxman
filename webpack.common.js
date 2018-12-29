@@ -1,9 +1,10 @@
+/* global __dirname */
 const path = require('path');
-const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const distPath = path.resolve(__dirname, 'app', 'static', 'dist')
+const distPath = path.resolve(__dirname, 'app', 'static', 'dist');
 
 module.exports = {
   entry: {
@@ -15,6 +16,7 @@ module.exports = {
     new ManifestPlugin({
       writeToFileEmit: true,
     }),
+    new VueLoaderPlugin(),
   ],
   output: {
     filename: '[name]-[hash].js',
@@ -24,7 +26,7 @@ module.exports = {
     rules: [
       {
         enforce: 'pre',
-        test: /\.jsx?$/,
+        test: /\.(js|vue)$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
       },
@@ -37,20 +39,30 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        options: {
+          'presets': [
+            [
+              '@babel/preset-env',
+              {
+                targets: {
+                  browsers: [
+                    'last 2 versions',
+                    'Chrome >= 41',
+                  ],
+                },
+                modules: false,
+                useBuiltIns: 'usage',
+              },
+            ],
+          ],
+        },
       },
       {
-        test: /\.(sass|scss)$/,
+        test: /\.(sass|scss|css)$/,
         use: [
           'style-loader',
           'css-loader',
           'sass-loader',
-        ],
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
         ],
       },
     ],

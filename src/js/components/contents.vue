@@ -39,6 +39,10 @@ import filteringCard from './filteringCard.vue';
 import paperList from './paperList.vue';
 
 export default {
+  components: {
+    filteringCard,
+    paperList,
+  },
   props: {
     selectedSubmitTypeName: {
       type: String,
@@ -61,10 +65,6 @@ export default {
       default: null,
     },
   },
-  components: {
-    filteringCard,
-    paperList,
-  },
   data() {
     return {
       subjects: window.subjects,
@@ -74,31 +74,6 @@ export default {
       allPapers: {},
       minDate: '2017-12',
     };
-  },
-  watch: {
-    selectedDate() {
-      // 条件が一つでもあるならば新たに検索を行う
-      if (this.selectedDate || this.searchQuery) {
-        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
-          this.$set(this, 'papers', res.data.papers);
-        });
-      } else {
-        this.$set(this, 'papers', this.allPapers);
-      }
-    },
-    searchQuery() {
-      // 条件が一つでもあるならば新たに検索を行う
-      if (this.selectedDate || this.searchQuery) {
-        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
-          this.$set(this, 'papers', res.data.papers);
-        });
-      } else {
-        this.$set(this, 'papers', this.allPapers);
-      }
-    },
-  },
-  created() {
-    this.fetchPapers();
   },
   computed: {
     maxDate() {
@@ -124,6 +99,7 @@ export default {
             return submitType;
           }
         }
+        return null;
       }
     },
     selectedSubject() {
@@ -139,8 +115,34 @@ export default {
             return subject;
           }
         }
+        return null;
       }
     },
+  },
+  watch: {
+    selectedDate() {
+      // 条件が一つでもあるならば新たに検索を行う
+      if (this.selectedDate || this.searchQuery) {
+        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
+          this.$set(this, 'papers', res.data.papers);
+        });
+      } else {
+        this.$set(this, 'papers', this.allPapers);
+      }
+    },
+    searchQuery() {
+      // 条件が一つでもあるならば新たに検索を行う
+      if (this.selectedDate || this.searchQuery) {
+        this.fetchPapersWithCondition(this.selectedDate, this.searchQuery).then(res => {
+          this.$set(this, 'papers', res.data.papers);
+        });
+      } else {
+        this.$set(this, 'papers', this.allPapers);
+      }
+    },
+  },
+  created() {
+    this.fetchPapers();
   },
   methods: {
     fetchPapersWithCondition(date, query) {
