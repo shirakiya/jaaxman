@@ -252,12 +252,13 @@ XRAY_RECORDER = {
     'PLUGINS': () if DEBUG else ('EC2Plugin',),
     'SAMPLING': True,
     'SAMPLING_RULES': {
-        'version': 1,
+        'version': 2,
         'rules': [
             {
                 'description': 'healthcheck',
-                'service_name': "*",
-                'http_method': "*",
+                'service_name': '*',
+                'host': '*',
+                'http_method': '*',
                 'url_path': '/healthcheck',
                 'fixed_target': 0,
                 'rate': 0,
