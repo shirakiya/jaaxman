@@ -22,7 +22,6 @@ services:
   frontend:
     image: node:8.12
     container_name: jaaxman-frontend
-    env_file: ./docker/frontend/env
     ports:
       - "8001:8001"
     volumes:
