@@ -102,6 +102,6 @@ ENV/
 
 # Project's ignore
 node_modules
-docker/backend/env
+env
 packer/ansible/*.retry
 packer/ansible/vault_password

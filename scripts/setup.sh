@@ -8,7 +8,7 @@ source $ENVFILE
 export $(cut -d = -f 1 ${ENVFILE})
 
 # setup app
-cd /root/jaaxman
+cd /root/jaaxman/backend
 /root/local/python-3.6.2/bin/pip install -f wheelhouse --no-index -r requirements.txt
 # workaround
 # ref.) https://stackoverflow.com/questions/36796167/upgraded-to-ubuntu-16-04-now-mysql-python-dependencies-are-broken

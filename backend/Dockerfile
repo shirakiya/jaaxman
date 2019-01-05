@@ -1,6 +1,5 @@
-FROM python:3.6.3
+FROM python:3.6.2
 LABEL maintainer="shirakiya"
-LABEL version="1261a5743d4b7276b4d02a4fd11c8f3010a8c24c"
 
 ENV PYTHONUNBUFFERED "0"
 ENV RUN_MODE "production"

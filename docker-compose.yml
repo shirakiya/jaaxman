@@ -1,10 +1,10 @@
 version: "3"
 services:
   backend:
-    build: .
+    build: ./backend
     image: jaaxman-backend
     container_name: jaaxman-backend
-    env_file: ./docker/backend/env
+    env_file: ./backend/env
     environment:
       RUN_MODE: development
       MYSQL_USER: root
@@ -16,7 +16,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - ./backend:/app
     working_dir: /app
     command: bash -c "pip install -r requirements-dev.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   frontend:
@@ -40,8 +40,8 @@ services:
       - "3336:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./docker/mysql/conf.d:/etc/mysql/conf.d:ro
-      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
+      - ./mysql/conf.d:/etc/mysql/conf.d:ro
+      - ./mysql/initdb:/docker-entrypoint-initdb.d
   xray:
     image: pottava/xray:3.0
     container_name: jaaxman-xray

@@ -7,7 +7,7 @@ images:
 pip:
   restore_cache: &pip_restore_cache
     keys:
-      - pip-v1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+      - pip-v1-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
       - pip-v1-{{ .Branch }}-
       - pip-v1-
 
@@ -16,10 +16,10 @@ pip:
     command: |
       python3 -m venv ~/venv
       . ~/venv/bin/activate
-      pip install -r requirements-dev.txt
+      pip install -r backend/requirements-dev.txt
 
   save_cache: &pip_save_cache
-    key: pip-v1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+    key: pip-v1-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
     paths:
       - ~/venv
 
@@ -69,11 +69,13 @@ jobs:
           command: |
             . ~/venv/bin/activate
             sleep 5s
+            cd backend/
             coverage run manage.py test
       - run:
           name: Report coverage
           command: |
             . ~/venv/bin/activate
+            cd backend/
             coverage report
 
   flake8:
@@ -92,7 +94,7 @@ jobs:
           name: Run flake8
           command: |
             . ~/venv/bin/activate
-            flake8 .
+            flake8 ./backend
 
   build-assets:
     working_directory: *working_directory
@@ -134,7 +136,7 @@ jobs:
           name: Create pip wheels
           command: |
             . ~/venv/bin/activate
-            pip wheel -w wheelhouse -r requirements.txt
+            pip wheel -w ./backend/wheelhouse -r ./backend/requirements.txt
       - restore_cache:
           key: build-assets-{{ .Branch }}-{{ .Revision }}
       - run:
@@ -142,10 +144,10 @@ jobs:
           command: |
             IDENTIFIER=`date '+%Y%m%d%H%M%S'`
             TAR_NAME=jaaxman-${IDENTIFIER}.tar.gz
-            tar cvzf $TAR_NAME --exclude=app/static/dist/*.js --exclude=app/static/dist/*.css *
+            tar cvzf $TAR_NAME --exclude=backend/app/static/dist/*.js --exclude=backend/app/static/dist/*.css *
             . ~/venv/bin/activate
             aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
-            aws s3 sync ./app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
+            aws s3 sync ./backend/app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
             python scripts/notify_build.py $TAR_NAME
 
 workflows:
