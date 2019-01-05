@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const distPath = path.resolve(__dirname, 'backend', 'app', 'static', 'dist');
+const distPath = path.resolve(__dirname, '..', 'backend', 'app', 'static', 'dist');
 
 module.exports = {
   entry: {
