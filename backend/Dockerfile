@@ -18,10 +18,12 @@ COPY ./requirements.txt /app/
 COPY ./manage.py /app/
 COPY ./app /app/app
 COPY ./jaaxman /app/jaaxman
+COPY ./uwsgi.ini /app/
 
 WORKDIR /app
 
 RUN pip install -U pip \
-    && pip install --no-cache-dir -r requirements.txt
+    && pip install --no-cache-dir -r requirements.txt \
+    && mkdir -p /var/log/uwsgi
 
-CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:$PORT"]
+CMD ["/usr/local/bin/uwsgi", "--ini", "/app/uwsgi.ini"]
