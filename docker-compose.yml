@@ -6,6 +6,9 @@ services:
       dockerfile: Dockerfile
     image: jaaxman-backend
     container_name: jaaxman-backend
+    depends_on:
+      - mysql
+      - xray
     environment:
       RUN_MODE: development
       MYSQL_USER: root
@@ -43,6 +46,8 @@ services:
       dockerfile: Dockerfile.nginx
     image: jaaxman-nginx
     container_name: jaaxman-nginx
+    depends_on:
+      - backend
     networks:
       app:
     ports:
