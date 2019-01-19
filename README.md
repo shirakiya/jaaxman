@@ -35,14 +35,6 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 # Use Docker
 At first, it is necessary to install [Docker Community Edition](https://www.docker.com/community-edition) and [Docker Compose](https://docs.docker.com/compose/).
 
-## SetUp
-```
-git clone https://github.com/shirakiya/jaaxman.git path/to/repos
-cd path/to/repos
-
-cp backend/env.sample backend/env
-vim backend/env  # => write collect environment variables
-```
 
 ## Start
 ### Application

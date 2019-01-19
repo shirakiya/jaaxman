@@ -6,13 +6,22 @@ services:
       dockerfile: Dockerfile
     image: jaaxman-backend
     container_name: jaaxman-backend
-    env_file: ./backend/env
     environment:
       RUN_MODE: development
       MYSQL_USER: root
       MYSQL_PASSWORD: ""
       MYSQL_HOST: mysql
       AWS_XRAY_DAEMON_ADDRESS: xray:2000
+      ASSETS_BASE_URL: http://localhost:8001/assets/
+      API_TOKEN:
+      GOOGLE_API_KEY:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      SLACK_URL:
+      TWITTER_CONSUMER_KEY:
+      TWITTER_CONSUMER_SECRET:
+      TWITTER_ACCESS_TOKEN:
+      TWITTER_ACCESS_TOKEN_SECRET:
     networks:
       app:
     volumes:
