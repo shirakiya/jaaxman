@@ -37,8 +37,8 @@ services:
     ports:
       - "8001:8001"
     volumes:
-      - ./frontend:/app
-    working_dir: /app
+      - .:/app
+    working_dir: /app/frontend
     command: bash -c "npm install && npm start"
   nginx:
     build:
