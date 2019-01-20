@@ -58,7 +58,7 @@ services:
       - ./backend/app:/app/app:ro
   mysql:
     image: mysql:5.6
-    container_name: jaaxman-db
+    container_name: jaaxman-mysql
     environment:
       MYSQL_DATABASE: jaaxman
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
