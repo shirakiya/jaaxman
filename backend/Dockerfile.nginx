@@ -6,6 +6,10 @@ COPY ./nginx/jaaxman.conf /etc/nginx/conf.d/jaaxman.conf
 # for static files
 COPY ./app /app/app
 
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get clean
+
 RUN rm /etc/nginx/conf.d/default.conf \
     && mkdir -p /var/log/nginx/jaaxman \
     && touch /var/log/nginx/jaaxman/access.log \
