@@ -12,7 +12,9 @@ module.exports = {
     style: './src/css/entry.js',
   },
   plugins: [
-    new CleanWebpackPlugin([distPath]),
+    new CleanWebpackPlugin([distPath], {
+      allowExternal: true,
+    }),
     new ManifestPlugin({
       writeToFileEmit: true,
     }),
