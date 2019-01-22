@@ -249,7 +249,7 @@ XRAY_RECORDER = {
     'AUTO_INSTRUMENT': True,
     'AWS_XRAY_CONTEXT_MISSING': 'LOG_ERROR',
     'DYNAMIC_NAMING': '*shirakiya.com',
-    'PLUGINS': () if DEBUG else ('EC2Plugin',),
+    'PLUGINS': () if DEBUG else ('ECSPlugin',),
     'SAMPLING': True,
     'SAMPLING_RULES': {
         'version': 2,

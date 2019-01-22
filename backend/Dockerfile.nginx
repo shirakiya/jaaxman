@@ -2,7 +2,7 @@ FROM nginx:1.14
 LABEL maintainer="shirakiya"
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./nginx/jaaxman.conf /etc/nginx/conf.d/jaaxman.conf
+COPY ./nginx/jaaxman.prod.conf /etc/nginx/conf.d/jaaxman.conf
 # for static files
 COPY ./app /app/app
 

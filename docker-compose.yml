@@ -54,7 +54,7 @@ services:
       - "8080:80"
     volumes:
       - ./backend/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./backend/nginx/jaaxman.conf:/etc/nginx/conf.d/jaaxman.conf:ro
+      - ./backend/nginx/jaaxman.dev.conf:/etc/nginx/conf.d/jaaxman.conf:ro
       - ./backend/app:/app/app:ro
   mysql:
     image: mysql:5.6
