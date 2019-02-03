@@ -226,7 +226,6 @@ workflows:
             branches:
               only:
                 - production
-                - feature/ecs
       - build-images:
           context: shirakiya-IAM-CircleCI-user
           requires:
