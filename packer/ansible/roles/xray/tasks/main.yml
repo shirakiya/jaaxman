@@ -1,4 +1,0 @@
-- name: install xray daemon
-  apt:
-    deb: https://s3.dualstack.ap-northeast-1.amazonaws.com/aws-xray-assets.ap-northeast-1/xray-daemon/aws-xray-daemon-3.x.deb
-  notify: enable xray

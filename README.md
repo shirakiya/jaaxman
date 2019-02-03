@@ -6,11 +6,9 @@
 Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 
 ## Required
-- Python>=3.6.3
+- Python>=3.6.2
 - Node.js>=8.12.0
 - MySQL5.6
-    - database: `jaaxman` (charaset=utf8mb4)
-    - e.g. `mysql -u <db user> -p -e 'CREATE database jaaxman CHARACTER SET utf8mb4;'`
 
 ## Environment Variables
 | Key                         | default                         |
@@ -27,7 +25,6 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 | TWITTER_CONSUMER_SECRET     | None                            |
 | TWITTER_ACCESS_TOKEN        | None                            |
 | TWITTER_ACCESS_TOKEN_SECRET | None                            |
-| SSH_PRIVATE_KEY_FILE        | None                            |
 
 
 # Use Docker
@@ -55,24 +52,3 @@ docker-compose exec -e RUN_MODE=test backend python manage.py test
 - `fetchrss`: Fetch RSS from arxiv.org and save paper datas to database.
 - `registerrss`: Save arxiv.org subjects to fetch.
 
-
-# Infla
-## Build AMI
-At first, prepare `packer/ansible/vault_password` file to decrypt vault.
-
-```
-echo '{ansible-vault-password}' > packer/ansible/vault_password
-```
-
-Build AMI by `packer build` command.
-
-```
-cd packer
-packer build <gateway|app|job>.json
-```
-
-## Deploy
-```
-cd backend/
-python manage.py deploy <app|job> <tarball name>
-```

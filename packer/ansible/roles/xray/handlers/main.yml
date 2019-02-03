@@ -1,2 +1,0 @@
-- name: enable xray
-  systemd: name=xray enabled=yes

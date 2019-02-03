@@ -167,9 +167,6 @@ STATIC_URL = '/static/'
 
 # django-storages
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-
 if RUN_MODE == RUN_MODE_PRODUCTION:
     AWS_STORAGE_BUCKET_NAME = 'jaaxman-production-public'
     AWS_LOCATION = ''

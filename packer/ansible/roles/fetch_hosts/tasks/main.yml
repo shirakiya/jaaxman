@@ -1,7 +1,0 @@
-- name: set fetch_hosts.py
-  template: src=fetch_hosts.py dest=/opt/fetch_hosts.py mode=755
-
-- name: enable fetch_hosts.py
-  lineinfile:
-    path: /root/.bash_profile
-    line: python /opt/fetch_hosts.py
