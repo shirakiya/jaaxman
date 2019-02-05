@@ -1,13 +1,7 @@
-working_directory: &working_directory ~/jaaxman
-
-images:
-  python: &python_image circleci/python:3.6.2
-  nodejs: &nodejs_image circleci/node:8.12.0
-
 pip:
   restore_cache: &pip_restore_cache
     keys:
-      - pip-v1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+      - pip-v1-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
       - pip-v1-{{ .Branch }}-
       - pip-v1-
 
@@ -16,36 +10,47 @@ pip:
     command: |
       python3 -m venv ~/venv
       . ~/venv/bin/activate
-      pip install -r requirements-dev.txt
+      pip install -r backend/requirements-dev.txt
 
   save_cache: &pip_save_cache
-    key: pip-v1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}
+    key: pip-v1-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
     paths:
       - ~/venv
 
 npm:
   restore_cache: &npm_restore_cache
     keys:
-      - npm-v1-{{ .Branch }}-{{ checksum "package.json" }}
+      - npm-v1-{{ .Branch }}-{{ checksum "frontend/package.json" }}
       - npm-v1-{{ .Branch }}-
       - npm-v1-
 
   install: &npm_install
     name: Install npm modules
-    command: npm install
+    command: |
+      cd frontend/
+      npm install
 
   save_cache: &npm_save_cache
-    key: npm-v1-{{ .Branch }}-{{ checksum "package.json" }}
+    key: npm-v1-{{ .Branch }}-{{ checksum "frontend/package.json" }}
     paths:
-      - ./node_modules
+      - ./forntend/node_modules
 
 
-version: 2
+version: 2.1
+executors:
+  python:
+    docker:
+      - image: circleci/python:3.6.2
+    working_directory: ~/jaaxman
+  nodejs:
+    docker:
+      - image: circleci/node:8.12.0
+    working_directory: ~/jaaxman
 jobs:
   python-test:
-    working_directory: *working_directory
+    executor: python
     docker:
-      - image: *python_image
+      - image: circleci/python:3.6.2
         environment:
           RUN_MODE: test
           MYSQL_USER: root
@@ -69,17 +74,17 @@ jobs:
           command: |
             . ~/venv/bin/activate
             sleep 5s
+            cd backend/
             coverage run manage.py test
       - run:
           name: Report coverage
           command: |
             . ~/venv/bin/activate
+            cd backend/
             coverage report
 
   flake8:
-    working_directory: *working_directory
-    docker:
-      - image: *python_image
+    executor: python
     steps:
       - checkout
       - restore_cache:
@@ -92,12 +97,10 @@ jobs:
           name: Run flake8
           command: |
             . ~/venv/bin/activate
-            flake8 .
+            flake8 ./backend
 
   build-assets:
-    working_directory: *working_directory
-    docker:
-      - image: *nodejs_image
+    executor: nodejs
     steps:
       - checkout
       - restore_cache:
@@ -107,17 +110,94 @@ jobs:
       - save_cache:
           <<: *npm_save_cache
       - run:
-          name: Build
-          command: npm run build:production
-      - save_cache:
-          key: build-assets-{{ .Branch }}-{{ .Revision }}
+          name: Build assets
+          command: |
+            cd frontend/
+            npm run build:production
+      - persist_to_workspace:
+          root: ./backend/app/static/dist
           paths:
-            - ./app/static/dist
+            - ./*
+
+  build-images:
+    executor: python
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: ./backend/app/static/dist
+      - run:
+          name: Prepare to build images
+          command: |
+            mkdir docker_images
+            echo 'export ECR_REPOSITORY_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/jaaxman"' >> $BASH_ENV
+      - run:
+          name: Build backend images
+          command: |
+            IMAGE_NAME=${ECR_REPOSITORY_NAME}/backend:${CIRCLE_SHA1}
+            docker build ./backend -f ./backend/Dockerfile -t $IMAGE_NAME
+            docker save -o docker_images/backend.tar $IMAGE_NAME
+      - run:
+          name: Build nginx images
+          command: |
+            IMAGE_NAME=${ECR_REPOSITORY_NAME}/nginx:${CIRCLE_SHA1}
+            docker build ./backend -f ./backend/Dockerfile.nginx -t $IMAGE_NAME
+            docker save -o docker_images/nginx.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: ./docker_images
+          paths:
+            - ./*
+
+  push-assets:
+    executor: python
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *pip_restore_cache
+      - run:
+          <<: *pip_install
+      - attach_workspace:
+          at: ./backend/app/static/dist
+      - run:
+          name: Install extra pip packages to push assets
+          command: |
+            . ~/venv/bin/activate
+            pip install awscli
+      - run:
+          name: Send assets to S3
+          command: |
+            . ~/venv/bin/activate
+            aws s3 sync ./backend/app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json --exclude=*.tar*
+
+  push-images:
+    executor: python
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: docker_images
+      - restore_cache:
+          <<: *pip_restore_cache
+      - run:
+          name: Install extra pip packages to push images
+          command: |
+            . ~/venv/bin/activate
+            pip install awscli
+      - run:
+          name: Load images
+          command: |
+            docker load --input ./docker_images/backend.tar
+            docker load --input ./docker_images/nginx.tar
+      - run:
+          name: Push images
+          command: |
+            . ~/venv/bin/activate
+            eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/jaaxman/backend:$CIRCLE_SHA1
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/jaaxman/nginx:$CIRCLE_SHA1
 
   deploy:
-    working_directory: *working_directory
-    docker:
-      - image: *python_image
+    executor: python
     steps:
       - checkout
       - restore_cache:
@@ -125,32 +205,16 @@ jobs:
       - run:
           <<: *pip_install
       - run:
-          name: Install extra pip packages for build
+          name: Deploy
           command: |
             . ~/venv/bin/activate
-            pip install wheel
-            pip install awscli
-      - run:
-          name: Create pip wheels
-          command: |
-            . ~/venv/bin/activate
-            pip wheel -w wheelhouse -r requirements.txt
-      - restore_cache:
-          key: build-assets-{{ .Branch }}-{{ .Revision }}
-      - run:
-          name: Send app tarball to S3
-          command: |
-            IDENTIFIER=`date '+%Y%m%d%H%M%S'`
-            TAR_NAME=jaaxman-${IDENTIFIER}.tar.gz
-            tar cvzf $TAR_NAME --exclude=app/static/dist/*.js --exclude=app/static/dist/*.css *
-            . ~/venv/bin/activate
-            aws s3 cp $TAR_NAME s3://jaaxman-production-infla/app/
-            aws s3 sync ./app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
-            python scripts/notify_build.py $TAR_NAME
+            BACKEND_IMAGE=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/jaaxman/backend:$CIRCLE_SHA1
+            NGINX_IMAGE=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/jaaxman/nginx:$CIRCLE_SHA1
+            ./scripts/deploy.py $BACKEND_IMAGE $NGINX_IMAGE
 
 workflows:
   version: 2
-  test_and_build:
+  test-and-build:
     jobs:
       - python-test
       - flake8
@@ -162,11 +226,20 @@ workflows:
             branches:
               only:
                 - production
-      - deploy:
+      - build-images:
           context: shirakiya-IAM-CircleCI-user
           requires:
             - build-assets
-          filters:
-            branches:
-              only:
-                - production
+      - push-assets:
+          context: shirakiya-IAM-CircleCI-user
+          requires:
+            - build-images
+      - push-images:
+          context: shirakiya-IAM-CircleCI-user
+          requires:
+            - build-images
+      - deploy:
+          context: shirakiya-IAM-CircleCI-user
+          requires:
+            - push-assets
+            - push-images

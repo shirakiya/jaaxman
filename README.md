@@ -6,10 +6,9 @@
 Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 
 ## Required
-- Python>=3.6
-- Node.js>=8.6
+- Python>=3.6.2
+- Node.js>=8.12.0
 - MySQL5.6
-    - database: `jaaxman` (charaset=utf8mb4)
 
 ## Environment Variables
 | Key                         | default                         |
@@ -21,9 +20,6 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 | MYSQL_HOST                  | 'localhost'                     |
 | API_TOKEN                   | None                            |
 | GOOGLE_API_KEY              | None                            |
-| AWS_ACCESS_KEY_ID           | None                            |
-| AWS_SECRET_ACCESS_KEY       | None                            |
-| SSH_PRIVATE_KEY_FILE        | None                            |
 | SLACK_URL                   | None                            |
 | TWITTER_CONSUMER_KEY        | None                            |
 | TWITTER_CONSUMER_SECRET     | None                            |
@@ -34,14 +30,6 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 # Use Docker
 At first, it is necessary to install [Docker Community Edition](https://www.docker.com/community-edition) and [Docker Compose](https://docs.docker.com/compose/).
 
-## SetUp
-```
-git clone https://github.com/shirakiya/jaaxman.git path/to/repos
-cd path/to/repos
-
-cp docker/backend/env.sample docker/backend/env
-vim docker/backend/env  # => write collect environment variables
-```
 
 ## Start
 ### Application
@@ -60,66 +48,7 @@ docker-compose exec -e RUN_MODE=test backend python manage.py test
 ```
 
 
-# Not use Docker
-## SetUp
-```
-git clone https://github.com/shirakiya/jaaxman.git path/to/repos
-cd path/to/repos
-
-# use requirements-dev.txt instead of requirements.txt if development
-pip install -r requirements.txt
-
-# if not exists database
-mysql -u <db user> -p -e 'CREATE database jaaxman CHARACTER SET utf8mb4;'
-
-python manage.py migrate
-
-npm install
-```
-
-
-## Start
-### Application
-```
-# app
-python manage.py runserver
-
-# frontend JavaScript
-npm start
-```
-
-### Job
-```
-python manage.py <fetchrss|registerrss>
-```
-
-### Test
-```
-RUN_MODE=test python manage.py test
-```
-
-
 # Jobs
 - `fetchrss`: Fetch RSS from arxiv.org and save paper datas to database.
 - `registerrss`: Save arxiv.org subjects to fetch.
 
-
-# Infla
-## Build AMI
-At first, prepare `packer/ansible/vault_password` file to decrypt vault.
-
-```
-echo '{ansible-vault-password}' > packer/ansible/vault_password
-```
-
-Build AMI by `packer build` command.
-
-```
-cd packer
-packer build <gateway|app|job>.json
-```
-
-## Deploy
-```
-python manage.py deploy <app|job> <tarball name>
-```
