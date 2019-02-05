@@ -1,9 +1,9 @@
 pip:
   restore_cache: &pip_restore_cache
     keys:
-      - pip-v1-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
-      - pip-v1-{{ .Branch }}-
-      - pip-v1-
+      - pip-v2-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
+      - pip-v2-{{ .Branch }}-
+      - pip-v2-
 
   install:  &pip_install
     name: Install pip packages
@@ -13,7 +13,7 @@ pip:
       pip install -r backend/requirements-dev.txt
 
   save_cache: &pip_save_cache
-    key: pip-v1-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
+    key: pip-v2-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
     paths:
       - ~/venv
 
@@ -40,7 +40,7 @@ version: 2.1
 executors:
   python:
     docker:
-      - image: circleci/python:3.6.2
+      - image: circleci/python:3.6.5
     working_directory: ~/jaaxman
   nodejs:
     docker:
@@ -50,7 +50,7 @@ jobs:
   python-test:
     executor: python
     docker:
-      - image: circleci/python:3.6.2
+      - image: circleci/python:3.6.5
         environment:
           RUN_MODE: test
           MYSQL_USER: root
