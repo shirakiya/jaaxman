@@ -17,6 +17,7 @@ ENV TWITTER_ACCESS_TOKEN ""
 ENV TWITTER_ACCESS_TOKEN_SECRET ""
 
 COPY ./requirements.txt /app/
+COPY ./requirements-deploy.txt /app/
 COPY ./manage.py /app/
 COPY ./app /app/app
 COPY ./jaaxman /app/jaaxman
