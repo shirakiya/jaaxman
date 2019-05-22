@@ -110,11 +110,6 @@ def create_migration_task(ecs_client, task_definition: dict) -> None:
                 'assignPublicIp': 'ENABLED',
             },
         },
-        tags=[{
-            'key': 'Project',
-            'value': 'jaaxman',
-        }],
-        enableECSManagedTags=True,
     )
     logger.debug(response)
 
