@@ -1,5 +1,4 @@
 -r requirements-deploy.txt
-ansible==2.7.5
 aws-xray-sdk==2.2.0
 beautifulsoup4==4.6.0
 django==2.1.5
