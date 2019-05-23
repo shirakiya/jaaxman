@@ -1,0 +1,44 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 8
+      python: 3.7
+    commands:
+      - echo "Show runtime versions"
+      - echo "Node.js version "$(node -v)
+      - echo "Python version "$(python -V)
+      - echo "Install node_modules ..."
+      - cd frontend/
+      - npm install
+      - cd ../
+      - echo "Install pip modules ..."
+      - cd backend/
+      - pip install -r requirements-deploy.txt
+      - cd ../
+  pre_build:
+    commands:
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - REPOSITORY_URI=${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-1.amazonaws.com/jaaxman
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - BACKEND_IMAGE_TAG=${REPOSITORY_URI}/backend:$IMAGE_TAG
+      - NGINX_IMAGE_TAG=${REPOSITORY_URI}/nginx:$IMAGE_TAG
+  build:
+    commands:
+      - echo "Build JavaScript assets ..."
+      - cd frontend/
+      - npm run build:production
+      - cd ../
+      - echo "Build docker images ..."
+      - docker build ./backend -f ./backend/Dockerfile -t $BACKEND_IMAGE_TAG
+      - docker build ./backend -f ./backend/Dockerfile.nginx -t $NGINX_IMAGE_TAG
+  post_build:
+    commands:
+      - echo "Push assets ..."
+      - aws s3 sync ./backend/app/static/dist/ s3://jaaxman-production-public/js/bundle/ --exclude=manifest.json
+      - echo "Push docker images ..."
+      - docker push $BACKEND_IMAGE_TAG
+      - docker push $NGINX_IMAGE_TAG
+      - echo "Start deploy ..."
+      - python ./scripts/deploy.py $BACKEND_IMAGE_TAG $NGINX_IMAGE_TAG
