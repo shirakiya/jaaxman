@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     displayDate() {
-      return moment(this.date).format('Y-M-D');
+      return moment(this.date).format('YYYY/MM/DD');
     },
     isPapersEmpty() {
       return this.papers.length < 1;
