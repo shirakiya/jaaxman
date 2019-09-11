@@ -71,17 +71,18 @@ services:
       - ./mysql/conf.d:/etc/mysql/conf.d:ro
       - ./mysql/initdb:/docker-entrypoint-initdb.d
   xray:
-    image: pottava/xray:3.0
+    image: amazon/aws-xray-daemon:3.1.0
     container_name: jaaxman-xray
     environment:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION=ap-northeast-1
     networks:
       app:
     ports:
       - "2000:2000/udp"
       - "2000:2000/tcp"
-    command: --region ap-northeast-1 --local-mode
+    command: -o
 
 volumes:
   db_data:
