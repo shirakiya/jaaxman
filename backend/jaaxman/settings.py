@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 import os
 
+from aws_xray_sdk import global_sdk_config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -57,13 +59,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'aws_xray_sdk.ext.django',
     'app',
     'storages',
+    'aws_xray_sdk.ext.django',
 ]
 
 
 MIDDLEWARE = [
+    'aws_xray_sdk.ext.django.middleware.XRayMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,8 +76,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-if not DEBUG:
-    MIDDLEWARE.insert(0, 'aws_xray_sdk.ext.django.middleware.XRayMiddleware')
+if DEBUG:
+    global_sdk_config.set_sdk_enabled(False)
 
 
 # AuthorizationMiddleware
@@ -241,12 +244,12 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv('TWITTER_ACCESS_TOKEN_SECRET')
 # AWS X-Ray
 
 XRAY_RECORDER = {
+    'AUTO_INSTRUMENT': True,
     'AWS_XRAY_DAEMON_ADDRESS': '127.0.0.1:2000',
     'AWS_XRAY_TRACING_NAME': f'jaaxman-backend-{RUN_MODE}',
-    'AUTO_INSTRUMENT': True,
     'AWS_XRAY_CONTEXT_MISSING': 'LOG_ERROR',
     'DYNAMIC_NAMING': '*shirakiya.com',
-    'PLUGINS': () if DEBUG else ('ECSPlugin',),
+    'PLUGINS': ('ECSPlugin',),
     'SAMPLING': True,
     'SAMPLING_RULES': {
         'version': 2,
