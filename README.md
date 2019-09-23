@@ -25,6 +25,7 @@ Jaaxman list [arXiv](https://arxiv.org/) papers in Japanese.
 | TWITTER_CONSUMER_SECRET     | None                            |
 | TWITTER_ACCESS_TOKEN        | None                            |
 | TWITTER_ACCESS_TOKEN_SECRET | None                            |
+| ROLLBAR_ACCESS_TOKEN        | None                            |
 
 
 # Use Docker

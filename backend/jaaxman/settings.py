@@ -74,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
 if DEBUG:
@@ -269,4 +270,11 @@ XRAY_RECORDER = {
             'rate': 0 if DEBUG else 0.2,
         },
     },
+}
+
+# Rollbar
+ROLLBAR = {
+    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
+    'environment': RUN_MODE,
+    'root': BASE_DIR,
 }
