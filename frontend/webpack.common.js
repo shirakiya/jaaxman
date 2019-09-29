@@ -44,7 +44,7 @@ module.exports = {
         options: {
           'presets': [
             [
-              '@babel/preset-env',
+              '@babel/env',
               {
                 targets: {
                   browsers: [
@@ -54,6 +54,7 @@ module.exports = {
                 },
                 modules: false,
                 useBuiltIns: 'usage',
+                corejs: 3,
               },
             ],
           ],
