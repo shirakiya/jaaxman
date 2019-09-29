@@ -1,4 +1,4 @@
-FROM python:3.6.5
+FROM python:3.7.4
 LABEL maintainer="shirakiya"
 
 ENV PYTHONUNBUFFERED "0"
@@ -15,6 +15,7 @@ ENV TWITTER_CONSUMER_KEY ""
 ENV TWITTER_CONSUMER_SECRET ""
 ENV TWITTER_ACCESS_TOKEN ""
 ENV TWITTER_ACCESS_TOKEN_SECRET ""
+ENV ROLLBAR_ACCESS_TOKEN ""
 
 COPY ./requirements.txt /app/
 COPY ./requirements-deploy.txt /app/
