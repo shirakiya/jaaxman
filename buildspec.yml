@@ -41,4 +41,4 @@ phases:
       - docker push $BACKEND_IMAGE_TAG
       - docker push $NGINX_IMAGE_TAG
       - echo "Start deploy ..."
-      - python ./scripts/deploy.py $BACKEND_IMAGE_TAG $NGINX_IMAGE_TAG
+      - python ./deploy.py $BACKEND_IMAGE_TAG $NGINX_IMAGE_TAG
