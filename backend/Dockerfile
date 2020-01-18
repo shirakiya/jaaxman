@@ -1,7 +1,14 @@
-FROM python:3.7.4 as default
+FROM python:3.7.6-slim as default
 LABEL maintainer="shirakiya"
 
 WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    libmariadb-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV RUN_MODE "production"
 ENV PORT "8000"
