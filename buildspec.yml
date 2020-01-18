@@ -31,7 +31,7 @@ phases:
       - npm run build:production
       - cd ../
       - echo "Build docker images ..."
-      - docker build ./backend -f ./backend/Dockerfile -t $BACKEND_IMAGE_TAG
+      - docker build ./backend -f ./backend/Dockerfile --target=default -t $BACKEND_IMAGE_TAG
       - docker build ./backend -f ./backend/Dockerfile.nginx -t $NGINX_IMAGE_TAG
   post_build:
     commands:

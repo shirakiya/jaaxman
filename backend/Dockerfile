@@ -1,7 +1,8 @@
-FROM python:3.7.4
+FROM python:3.7.4 as default
 LABEL maintainer="shirakiya"
 
-ENV PYTHONUNBUFFERED "0"
+WORKDIR /app
+
 ENV RUN_MODE "production"
 ENV PORT "8000"
 ENV MYSQL_USER "root"
@@ -17,17 +18,27 @@ ENV TWITTER_ACCESS_TOKEN ""
 ENV TWITTER_ACCESS_TOKEN_SECRET ""
 ENV ROLLBAR_ACCESS_TOKEN ""
 
-COPY ./requirements.txt /app/
-COPY ./requirements-deploy.txt /app/
-COPY ./manage.py /app/
-COPY ./app /app/app
-COPY ./jaaxman /app/jaaxman
-COPY ./uwsgi.ini /app/
-
-WORKDIR /app
+COPY ./requirements.txt .
+COPY ./requirements-deploy.txt .
 
 RUN pip install -U pip \
-    && pip install --no-cache-dir -r requirements.txt \
-    && mkdir -p /var/log/uwsgi
+    && pip install --no-cache-dir -r requirements.txt
 
-CMD ["/usr/local/bin/uwsgi", "--ini", "/app/uwsgi.ini"]
+COPY ./manage.py .
+COPY ./uwsgi.ini .
+COPY ./jaaxman .
+COPY ./app .
+
+RUN mkdir -p /var/log/uwsgi
+
+CMD ["/usr/local/bin/uwsgi", "--ini", "uwsgi.ini"]
+
+
+FROM default as dev
+
+ENV PYTHONUNBUFFERED 0
+ENV PYTHONDONTWRITEBYTECODE 1
+
+COPY ./requirements-dev.txt .
+
+RUN pip install --no-cache-dir -r requirements-dev.txt
