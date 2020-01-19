@@ -27,6 +27,7 @@ services:
       TWITTER_ACCESS_TOKEN:
       TWITTER_ACCESS_TOKEN_SECRET:
       ROLLBAR_ACCESS_TOKEN:
+      AWS_XRAY_SDK_ENABLED: "false"
     networks:
       app:
     volumes:
@@ -76,12 +77,13 @@ services:
       - ./mysql/initdb:/docker-entrypoint-initdb.d
 
   xray:
-    image: amazon/aws-xray-daemon:3.1.0
+    image: amazon/aws-xray-daemon:3.2.0
     container_name: jaaxman-xray
     environment:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_REGION=ap-northeast-1
+
     networks:
       app:
     ports:
