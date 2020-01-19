@@ -1,12 +1,12 @@
 -r requirements-deploy.txt
 aws-xray-sdk==2.4.3
-beautifulsoup4==4.8.0
-django==2.2.5
+beautifulsoup4==4.8.2
+django==3.0.2
 django-storages==1.6.5
 lxml==4.4.1
-mysqlclient==1.4.4
+mysqlclient==1.4.6
 python-twitter==3.5
 requests==2.22.0
 rollbar==0.14.7
 slackweb==1.0.5
-uwsgi==2.0.17.1
+uwsgi==2.0.18
