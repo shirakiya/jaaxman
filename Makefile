@@ -30,5 +30,8 @@ test/backend:
 lint/flake8:
 	docker-compose run --rm backend flake8 .
 
+lint/isort:
+	docker-compose run --rm backend isort -rc -c .
+
 lint/eslint:
 	docker-compose run --rm frontend npm run lint

@@ -1,11 +1,11 @@
+from .author import CreationAuthor
+from .paper import CreationPaper
 from .rss_fetch_history import CreationRssFetchHistory
 from .rss_fetch_subject import CreationRssFetchSubject
-from .paper import CreationPaper
-from .author import CreationAuthor
 
 __all__ = [
+    'CreationAuthor',
+    'CreationPaper',
     'CreationRssFetchHistory',
     'CreationRssFetchSubject',
-    'CreationPaper',
-    'CreationAuthor',
 ]

@@ -71,7 +71,25 @@ jobs:
           name: Run flake8
           command: |
             . ~/venv/bin/activate
-            flake8 ./backend
+            cd backend/
+            flake8 .
+
+  isort:
+    executor: python
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *pip_restore_cache
+      - run:
+          <<: *pip_install
+      - save_cache:
+          <<: *pip_save_cache
+      - run:
+          name: Run isort check
+          command: |
+            . ~/venv/bin/activate
+            cd backend/
+            isort --recursive --check-only .
 
 workflows:
   version: 2
