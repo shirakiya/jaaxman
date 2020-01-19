@@ -97,3 +97,4 @@ workflows:
     jobs:
       - python-test
       - flake8
+      - isort
