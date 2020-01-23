@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+<nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <img :src="brandImage" alt="Jaaxman"></img>
@@ -76,8 +76,8 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  border-bottom: 1px solid lightgray;
-  box-shadow: 0 1px 3px rgba(10, 10, 10, 0.1);
+  // border-bottom: 1px solid lightgray;
+  // box-shadow: 0 1px 3px rgba(10, 10, 10, 0.1);
   z-index: 20;
 
   .navbar-menu {
