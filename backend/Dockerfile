@@ -33,8 +33,8 @@ RUN pip install -U pip \
 
 COPY ./manage.py .
 COPY ./uwsgi.ini .
-COPY ./jaaxman .
-COPY ./app .
+COPY ./jaaxman ./jaaxman
+COPY ./app ./app
 
 RUN mkdir -p /var/log/uwsgi
 
