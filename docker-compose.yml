@@ -35,7 +35,7 @@ services:
     command: bash -c "uwsgi --ini uwsgi.ini --py-autoreload=1"
 
   frontend:
-    image: node:8.16
+    image: node:12.14.1-slim
     container_name: jaaxman-frontend-dev
     ports:
       - "8001:8001"

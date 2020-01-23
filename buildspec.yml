@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 8
+      nodejs: 12
       python: 3.7
     commands:
       - echo "Show runtime versions"
