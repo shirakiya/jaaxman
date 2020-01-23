@@ -16,6 +16,24 @@ pip:
     key: pip-v2-{{ .Branch }}-{{ checksum "backend/requirements-dev.txt" }}-{{ checksum "backend/requirements.txt" }}
     paths:
       - ~/venv
+npm:
+  restore_cache: &node_restore_cache
+    keys:
+      - npm-v1-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
+      - npm-v1-{{ .Branch }}-
+      - npm-v1-
+
+  install:  &node_install
+    name: Install npm modules
+    command: |
+      cd frontend/
+      npm install
+
+  save_cache: &node_save_cache
+    key: npm-v1-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
+    paths:
+      - ./frontend/node_modules
+
 
 version: 2.1
 executors:
@@ -32,6 +50,10 @@ executors:
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+  node:
+    docker:
+      - image: circleci/node:12.14.1
+
 jobs:
   python-test:
     executor: python
@@ -91,6 +113,22 @@ jobs:
             cd backend/
             isort --recursive --check-only .
 
+  eslint:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *node_restore_cache
+      - run:
+          <<: *node_install
+      - save_cache:
+          <<: *node_save_cache
+      - run:
+          name: Run eslint check
+          command: |
+            cd frontend/
+            npm run lint
+
 workflows:
   version: 2
   test:
@@ -98,3 +136,4 @@ workflows:
       - python-test
       - flake8
       - isort
+      - eslint
