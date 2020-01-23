@@ -1,11 +1,12 @@
-version: "3"
+version: "3.7"
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: jaaxman-backend
-    container_name: jaaxman-backend
+      target: dev
+    image: jaaxman-backend-dev
+    container_name: jaaxman-backend-dev
     depends_on:
       - mysql
       - xray
@@ -26,21 +27,23 @@ services:
       TWITTER_ACCESS_TOKEN:
       TWITTER_ACCESS_TOKEN_SECRET:
       ROLLBAR_ACCESS_TOKEN:
+      AWS_XRAY_SDK_ENABLED: "false"
     networks:
       app:
     volumes:
       - ./backend:/app
-    working_dir: /app
-    command: bash -c "uwsgi --ini /app/uwsgi.ini --py-autoreload=1"
+    command: bash -c "uwsgi --ini uwsgi.ini --py-autoreload=1"
+
   frontend:
-    image: node:8.16
-    container_name: jaaxman-frontend
+    image: node:12.14.1-slim
+    container_name: jaaxman-frontend-dev
     ports:
       - "8001:8001"
     volumes:
       - .:/app
     working_dir: /app/frontend
     command: bash -c "npm install && npm start"
+
   nginx:
     build:
       context: ./backend
@@ -57,6 +60,7 @@ services:
       - ./backend/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./backend/nginx/jaaxman.dev.conf:/etc/nginx/conf.d/jaaxman.conf:ro
       - ./backend/app:/app/app:ro
+
   mysql:
     image: mysql:5.6
     container_name: jaaxman-mysql
@@ -71,13 +75,15 @@ services:
       - db_data:/var/lib/mysql
       - ./mysql/conf.d:/etc/mysql/conf.d:ro
       - ./mysql/initdb:/docker-entrypoint-initdb.d
+
   xray:
-    image: amazon/aws-xray-daemon:3.1.0
+    image: amazon/aws-xray-daemon:3.2.0
     container_name: jaaxman-xray
     environment:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_REGION=ap-northeast-1
+
     networks:
       app:
     ports:

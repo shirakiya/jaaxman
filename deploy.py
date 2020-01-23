@@ -21,6 +21,7 @@ reuse_settings_keys = (
 
 
 def update_app_task_definition(ecs_client, backend_image: str, nginx_image: str) -> dict:
+    # get task definition that is not used for service but latest one.
     response = ecs_client.describe_task_definition(taskDefinition='jaaxman-app')
     logger.debug(response)
 

@@ -1,6 +1,6 @@
 /* global __dirname */
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -12,9 +12,7 @@ module.exports = {
     style: './src/css/entry.js',
   },
   plugins: [
-    new CleanWebpackPlugin([distPath], {
-      allowExternal: true,
-    }),
+    new CleanWebpackPlugin(),
     new ManifestPlugin({
       writeToFileEmit: true,
     }),

@@ -35,21 +35,24 @@ At first, it is necessary to install [Docker Community Edition](https://www.dock
 ## Start
 ### Application
 ```
-docker-compose up
+$ make up
 ```
 
 ### Job
 ```
-docker-compose exec backend python manage.py <fetchrss|registerrss>
+$ make run/<fetchrss|regsiterrss>
 ```
 
 ### Test
 ```
-docker-compose exec -e RUN_MODE=test backend python manage.py test
+# test all
+$ make test
+
+# test only backend
+$ make test/backend
 ```
 
 
 # Jobs
 - `fetchrss`: Fetch RSS from arxiv.org and save paper datas to database.
 - `registerrss`: Save arxiv.org subjects to fetch.
-
