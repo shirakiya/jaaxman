@@ -44,12 +44,6 @@ module.exports = {
             [
               '@babel/env',
               {
-                targets: {
-                  browsers: [
-                    'last 2 versions',
-                    'Chrome >= 41',
-                  ],
-                },
                 modules: false,
                 useBuiltIns: 'usage',
                 corejs: 3,
