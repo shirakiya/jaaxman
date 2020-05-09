@@ -1,6 +1,12 @@
 <template>
 <section id="contents" class="columns">
   <div class="column is-10 is-offset-1">
+    <div class="notification is-info">
+      <h5 class="title is-5"><span class="icon"><i class="fas fa-exclamation-triangle"></i></span> サービス終了のおしらせ<br /></h5>
+      日々のご利用ありがとうございます。誠に勝手ながら、この度ご利用状況を鑑みJaaxmanを終了することにしました。<br />
+      <strong>2020年5月11日をもって更新を停止し、5月15日にクローズを予定しております。</strong><br />
+      突然のことで大変心苦しく思いますが、何卒ご容赦くださいますようお願い致します。
+    </div>
     <filtering-card
       :subjects="subjects"
       :submitTypes="submitTypes"
