@@ -1,7 +1,7 @@
 -r requirements-deploy.txt
 aws-xray-sdk==2.5.0
 beautifulsoup4==4.8.2
-django==3.0.6
+django==3.0.7
 django-storages==1.8
 lxml==4.4.1
 mysqlclient==1.4.6
